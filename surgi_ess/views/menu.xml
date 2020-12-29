@@ -1,0 +1,267 @@
+<odoo>
+
+<data>
+
+  <!--<menuitem-->
+            <!--id="surgi_ess.menu_root"-->
+            <!--name="ESS"-->
+            <!--groups="base.group_user"-->
+            <!--web_icon="surgi_ess,static/description/ess.png"-->
+            <!--sequence="-10"/>-->
+
+    <!--<menuitem-->
+              <!--id="surgi_ess.menu_task_list"-->
+              <!--name="My Tasks"-->
+              <!--parent="surgi_ess.menu_root"-->
+              <!--action="surgi_ess_task_action"-->
+              <!--sequence="0" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_profile_list"-->
+              <!--name="Profile"-->
+              <!--parent="surgi_ess.menu_root"-->
+              <!--action="surgi_ess_employee_profile_action"-->
+              <!--sequence="10" />-->
+
+    <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_directory_list"-->
+              <!--name="Employee Directory"-->
+              <!--parent="surgi_ess.menu_root"-->
+              <!--action="surgi_ess_employee_directory_action"-->
+              <!--sequence="5" />-->
+
+                     <!--&lt;!&ndash; Attendance List menu start &ndash;&gt;-->
+    <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_attendance_list"-->
+              <!--name="Attendance"-->
+              <!--parent="surgi_ess.menu_root"-->
+              <!--sequence="9" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_my_attendance_list"-->
+              <!--name="My Attendance"-->
+              <!--parent="surgi_ess.menu_employee_attendance_list"-->
+              <!--action="surgi_ess_employee_attendance_action"-->
+              <!--sequence="91" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_subordinate_attendance_list"-->
+              <!--name="Subordinate Attendance"-->
+              <!--parent="surgi_ess.menu_employee_attendance_list"-->
+              <!--action="surgi_ess_subordinate_attendance_action"-->
+              <!--sequence="92" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_under_coach_attendance_list"-->
+              <!--name="Under Coach Attendance"-->
+              <!--parent="surgi_ess.menu_employee_attendance_list"-->
+              <!--action="surgi_ess_under_coach_attendance_action"-->
+              <!--sequence="93" />-->
+
+                    <!--&lt;!&ndash; Attendance List menu End &ndash;&gt;-->
+<!--&lt;!&ndash; Leaves List menu start &ndash;&gt;-->
+    <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_leaves_list"-->
+              <!--name="Leaves"-->
+              <!--parent="surgi_ess.menu_root"-->
+              <!--sequence="9" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_leaves1_list"-->
+              <!--name="Leaves"-->
+              <!--parent="surgi_ess.menu_employee_leaves_list"-->
+              <!--sequence="1" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_my_vacations_list"-->
+              <!--name="My Vacations"-->
+              <!--parent="surgi_ess.menu_employee_leaves1_list"-->
+              <!--action="surgi_ess_employee_my_vacations_action"-->
+              <!--sequence="1" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_allocation_request1_list"-->
+              <!--name="Allocation Request"-->
+              <!--parent="surgi_ess.menu_employee_leaves_list"-->
+              <!--sequence="1" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_allocation_request_list"-->
+              <!--name="Allocation Request"-->
+              <!--parent="surgi_ess.menu_employee_allocation_request1_list"-->
+              <!--action="surgi_ess_employee_allocation_request_action"-->
+              <!--sequence="1" />-->
+
+  <!--&lt;!&ndash; Permissions List menu start &ndash;&gt;-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_permissions_list"-->
+              <!--name="Permissions"-->
+              <!--parent="surgi_ess.menu_employee_leaves_list"-->
+              <!--sequence="2" />-->
+
+     <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_my_permissions_list"-->
+              <!--name="My Permissions"-->
+              <!--parent="surgi_ess.menu_employee_permissions_list"-->
+              <!--action="surgi_ess_employee_my_permissions_action"-->
+              <!--sequence="91" />-->
+
+
+
+  <!--&lt;!&ndash; Missions List menu start &ndash;&gt;-->
+    <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_missions_list"-->
+              <!--name="Missions"-->
+              <!--parent="surgi_ess.menu_root"-->
+              <!--sequence="9" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_missions1_list"-->
+              <!--name="Missions"-->
+              <!--parent="surgi_ess.menu_employee_missions_list"-->
+              <!--sequence="1" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_my_missions_list"-->
+              <!--name="My Missions"-->
+              <!--parent="surgi_ess.menu_employee_missions1_list"-->
+              <!--action="surgi_ess_employee_my_missions_action"-->
+              <!--sequence="91" />-->
+
+  <!--&lt;!&ndash; Leaves List menu start &ndash;&gt;-->
+    <!--<menuitem-->
+              <!--id="surgi_ess.menu_manager_to_approve_list"-->
+              <!--name="Manager"-->
+              <!--parent="surgi_ess.menu_root"-->
+              <!--sequence="9" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_manager_subordinate_leaves_list"-->
+              <!--name="Subordinate Leaves"-->
+              <!--parent="surgi_ess.menu_manager_to_approve_list"-->
+              <!--sequence="1" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_manager_subordinate_leaves_to_approve_list"-->
+              <!--name="Waiting Approval"-->
+              <!--parent="surgi_ess.menu_manager_subordinate_leaves_list"-->
+              <!--action="surgi_ess_manager_leaves_to_approve_action"-->
+              <!--sequence="1" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_manager_my_subordinate_leaves_list"-->
+              <!--name="Subordinate Leaves List"-->
+              <!--parent="surgi_ess.menu_manager_subordinate_leaves_list"-->
+              <!--action="surgi_ess_manager_subordinate_leaves_action"-->
+              <!--sequence="8" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_manager_subordinate_leaves_report"-->
+              <!--name="Subordinate Leaves Report"-->
+              <!--parent="surgi_ess.menu_manager_subordinate_leaves_list"-->
+              <!--action="surgi_ess_manager_subordinate_leaves_report_action"-->
+              <!--sequence="9" />-->
+
+
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_allocation_request1_list"-->
+              <!--name="Allocation Request"-->
+              <!--parent="surgi_ess.menu_employee_leaves_list"-->
+              <!--sequence="1" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_allocation_request_list"-->
+              <!--name="Allocation Request"-->
+              <!--parent="surgi_ess.menu_employee_allocation_request1_list"-->
+              <!--action="surgi_ess_employee_allocation_request_action"-->
+              <!--sequence="1" />-->
+
+<!--&lt;!&ndash;-->
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_subordinate_attendance_list"-->
+              <!--name="Subordinate Attendance"-->
+              <!--parent="surgi_ess.menu_employee_attendance_list"-->
+              <!--action="surgi_ess_subordinate_attendance_action"-->
+              <!--sequence="92" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_under_coach_attendance_list"-->
+              <!--name="Under Coach Attendance"-->
+              <!--parent="surgi_ess.menu_employee_attendance_list"-->
+              <!--action="surgi_ess_under_coach_attendance_action"-->
+              <!--sequence="93" />-->
+              <!--&ndash;&gt;-->
+
+                    <!--&lt;!&ndash; Leaves List menu End &ndash;&gt;-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_employee_payslip_list"-->
+              <!--name="My Payslips"-->
+              <!--parent="surgi_ess.menu_root"-->
+              <!--action="surgi_ess_employee_payslip_action"-->
+              <!--sequence="93" />-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_attendance_sheet_list"-->
+              <!--name="My Attendance Sheet"-->
+              <!--parent="surgi_ess.menu_employee_attendance_list"-->
+              <!--action="surgi_ess_attendance_sheet_action"-->
+              <!--sequence="99" />-->
+
+      <!--<menuitem-->
+              <!--id="surgi_ess.menu_outdoor_attendance"-->
+              <!--name="Daily Plan"-->
+              <!--parent="surgi_ess.menu_root"-->
+              <!--groups="surgi_ess.sales_attendance_group"-->
+              <!--action="surgi_ess_outdoor_attendance_action"-->
+              <!--sequence="-99" />-->
+
+      <!--<menuitem-->
+              <!--id="surgi_ess.menu_hr_outdoor_attendance"-->
+              <!--name="Sales Attendance"-->
+              <!--parent="hr_attendance.menu_hr_attendance_root"-->
+              <!--groups="surgi_ess.sales_attendance_viewer_group"-->
+              <!--action="surgi_ess_outdoor_attendance_action"-->
+              <!--sequence="96" />-->
+
+  <!--<menuitem-->
+            <!--id="surgi_ess.menu_sale_root"-->
+            <!--name="Sales Order"-->
+            <!--groups="surgi_ess.surgi_create_quotation_group"-->
+            <!--web_icon="surgi_ess,static/description/sales-icon.png"-->
+            <!--sequence="-9"/>-->
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_quotations_list"-->
+              <!--name="Quotations"-->
+              <!--parent="surgi_ess.menu_sale_root"-->
+              <!--action="surgi_ess_sale_order_action"-->
+              <!--sequence="0" />-->
+
+  <!-- GM -->
+
+  <menuitem
+            id="surgi_ess.menu_gm"
+            name="GM"
+            groups="surgi_ess.surgi_gm_group"
+            web_icon="surgi_ess,static/description/gm.png"
+            sequence="-150"/>
+
+  <menuitem id="surgi_ess_menu_tasks_gm" name="Tasks" parent="surgi_ess.menu_gm" action="surgi_ess_task_gm_action" sequence="1"/>
+
+
+  <!--<menuitem-->
+              <!--id="surgi_ess.menu_gm_outdoor_attendance"-->
+              <!--name="Sales Attendance"-->
+              <!--parent="surgi_ess.menu_gm"-->
+              <!--groups="surgi_ess.surgi_gm_group"-->
+              <!--action="surgi_ess_outdoor_attendance_gm_action"-->
+              <!--sequence="96" />-->
+
+
+
+  </data>
+
+</odoo>

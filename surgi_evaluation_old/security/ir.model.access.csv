@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_surgi_surveys_kpi_kpi,kpikpi,model_kpi_kpi,,1,1,1,1
+access_surgi_core_competencies,core_competencies,model_core_competencies,,1,1,1,1
+access_surgi_core22_competencies22,core22_competencies22,model_core2_competencies2,,1,1,1,1
+
+
+access_surgi_function_competencies,functioncompetencies,model_function_competencies,,1,1,1,1
+access_surgi_function22_competencies22,function22competencies22,model_function2_competencies2,,1,1,1,1
+
+
+access_surgi_kpi_competencies,kpi_competencies,model_kpi_competencies,,1,1,1,1
+
+
+access_surgi_evaluation_evaluation,evaluation_evaluation,model_evaluation_evaluation,,1,1,1,1
+access_surgi_competencies_ratio,competencies_ratio,model_competencies_ratio,,1,1,1,1

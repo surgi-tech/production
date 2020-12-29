@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <!-- Hr Salary Rules for Basic Salary-->
+    <record id="hr_salary_rule_basic" model="hr.salary.rule">
+        <field name="code">INBASIC</field>
+        <field name="name">Insurance basic</field>
+        <field name="category_id" ref="hr_payroll.BASIC"/>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = contract.basic_salary</field>
+        <field name="sequence" eval="1"/>
+        <field name="note">Basic Salary of the Social Insurance</field>
+    </record>
+
+    <!-- Hr Salary Rules for Variable Salary-->
+    <record id="hr_salary_rule_variable" model="hr.salary.rule">
+        <field name="code">INVAR</field>
+        <field name="name">Insurance Variable</field>
+        <field name="category_id" ref="hr_payroll.BASIC"/>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = contract.variable_salary</field>
+        <field name="sequence" eval="2"/>
+        <field name="note">Variable Salary of the Social Insurance</field>
+    </record>
+
+    <!--Payroll rule for previous  Annual Raises-->
+    <record id="hr_payroll_rule_raise" model="hr.salary.rule">
+        <field name="code">ANNR</field>
+        <field name="name">previous Annual Raises</field>
+        <field name="category_id" ref="hr_payroll.BASIC"/>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = contract.prev_raise</field>
+        <field name="sequence" eval="3"/>
+        <field name="note">total previous Annual Raises</field>
+    </record>
+
+    <!--Payroll rule for  allowances-->
+    <record id="hr_payroll_rule_allowances" model="hr.salary.rule">
+        <field name="code">ALWS</field>
+        <field name="name">Allowances</field>
+        <field name="category_id" ref="hr_payroll.BASIC"/>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = contract.allowances</field>
+        <field name="sequence" eval="4"/>
+        <field name="note">Allowances for the employee</field>
+    </record>
+
+    <!-- Hr Salary Rules for Social Insurance Deduction -->
+    <record id="hr_salary_rule_insurance_deduction" model="hr.salary.rule">
+        <field name="code">INDED</field>
+        <field name="name">Social Insurance Deduction</field>
+        <field name="category_id" ref="hr_payroll.DED"/>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = contract.sin_exist or False</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = - (contract.basic_salary * 0.14 + contract.variable_salary * 0.11)
+        </field>
+        <field name="sequence" eval="50"/>
+        <field name="note">Social Insurance Deduction contribution of the employee 14% of the basic salary + 11 % of
+            variable salary
+        </field>
+    </record>
+
+    <!-- Hr Salary Rules for Absence Deduction-->
+    <record id="hr_salary_rule_absence" model="hr.salary.rule">
+        <field name="code">ABS</field>
+        <field name="name">Absence</field>
+        <field name="category_id" ref="hr_payroll.DED"/>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = inputs.ABS and inputs.ABS.amount > 0 or False</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = -(( (contract.basic_salary + contract.variable_salary +
+            contract.allowances + contract.prev_raise) / 30 ) * inputs.ABS.amount)
+        </field>
+        <field name="sequence" eval="60"/>
+        <field name="note">salary rule for deduction of the absence by days depends on the following equation(basic
+            salary+variable salary+allowances+previous raises)/30
+        </field>
+    </record>
+
+
+    <!-- Hr Salary Rules for Attendance Delay Deduction-->
+    <record id="hr_salary_rule_attdelay" model="hr.salary.rule">
+        <field name="code">ATTD</field>
+        <field name="name">Attendance Delay</field>
+        <field name="category_id" ref="hr_payroll.DED"/>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = inputs.ATTD and inputs.ATTD.amount > 0 or False</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = -(((contract.basic_salary + contract.variable_salary +
+            contract.allowances + contract.prev_raise) / 6240
+            ) * inputs.ATTD.amount)
+        </field>
+        <field name="sequence" eval="65"/>
+        <field name="note">salary rule for deduction of the attendace delay by minutes based on the following equation
+            2*((basic salary+variable salary+allawances+previous raises)/(26 days)*(8 hours)*(60 minutes)
+        </field>
+    </record>
+
+    <!-- Hr Salary Rules for  Cash penalties  Deduction-->
+    <record id="hr_salary_rule_penalties" model="hr.salary.rule">
+        <field name="code">CPDED</field>
+        <field name="name">Penalties</field>
+        <field name="category_id" ref="hr_payroll.DED"/>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = inputs.CPD and inputs.CPD.amount > 0 or False</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = -(((contract.basic_salary + contract.variable_salary +
+            contract.allowances + contract.prev_raise) / 30) * inputs.CPD.amount)
+        </field>
+        <field name="sequence" eval="70"/>
+        <field name="note">Cash Penalties</field>
+    </record>
+
+
+    <record id="hr_salary_rule_tax_deduction" model="hr.salary.rule">
+        <field name="code">TXDED</field>
+        <field name="name">Income tax Deduction</field>
+        <field name="category_id" ref="hr_payroll.DED"/>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = TAXABLE >= 1183.33 or False</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = (-((TAXABLE-1250)*0.015) if ((TAXABLE &gt;= 1250) and (TAXABLE
+            &lt;= 3083.33))
+            else -(183.33+(TAXABLE-3083.33)*0.0825) if ((TAXABLE &gt;= 3083.33) and (TAXABLE &lt;= 4333.33))
+            else -(370.83+(TAXABLE-4333.33)*0.185) if ((TAXABLE &gt;= 4333.33) and (TAXABLE &lt;= 17250))
+            else -(3137.49+(TAXABLE-17250)*0.225) if ((TAXABLE &gt;= 17250) )
+            else -0)
+        </field>
+        <field name="sequence" eval="180"/>
+        <field name="note">Income tax deduction based on the last modification of Egyptian income taxes low in 21 jun
+            2018
+        </field>
+    </record>
+
+
+    <record id="hr_rule_gross" model="hr.salary.rule">
+        <field name="name">Gross</field>
+        <field name="sequence" eval="100"/>
+        <field name="code">GROSS</field>
+        <field name="category_id" ref="hr_payroll.GROSS"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = categories.BASIC + categories.ALW</field>
+    </record>
+
+    <!--taxable ammount-->
+    <record id="hr_rule_taxable" model="hr.salary.rule">
+        <field name="name">Taxable Amount</field>
+        <field name="code">TAXABLE</field>
+        <field name="sequence">150</field>
+        <field name="category_id" ref="hr_payroll.GROSS"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = categories.BASIC + categories.DED</field>
+
+    </record>
+
+    <!--Rule Inputs-->
+    <record id="hr_rule_input_absence" model="hr.rule.input">
+        <field name="code">ABS</field>
+        <field name="name">Employee Absence In Days</field>
+        <field name="input_id" ref="hr_salary_rule_absence"/>
+    </record>
+
+    <record id="hr_rule_input_delay" model="hr.rule.input">
+        <field name="code">ATTD</field>
+        <field name="name">Employee Attendance Delay In Minutes</field>
+        <field name="input_id" ref="hr_salary_rule_attdelay"/>
+    </record>
+
+    <record id="hr_rule_input_penalties" model="hr.rule.input">
+        <field name="code">CPD</field>
+        <field name="name">Cash Penalties In Days</field>
+        <field name="input_id" ref="hr_salary_rule_penalties"/>
+    </record>
+
+
+    <!-- Salary Structure -->
+
+    <record id="hr_salary_structure_eg" model="hr.payroll.structure">
+        <field name="code">EGSS</field>
+        <field name="name">Salary Structure of Egypt</field>
+        <field eval="[(6, 0, [ref('hr_salary_rule_basic'),ref('hr_salary_rule_variable'),
+        ref('hr_payroll_rule_raise'),ref('hr_payroll_rule_allowances'),ref('hr_salary_rule_insurance_deduction'),
+        ref('hr_salary_rule_absence'),ref('hr_salary_rule_attdelay'),ref('hr_salary_rule_penalties'),ref('hr_salary_rule_tax_deduction'),
+        ref('hr_rule_gross'),ref('hr_rule_taxable'),ref('hr_payroll.hr_rule_net')])]"
+               name="rule_ids"/>
+        <field name="parent_id" ref=""/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+
+</odoo>

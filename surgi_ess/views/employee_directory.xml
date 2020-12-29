@@ -1,0 +1,202 @@
+<odoo>
+    <data>
+
+
+        <record id="new_employee_directory_kanban_views_page" model="ir.ui.view">
+            <field name="name">new_employee_directory_kanban</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <kanban create="false">
+                    <field name="id"/>
+                    <field name="hr_presence_state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                                <field name="image_128" widget="image"
+                                       class="o_kanban_image_fill_left o_hr_rounded_circle"
+                                       options="{'zoom': true, 'background': true, 'preventClicks': false}"/>
+
+                                <div class="oe_kanban_details">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong class="o_kanban_record_title">
+                                                <div class="float-right"
+                                                     t-if="record.hr_presence_state.raw_value == 'present'">
+                                                    <span class="fa fa-circle text-success" role="img"
+                                                          aria-label="Present" title="Present" name="presence_present"/>
+                                                </div>
+                                                <div class="float-right"
+                                                     t-if="record.hr_presence_state.raw_value == 'absent'">
+                                                    <span class="fa fa-circle text-danger" role="img"
+                                                          aria-label="Absent" title="Absent" name="presence_absent"/>
+                                                </div>
+                                                <div class="float-right"
+                                                     t-if="record.hr_presence_state.raw_value == 'to_define'">
+                                                    <span class="fa fa-circle text-warning" role="img"
+                                                          aria-label="To define" title="To define"
+                                                          name="presence_to_define"/>
+                                                </div>
+                                                <field name="name" placeholder="Employee's Name"/>
+                                            </strong>
+                                            <span t-if="record.job_title.raw_value" class="o_kanban_record_subtitle">
+                                                <field name="job_title"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <field name="category_ids" widget="many2many_tags"
+                                           options="{'color_field': 'color'}" groups="hr.group_hr_manager"/>
+                                    <ul>
+                                        <li id="last_login"/>
+                                        <li t-if="record.work_email.raw_value" class="o_text_overflow">
+                                            <field name="work_email"/>
+                                        </li>
+                                        <li t-if="record.work_phone.raw_value">
+                                            <field name="work_phone"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+
+            </field>
+        </record>
+
+        <record id="tree_views_employee_directory_tree_view_new" model="ir.ui.view">
+            <field name="name">tree_views_employee_directory</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <tree string="Employees Directory" create="false" delete="false">
+                    <field name="name"/>
+                    <field name="work_phone"/>
+                    <field name="work_email"/>
+                    <field name="company_id"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="department_id"/>
+                    <field name="job_id"/>
+                    <field name="parent_id"/>
+                    <field name="coach_id" invisible="1"/>
+                </tree>
+
+            </field>
+        </record>
+
+
+        <record id="surgi_ess_employee_directory_form_view" model="ir.ui.view">
+            <field name="name">surgi.ess.employee.directory.form.view</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <form string="Employee" create="false" edit="false" delete="false">
+                    <sheet>
+
+
+                        <field name="image_1920" widget="image" class="oe_avatar"
+                               options="{&quot;zoom&quot;: true, &quot;preview_image&quot;:&quot;image_128&quot;}"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Employee's Name" required="True"/>
+                            </h1>
+                            <h2>
+                                <field name="job_title" placeholder="Job Position"/>
+                            </h2>
+                            <field name="category_ids" widget="many2many_tags"
+                                   options="{'color_field': 'color', 'no_create_edit': True}" placeholder="Tags"
+                                   groups="hr.group_hr_manager"/>
+                            <field name="company_id" invisible="1"/>
+                        </div>
+
+                        <notebook>
+                            <page name="public" string="Work Information">
+                                <group>
+                                    <group string="Contact Information">
+                                        <field name="address_id" context="{'show_address': 1}"
+                                               options="{&quot;always_reload&quot;: True, &quot;highlight_first_line&quot;: True}"/>
+                                        <field name="work_location" options="{'no_open': True}"/>
+                                        <field name="work_email" widget="email" options="{'no_open': True}"/>
+                                        <field name="mobile_phone"/>
+                                        <field name="work_phone"/>
+                                    </group>
+                                    <group string="Position">
+                                        <field name="department_id" options="{'no_open': True}"/>
+                                        <field name="job_id" options="{'no_open': True}"/>
+                                        <field name="parent_id" options="{'no_open': True}"/>
+                                        <field name="coach_id" options="{'no_open': True}"/>
+                                        <field name="resource_calendar_id" options="{'no_open': True}"/>
+                                    </group>
+
+                                </group>
+                            </page>
+                        </notebook>
+
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="surgi_ess_employee_directory_search_new" model="ir.ui.view">
+            <field name="name">surgi.ess.employee.directory.search.new</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <search string="Employees">
+                    <field name="name" string="Employees"
+                           filter_domain="['|',('work_email','ilike',self),('name','ilike',self)]"/>
+                    <field name="department_id"/>
+                    <field name="category_ids" groups="hr.group_hr_user"/>
+                    <field name="job_id"/>
+                    <filter string="Unread Messages" name="message_needaction"
+                            domain="[('message_needaction','=',True)]"/>
+                    <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_manager" string="Manager" domain="[]" context="{'group_by':'parent_id'}"/>
+                        <filter name="group_coach" string="Coach" domain="[]" context="{'group_by':'coach_id'}"/>
+                        <filter name="group_department" string="Department" domain="[]"
+                                context="{'group_by':'department_id'}"/>
+                        <filter name="group_job" string="Job" domain="[]" context="{'group_by':'job_id'}"/>
+                        <filter name="group_company" string="Company" domain="[]" context="{'group_by':'company_id'}"
+                                groups="base.group_multi_company"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="employee_action_employee_new_page" model="ir.actions.act_window">
+            <field name="name">Employee Directory</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="surgi_ess_employee_directory_search_new"/>
+        </record>
+
+
+        <record model="ir.actions.act_window.view" id="action_form_view_employee_new_directors">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="surgi_ess_employee_directory_form_view"/>
+            <field name="act_window_id" ref="employee_action_employee_new_page"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_tree_view_employee_new_directors">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="tree_views_employee_directory_tree_view_new"/>
+            <field name="act_window_id" ref="employee_action_employee_new_page"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_kanban_view_employee_new_directors">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="new_employee_directory_kanban_views_page"/>
+            <field name="act_window_id" ref="employee_action_employee_new_page"/>
+        </record>
+
+        <menuitem id="menu_root_ess_surgi" name="ESS"  web_icon="surgi_ess,static/description/ess.png" sequence="0"/>
+        <menuitem id="menu_employee_directory" name="Employee Directory" parent="menu_root_ess_surgi"
+                  action="employee_action_employee_new_page" sequence="2"/>
+
+
+    </data>
+</odoo>

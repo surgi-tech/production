@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="contract_hr_contract_hr_contract_view_form_tages" model="ir.ui.view">
+            <field name="name">hr_contract_hr_contract_payroll</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_payroll_account.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='analytic_account_id']" position="after">
+                    <field name="analytic_tags"/>
+
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

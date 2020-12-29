@@ -1,0 +1,20 @@
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="employee_hr_form_views_edit" model="ir.ui.view">
+            <field name="name">name.hr.employee.edits</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <!-- Add your fields or attributes here -->
+                    <field name="evaluation_method"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,180 @@
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it
+                 <field name="inherit_id" ref="evaluation.evaluation_form"/>
+                 -->
+        <record id="surgi_direct_dep_evaluation_form_views" model="ir.ui.view">
+            <field name="name">surgi.evaluation.direct.dep.form.views</field>
+            <field name="model">evaluation.evaluation</field>
+            <field name="arch" type="xml">
+                <form string="Sub-Direct Employee Evaluation" create="false" edit="true" delete="false">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <!--<button name="get_lines_cor" type="object" string="Reset Competencies" class="oe_highlight"-->
+                                <!--attrs="{'invisible': [('state', '=', 'done')]}"/>-->
+                        <!--<button name="total_lines_employee_id" type="object" string="Reset KPI" class="oe_highlight"-->
+                                <!--attrs="{'invisible': [('state', '=', 'done')]}"/>-->
+                        <button name="submit_core" type="object" string="Submit" class="oe_highlight"
+                                attrs="{'invisible':[('check_read','=',True)]}"/>
+                    </header>
+                    <sheet>
+                        <label for="name"/>
+                        <field name="name" attrs="{'readonly':[('check_read','=',True)]}" readonly="1"/>
+                        <br/>
+                        <label for="employee_id"/>
+                        <field name="employee_id" options="{'no_open': True}"
+                               attrs="{'readonly':[('check_read','=',True)]}" readonly="1"/>
+                        <br/>
+                        <label for="active_evaluation"/>
+                        <field name="active_evaluation" attrs="{'readonly':[('check_read','=',True)]}"
+                               groups="hr.group_hr_user" readonly="1"/>
+                        <br/>
+                        <group>
+                            <group>
+                                <field name="date_start" attrs="{'readonly':[('check_read','=',True)]}"
+                                       groups="hr.group_hr_user" readonly="1"/>
+                                <field name="check_read" invisible="1"/>
+                                <field name="department_id" options="{'no_open': True}" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="date_end" attrs="{'readonly':[('check_read','=',True)]}"
+                                       groups="hr.group_hr_user" readonly="1"/>
+                                <field name="duration" attrs="{'readonly':[('check_read','=',True)]}"
+                                       groups="hr.group_hr_user" readonly="1"/>
+                                <field name="employee_parent_id" options="{'no_open': True}" readonly="1"/>
+                                <field name="jop_ids" options="{'no_open': True}" readonly="1"/>
+                                <field name="evaluation_method" readonly="1"/>
+
+                                <field name="check_eval" readonly="1"/>
+
+
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="core_competencies" string="Core Competencies">
+                                <field name="core_competencies" attrs="{'readonly':[('check_read','=',True)]}">
+                                    <!--domain="[('active_core', '=', True)]"-->
+                                    <!--attrs="{'readonly':[('check_read','=',True)]}"-->
+                                    <tree editable="bottom" create="false">
+                                        <field name="name" force_save="1" readonly="1"/>
+                                        <field name="employee_self_assessment" widget="percentage" force_save="1"
+                                               readonly="1"/>
+                                        <field name="direct_manager" force_save="1" readonly="1" widget="percentage"/>
+                                        <field name="percentage" widget="percentage" force_save="1"/>
+                                        <field name="kpi_weight" sum="kpi_weight" widget="percentage" force_save="1"
+                                               readonly="1"/>
+                                        <field name="state_result" force_save="1" readonly="1"/>
+                                        <field name="active_core" force_save="1" readonly="1"/>
+                                        <field name="score" sum="score" force_save="1" readonly="1"/>
+                                    </tree>
+                                </field>
+                                <!--<label for="total_competencies"/>-->
+                                <!--<field name="total_competencies"/>-->
+                            </page>
+                            <page name="function_competencies" string="Function Competencies">
+                                <field name="function_comp" attrs="{'readonly':[('check_read','=',True)]}">
+                                    <tree editable="bottom" create="false">
+                                        <field name="name" force_save="1" readonly="1"/>
+                                        <field name="employee_self_assessment" widget="percentage" force_save="1"
+                                               readonly="1"/>
+                                        <field name="direct_manager" force_save="1" readonly="1" widget="percentage"/>
+                                        <field name="percentage" widget="percentage" force_save="1"/>
+                                        <field name="kpi_weight" sum="kpi_weight" widget="percentage" force_save="1"
+                                               readonly="1"/>
+                                        <field name="state_result" force_save="1" readonly="1"/>
+                                        <field name="score" sum="score" force_save="1" readonly="1"/>
+                                    </tree>
+                                </field>
+                                <!--<label for="total_function_comp"/>-->
+                                <!--<field name="total_function_comp"/>-->
+
+                            </page>
+                            <page name="kpi_competencies" string="Employee KPI">
+                                <field name="employee_kpi" attrs="{'readonly':[('check_read','=',True)]}">
+                                    <tree editable="bottom" create="false">
+                                        <field name="kra_kpi" force_save="1" readonly="1"/>
+                                        <field name="name" force_save="1" readonly="1"/>
+                                        <field name="employee_self_assessment" widget="percentage" force_save="1"
+                                               readonly="1"/>
+                                        <field name="direct_manager" force_save="1" readonly="1" widget="percentage"/>
+                                        <field name="percentage" force_save="1" widget="percentage"/>
+                                        <field name="kpi_weight" force_save="1" sum="kpi_weight" widget="percentage"
+                                               readonly="1"/>
+                                        <field name="state_result" force_save="1" readonly="1"/>
+                                        <field name="score" force_save="1" sum="score" readonly="1"/>
+                                    </tree>
+                                </field>
+                                <!--<label for="total_employee_kpi"/>-->
+                                <!--<field name="total_employee_kpi"/>-->
+
+                                <label for="total_totals"/>
+
+                                <field name="total_totals"/>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="surgi_evaluation_dep_tree_views" model="ir.ui.view">
+            <field name="name">surgi.evaluation.dep.tree.views</field>
+            <field name="model">evaluation.evaluation</field>
+            <field name="arch" type="xml">
+                <tree string="Department Employee Evaluation" create="false" edit="false" delete="false">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="total_competencies"/>
+                    <field name="total_function_comp"/>
+                    <field name="total_employee_kpi"/>
+                    <field name="total_totals"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--&lt;!&ndash; Operation Action&ndash;&gt;   -->
+        <record id="action_surgi_evaluation_direct_dep_employee" model="ir.actions.act_window">
+            <field name="name">Department Employee Evaluation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">evaluation.evaluation</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="domain">[('employee_id.department_id.manager_id.user_id','=',uid)]
+            </field><!--'|',('employee_id.user_id','=',user.id),-->
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new Evaluation.
+                </p>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window.view" id="surgi_employee_direct_dep_action_tree_views">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="surgi_evaluation_tree_views"/>
+            <field name="act_window_id" ref="action_surgi_evaluation_direct_dep_employee"/>
+        </record>
+
+
+        <record model="ir.actions.act_window.view" id="surgi_employee_direct_dep_action_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="surgi_direct_dep_evaluation_form_views"/>
+            <field name="act_window_id" ref="action_surgi_evaluation_direct_dep_employee"/>
+        </record>
+
+
+        <menuitem
+                id="surgi_evaluation_evaluation_direct_sup_employee_menuitem"
+                name="Depatment Evaluation"
+                action="action_surgi_evaluation_direct_dep_employee"
+                parent="surgi_evaluation_evaluation_manager_menuitem"
+                sequence="4"
+        />
+
+
+    </data>
+</odoo>

@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+
+        <record id="record_ratio_page" model="competencies.ratio">
+            <field name="core_ratio">1</field>
+            <field name="function_ratio">1</field>
+            <field name="kpi_ratio">1</field>
+          </record>
+
+
+
+
+         <record model="ir.cron" id="duration_to_date_less_today_date_by_days">
+            <field name="name">Duration</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="surgi_evaluation.model_evaluation_evaluation"/>
+        <!--abs_hr_management_model_time_replacement-->
+            <field name="state">code</field>
+            <field name="code">model._compute_duration()</field>
+         </record>
+    </data>
+</odoo>

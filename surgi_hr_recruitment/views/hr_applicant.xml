@@ -1,0 +1,206 @@
+<odoo>
+    <data>
+        <record id="hr_applicant_form_inherit" model="ir.ui.view">
+            <field name="model">hr.applicant</field>
+            <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group[1]" position="inside">
+                    <group string="Status">
+                        <field name="accepted"/>
+                        <field name="shortlisted"/>
+                        <field name="to_gm" string="To General Manager"/>
+                    </group>
+                </xpath>
+
+                <xpath expr="//group" position="after">
+                    <notebook>
+                        <page string="Interviewer 1">
+                            <group>
+                                <field name="interviewer_1_survey" string="Survey"/>
+                                <field name="interviewer_1_user_id" string="Interviewer" required="1"/>
+                                <button string="Start Survey"
+                                        name="action_start_interviewer_1_survey"
+                                        type="object"
+                                        class="btn-primary"
+                                        attrs="{'invisible':['|', ('interviewer_1_survey','=',False), ('interviewer_1_user_id','=',False)]}"/>
+                                <button string="Print Survey"
+                                        name="action_print_interviewer_1_survey"
+                                        type="object"
+                                        class="btn-primary"
+                                        attrs="{'invisible':['|', ('interviewer_1_survey','=',False), ('interviewer_1_user_id','=',False)]}"/>
+                            </group>
+                        </page>
+                        <page string="Interviewer 2">
+                            <group>
+                                <field name="interviewer_2_survey" string="Survey"/>
+                                <field name="interviewer_2_user_id" string="Interviewer" required="1"/>
+                                <button string="Start Survey"
+                                        name="action_start_interviewer_2_survey"
+                                        type="object"
+                                        class="btn-primary"
+                                        attrs="{'invisible':['|', ('interviewer_2_survey','=',False), ('interviewer_2_user_id','=',False)]}"/>
+                                <button string="Print Survey"
+                                        name="action_print_interviewer_2_survey"
+                                        type="object"
+                                        class="btn-primary"
+                                        attrs="{'invisible':['|', ('interviewer_2_survey','=',False), ('interviewer_2_user_id','=',False)]}"/>
+                            </group>
+                        </page>
+                        <page string="Interviewer 3">
+                            <group>
+                                <field name="interviewer_3_survey" string="Survey"/>
+                                <field name="interviewer_3_user_id" string="Interviewer" required="1"/>
+                                <button string="Start Survey"
+                                        name="action_start_interviewer_3_survey"
+                                        type="object"
+                                        class="btn-primary"
+                                        attrs="{'invisible':['|', ('interviewer_3_survey','=',False), ('interviewer_3_user_id','=',False)]}"/>
+                                <button string="Print Survey"
+                                        name="action_print_interviewer_3_survey"
+                                        type="object"
+                                        class="btn-primary"
+                                        attrs="{'invisible':['|', ('interviewer_3_survey','=',False), ('interviewer_3_user_id','=',False)]}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_general_manager_applicant">
+            <field name="name">Applications</field>
+            <field name="res_model">hr.applicant</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="domain">[('to_gm', '=', True)]</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_empty_folder">
+                No applications yet
+              </p><p>
+                Odoo helps you track applicants in the recruitment
+                process and follow up all operations: meetings, interviews, etc.
+              </p><p>
+                Applicants and their attached CV are created automatically when an email is sent.
+                If you install the document management modules, all resumes are indexed automatically,
+                so that you can easily search through their content.
+              </p>
+            </field>
+    </record>
+
+    <record id="view_recruitment_interviewer_form" model="ir.ui.view">
+        <field name="name">Recruitment Interviewer</field>
+        <field name="model">hr.applicant</field>
+        <field name="arch" type="xml">
+            <form delete="false" create="false">
+                <header>
+                    <field name="stage_id" widget="statusbar"  readonly="1"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="partner_name" readonly="1"/>
+                        <field name="job_id" readonly="1" options="{'no_open': True}"/>
+                    </group>
+                    <notebook>
+                        <page string="Interviewer 1">
+                            <group>
+                                <field name="interviewer_1_survey" string="Survey" options="{'no_open': True}"/>
+                                <field name="interviewer_1_user_id" string="Interviewer" readonly="1" options="{'no_open': True}"/>
+                                <button string="Start Survey"
+                                        name="action_start_interviewer_1_survey"
+                                        type="object"
+                                        class="btn-primary"
+                                        attrs="{'invisible':['|', ('interviewer_1_survey','=',False), ('interviewer_1_user_id','=',False)]}"/>
+                                <button string="Print Survey"
+                                        name="action_print_interviewer_1_survey"
+                                        type="object"
+                                        class="btn-primary"
+                                        attrs="{'invisible':['|', ('interviewer_1_survey','=',False), ('interviewer_1_user_id','=',False)]}"/>
+                            </group>
+                        </page>
+                        <page string="Interviewer 2">
+                            <group>
+                                <field name="interviewer_2_survey" string="Survey" options="{'no_open': True}"/>
+                                <field name="interviewer_2_user_id" string="Interviewer" readonly="1" options="{'no_open': True}"/>
+                                <button string="Start Survey"
+                                        name="action_start_interviewer_2_survey"
+                                        type="object"
+                                        class="btn-primary"
+                                        attrs="{'invisible':['|', ('interviewer_2_survey','=',False), ('interviewer_2_user_id','=',False)]}"/>
+                                <button string="Print Survey"
+                                        name="action_print_interviewer_2_survey"
+                                        type="object"
+                                        class="btn-primary"
+                                        attrs="{'invisible':['|', ('interviewer_2_survey','=',False), ('interviewer_2_user_id','=',False)]}"/>
+                            </group>
+                        </page>
+                        <page string="Interviewer 3">
+                            <group>
+                                <field name="interviewer_3_survey" string="Survey" options="{'no_open': True}"/>
+                                <field name="interviewer_3_user_id" string="Interviewer" readonly="1" options="{'no_open': True}"/>
+                                <button string="Start Survey"
+                                        name="action_start_interviewer_3_survey"
+                                        type="object"
+                                        class="btn-primary"
+                                        attrs="{'invisible':['|', ('interviewer_3_survey','=',False), ('interviewer_3_user_id','=',False)]}"/>
+                                <button string="Print Survey"
+                                        name="action_print_interviewer_3_survey"
+                                        type="object"
+                                        class="btn-primary"
+                                        attrs="{'invisible':['|', ('interviewer_3_survey','=',False), ('interviewer_3_user_id','=',False)]}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_recruitment_interviewer_tree" model="ir.ui.view">
+        <field name="name">Recruitment Interviewer</field>
+        <field name="model">hr.applicant</field>
+        <field name="arch" type="xml">
+            <tree delete="false" create="false">
+                <field name="name"/>
+                <field name="partner_name"/>
+                <field name="job_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_recruitment_interviewer" model="ir.actions.act_window">
+        <field name="name">Recruitments forms</field>
+        <field name="res_model">hr.applicant</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">['|', '|', ('interviewer_1_user_id', '=', uid),
+            ('interviewer_2_user_id', '=', uid), ('interviewer_3_user_id', '=', uid)]</field>
+    </record>
+
+    <record id="recruitment_interviewer_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_recruitment_interviewer_tree"/>
+        <field name="act_window_id" ref="action_recruitment_interviewer"/>
+        <field name="sequence">1</field>
+    </record>
+
+    <record id="recruitment_interviewer_form" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_recruitment_interviewer_form"/>
+        <field name="act_window_id" ref="action_recruitment_interviewer"/>
+        <field name="sequence">2</field>
+    </record>
+
+    <menuitem
+        name="GM"
+        parent="hr_recruitment.menu_crm_case_categ0_act_job"
+        id="general_manager_applicants" action="action_general_manager_applicant" sequence="2"/>
+
+    <menuitem
+        name="Recruitment Interviewer"
+        id="menu_recruitment_applicants"
+        action="action_recruitment_interviewer"
+        groups="surgi_hr_recruitment.group_hr_applicant_interviewer"
+    />
+
+    </data>
+</odoo>

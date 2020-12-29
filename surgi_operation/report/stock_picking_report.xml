@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            string="Items Discrepancies"
+            id="action_report_products_discrepancies"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            name="surgi_operation.report_products_discrepancies"
+            file="surgi_operation.report_products_discrepancies"
+        />
+    </data>
+</odoo>

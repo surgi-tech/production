@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--noupdate="1"-->
+    <data noupdate="1">
+        <record model="ir.sequence" id="seq_emp_operation_ref">
+            <field name="name">Operation Number</field>
+            <field name="code">operation.ref</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">1</field>
+            <field name="implementation">standard</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="wizard_wizard_move_to_hanged_warehouse" model="ir.ui.view">
+            <field name="name">stock.quant.move.to.hanged.warehouse.form</field>
+            <field name="model">wizard_move_to_hanged_warehouse</field>
+            <field name="arch" type="xml">
+                <form string="Stock Quant Wizard">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="warehouse_id"/>
+                                <field name="location_id"/>
+                            </group>
+                            <group>
+                                <field name="picking_type_id" domain="[('code','=','internal'),('warehouse_id','=',warehouse_id),('surgeries_supply','=',True)]"/>
+                                <field name="location_dest_id" readonly="1"/>
+                                <field name="scan_option"  required="True"/>
+                            </group>
+                        </group>
+                        <separator string="Selected Lines"/>
+                            <field name="stk_quant_ids">
+                                <tree editable="bottom" create="false">
+                                    <field name="product_id" readonly="True"/>
+                                    <field name="quantity" readonly="True"/>
+                                    <field name="quantity_moved"/>
+                                </tree>
+                            </field>
+                         <footer>
+                        <button name="do_transfer_selected_lines" type='object' string='Confirm'
+                                class=" oe_highlight"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_wizard_move_to_hanged_warehouse" model="ir.actions.act_window">
+            <field name="name">Create Stock Picking Move To Hanged Warehouse</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard_move_to_hanged_warehouse</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <!--
+ <act_window
+                    id="act_new_move_to_hanged_warehouse"
+                    name="Move To Hanged Warehouse"
+                    binding_model="stock.quant"
+
+                    res_model="wizard_move_to_hanged_warehouse"
+                    view_mode="form"
+                    target="new"
+                    binding_views="list"
+                    />
+                    -->
+
+    </data>
+</odoo>

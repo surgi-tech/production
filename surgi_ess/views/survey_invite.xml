@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <record id="survey_invite_view_form_inherit" model="ir.ui.view">
+            <field name="model">survey.invite</field>
+            <field name="inherit_id" ref="survey.survey_invite_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='survey_access_mode']" position="before">
+                    <button name="send_to_ess" string="Publish in ESS" type="object"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

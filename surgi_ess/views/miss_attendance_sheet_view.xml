@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ess_miss_attendance_sheet_view_form" model="ir.ui.view">
+            <field name="name">ess.miss.attendance.sheet.form</field>
+            <field name="model">attendance.sheet</field>
+            <field name="inherit_id"
+                   ref="rm_hr_attendance_sheet.attendance_sheet_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='action_payslip']"
+                       position="replace">
+
+                </xpath>
+                <xpath expr="//button[@name='action_draft']"
+                       position="attributes">
+                    <attribute name="states">confirm,cancel</attribute>
+
+                </xpath>
+                <xpath expr="//button[@name='action_draft']" position="after">
+                    <button name="action_cancel" states="done"
+                            string="Cancel" type="object"/>
+
+                </xpath>
+                <xpath expr="//page[2]//group[1]" position="inside">
+                    <group string="Mis Punch Penalties">
+                        <field name="no_miss"/>
+                        <field name="tot_miss"/>
+
+                    </group>
+
+                </xpath>
+
+
+                <xpath expr="//field[@name='att_policy_id']" position="after">
+                    <field name="accrual_date"/>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button type="object" name="action_view_penalties"
+                            class="oe_stat_button" icon="fa-pencil-square-o"
+                            attrs="{'invisible':['|', ('penalty_count', '=', 0), ('state', 'in', ('draft','confirm'))]}">
+                        <field name="penalty_count" widget="statinfo"
+                               string="Penalties"/>
+                        <field name="penalty_ids" invisible="1"/>
+                    </button>
+
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='diff_time']"
+                       position="after">
+                    <field name="miss_type" optional="hide"/>
+                    <field name="miss_pen" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

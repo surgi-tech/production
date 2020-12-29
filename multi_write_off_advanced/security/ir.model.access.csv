@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_writeoff_accounts,writeoff.accounts,model_writeoff_accounts,account.group_account_invoice,1,1,1,1
+access_writeoff_accounts_accountant,writeoff.accounts accountant,model_writeoff_accounts,account.group_account_user,1,0,0,0
+access_writeoff_accounts_user,writeoff.accounts user,model_writeoff_accounts,base.group_user,1,0,0,0
+access_writeoff_amount_amount,amount amount,model_amount_amount,,1,0,0,0
+

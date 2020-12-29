@@ -1,0 +1,285 @@
+<odoo>
+    <data>
+
+
+        <record id="surgi_ess_employee_profile_kanban_view" model="ir.ui.view">
+            <field name="name">surgi.ess.employee.profile.kanban.view.edits.kanban</field>
+            <field name="model">hr.employee</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <kanban class="o_hr_employee_kanban" create="false" edit="false" delete="false">
+                    <field name="id"/>
+                    <field name="hr_presence_state"/>
+                    <field name="message_is_follower"/>
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                    <field name="message_needaction_counter"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                                <field name="image_128" widget="image"
+                                       class="o_kanban_image_fill_left o_hr_rounded_circle"
+                                       options="{'zoom': true, 'background': true, 'preventClicks': false}"/>
+
+                                <div class="oe_kanban_details">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong class="o_kanban_record_title">
+                                                <div class="float-right"
+                                                     t-if="record.hr_presence_state.raw_value == 'present'">
+                                                    <span class="fa fa-circle text-success" role="img"
+                                                          aria-label="Present" title="Present" name="presence_present"/>
+                                                </div>
+                                                <div class="float-right"
+                                                     t-if="record.hr_presence_state.raw_value == 'absent'">
+                                                    <span class="fa fa-circle text-danger" role="img"
+                                                          aria-label="Absent" title="Absent" name="presence_absent"/>
+                                                </div>
+                                                <div class="float-right"
+                                                     t-if="record.hr_presence_state.raw_value == 'to_define'">
+                                                    <span class="fa fa-circle text-warning" role="img"
+                                                          aria-label="To define" title="To define"
+                                                          name="presence_to_define"/>
+                                                </div>
+                                                <field name="name" placeholder="Employee's Name"/>
+                                            </strong>
+                                            <span t-if="record.job_title.raw_value" class="o_kanban_record_subtitle">
+                                                <field name="job_title"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <field name="category_ids" widget="many2many_tags"
+                                           options="{'color_field': 'color'}" groups="hr.group_hr_manager"/>
+                                    <ul>
+                                        <li id="last_login"/>
+                                        <li t-if="record.work_email.raw_value" class="o_text_overflow">
+                                            <field name="work_email"/>
+                                        </li>
+                                        <li t-if="record.work_phone.raw_value">
+                                            <field name="work_phone"/>
+                                        </li>
+
+                                        <li t-if="record.work_phone.raw_value">
+                                            <field name="mobile_phone"/>
+                                        </li>
+
+                                    </ul>
+
+                                    <div class="o_kanban_button">
+                                        <button t-if="record.message_is_follower.raw_value" name="action_unfollow"
+                                                type="object" class="o_follow_btn o_following btn btn-sm btn-default">
+                                            <span class="o_unfollow">Unfollow</span>
+                                            <span class="o_following">Following</span>
+                                        </button>
+<!--                                        <button t-if="!record.message_is_follower.raw_value" name="action_follow"-->
+<!--                                                type="object" class="o_follow_btn o_follow btn btn-sm btn-primary">-->
+<!--                                            Follow-->
+<!--                                        </button>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+
+            </field>
+        </record>
+        <!--================================================================================================-->
+
+        <record id="surgi_ess_employee_profile_form_view" model="ir.ui.view">
+            <field name="name">surgi.ess.employee.profile.form.view</field>
+            <field name="model">hr.employee</field>
+
+            <field name="arch" type="xml">
+                <form string="Employee" create="false" edit="false" delete="false">
+                    <sheet>
+
+                        <div id="o_employee_container">
+                            <div id="o_employee_main">
+                                <field name="image_1920" widget="image" class="oe_avatar"
+                                       options="{&quot;zoom&quot;: true, &quot;preview_image&quot;:&quot;image_128&quot;}"/>
+                                <div class="oe_title">
+                                    <label for="name" class="oe_edit_only"/>
+                                    <h1>
+                                        <field name="name" placeholder="Employee's Name" required="True" readonly="1"/>
+                                    </h1>
+                                </div>
+                                <field name="category_ids" widget="many2many_tags"
+                                       options="{'color_field': 'color', 'no_create_edit': True}"
+                                       placeholder="e.g. Part Time" groups="hr.group_hr_user"/>
+                                <br/>
+                                <!--                                <label for="remaining_leaves" style="font-weight:bold;"/>-->
+                                <!--                                <div>-->
+                                <!--                                    <field name="remaining_leaves" class="oe_inline"/>-->
+                                <!--                                    days-->
+                                <!--                                </div>-->
+                                <notebook>
+                                    <page name="public" string="Work Information">
+                                        <group>
+                                            <group string="Contact Information">
+                                                <field name="work_location" readonly="1"/>
+                                                <field name="work_email" widget="email" readonly="1"/>
+                                                <field name="mobile_phone" readonly="1"/>
+                                                <field name="work_phone" readonly="1"/>
+                                            </group>
+                                            <group string="Position">
+                                                <field name="department_id" readonly="1" options="{'no_open': True}"/>
+
+                                                <field name="job_id" readonly="1" options="{'no_open': True}"/>
+
+                                                <field name="parent_id" readonly="1" options="{'no_open': True}"/>
+                                                <field name="coach_id" readonly="1" options="{'no_open': True}"/>
+                                                <field name="resource_calendar_id" readonly="1"
+                                                       options="{'no_open': True}"/>
+                                            </group>
+
+                                        </group>
+                                        <field name="notes" placeholder="Other Information ..." colspan="4"
+                                               readonly="1"/>
+                                    </page>
+                                    <page name="personal_information" string="Private Information">
+                                        <group>
+                                            <group string="Citizenship and Other Information">
+                                                <field name="country_id" options="{'no_open':true,'no_create':true}"
+                                                       readonly="1"/>
+                                                <field name="identification_id" groups="hr.group_hr_user" readonly="1"/>
+                                                <field name="passport_id" groups="hr.group_hr_user" readonly="1"/>
+                                                <field name="bank_account_id"
+                                                       context="{'default_partner_id': address_home_id}" readonly="1"/>
+                                            </group>
+                                            <group string="Contact Information">
+                                                <field name="address_home_id" context="{'show_address': 1}"
+                                                       options='{"always_reload": True, "highlight_first_line": True}'
+                                                       readonly="1"
+                                                />
+                                                <field name="is_address_home_a_company" invisible="1" readonly="1"/>
+                                                <div class="text-warning" groups="hr.group_hr_user"
+                                                     attrs="{'invisible': [('is_address_home_a_company','=', False)]}">
+                                                    Use here the home address of the employee. This private address is
+                                                    used in the expense report reimbursement document. It should be
+                                                    different from the work address.
+                                                </div>
+                                            </group>
+                                            <group string="Status">
+                                                <field name="gender" readonly="1"/>
+                                                <field name="marital" readonly="1"/>
+                                            </group>
+                                            <group string="Birth">
+                                                <field name="birthday" readonly="1"/>
+                                            </group>
+                                            <group string="Work Permit" name="work_permit">
+                                                <field name="visa_no" readonly="1"/>
+                                                <field name="permit_no" readonly="1"/>
+                                                <field name="visa_expire" readonly="1"/>
+                                            </group>
+                                        </group>
+                                    </page>
+                                    <page name="hr_settings" string="HR Settings">
+                                        <group>
+                                            <group string="Status" name="active_group">
+                                                <field name="company_id" groups="base.group_multi_company" readonly="1"
+                                                       options="{'no_open': True}"/>
+                                                <field name="user_id" string="Related User" readonly="1"
+                                                       options="{'no_open': True}"/>
+                                            </group>
+                                            <!--                                            <group string="Leaves">-->
+                                            <!--                                                <label for="remaining_leaves"/>-->
+                                            <!--                                                <div>-->
+                                            <!--                                                    <field name="remaining_leaves" class="oe_inline"/>-->
+                                            <!--                                                    days-->
+                                            <!--                                                </div>-->
+                                            <!--                                            </group>-->
+                                        </group>
+                                    </page>
+                                </notebook>
+                            </div>
+                        </div>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!--================================================================================================-->
+
+        <record id="surgi_ess_employee_profile_search" model="ir.ui.view">
+            <field name="name">surgi.ess.employee.profile.search</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <search string="Employees">
+                    <field name="name" string="Employees"
+                           filter_domain="['|',('work_email','ilike',self),('name','ilike',self)]"/>
+                    <field name="department_id"/>
+                    <field name="category_ids" groups="hr.group_hr_user"/>
+                    <field name="job_id"/>
+                    <filter string="Unread Messages" name="message_needaction"
+                            domain="[('message_needaction','=',True)]"/>
+                    <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_manager" string="Manager" domain="[]" context="{'group_by':'parent_id'}"/>
+                        <filter name="group_coach" string="Coach" domain="[]" context="{'group_by':'coach_id'}"/>
+                        <filter name="group_department" string="Department" domain="[]"
+                                context="{'group_by':'department_id'}"/>
+                        <filter name="group_job" string="Job" domain="[]" context="{'group_by':'job_id'}"/>
+                        <filter name="group_company" string="Company" domain="[]" context="{'group_by':'company_id'}"
+                                groups="base.group_multi_company"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!--================================================================================================-->
+
+        <record id="surgi_ess_employee_profile_action" model="ir.actions.act_window">
+            <field name="name">Employees Profile</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee</field>
+            <!--            <field name="view_type">form</field>-->
+            <field name="view_mode">kanban,form</field>
+            <field name="domain">[('user_id', '=', uid)]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="surgi_ess_employee_profile_search"/>
+        </record>
+        <!--================================================================================================-->
+
+        <record model="ir.actions.act_window.view" id="prof_kanban_surgi_ess_employee_profile_action">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="surgi_ess_employee_profile_kanban_view"/>
+            <field name="act_window_id" ref="surgi_ess_employee_profile_action"/>
+        </record>
+        <!--================================================================================================-->
+
+        <record model="ir.actions.act_window.view" id="surgi_ess_employee_profile_action_form">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="surgi_ess_employee_profile_form_view"/>
+            <field name="act_window_id" ref="surgi_ess_employee_profile_action"/>
+        </record>
+        <!--================================================================================================-->
+
+
+        <record id="surgi_ess_employee_profile_inherit_org_chart" model="ir.ui.view">
+            <field name="name">surgi.ess.employee.profile.inherit.org.chart</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="surgi_ess_employee_profile_form_view"/>
+            <field name="arch" type="xml">
+                <div id="o_employee_main" position="after">
+                    <div id="o_employee_right">
+                        <h4 class="o_org_chart_title mb16 mt0">Organization Chart</h4>
+                        <field name="child_ids" widget="hr_org_chart"/>
+                    </div>
+                </div>
+            </field>
+        </record>
+        <!--================================================================================================-->
+
+
+        <menuitem id="employee_menu_employee_profile_list" name="Profile"
+                  parent="menu_root_ess_surgi" action="surgi_ess_employee_profile_action" sequence="4"/>
+    </data>
+
+
+</odoo>

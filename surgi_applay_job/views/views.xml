@@ -1,0 +1,112 @@
+<odoo>
+    <data>
+
+
+        <template id="apply_job_edit_data" name="edit_apply_job" inherit_id="website_hr_recruitment.apply">
+
+            <xpath expr="//form[@id='hr_recruitment_form']//div[4]" position="before">
+
+                <div class="form-group row form-field">
+                    <div class="col-lg-3 col-md-4 text-right">
+                        <label class="col-form-label" for="training_courses">Training Courses</label>
+                    </div>
+                    <div class="col-lg-7 col-md-8">
+                        <textarea class="form-control o_website_form_input" name="training_courses"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row form-field">
+                    <div class="col-lg-3 col-md-4 text-right">
+                        <label class="col-form-label" for="previous_experience">Previous Experience</label>
+                    </div>
+                    <div class="col-lg-7 col-md-8">
+                        <textarea class="form-control o_website_form_input" name="previous_experience"></textarea>
+                    </div>
+                </div>
+
+            </xpath>
+
+
+            <!--            <xpath expr="//div[@id='wrap']//h1[1]" position="replace">-->
+            <!--                <h1 class="text-center mt-2">-->
+            <!--                Job Application Form Salah-->
+            <!--            </h1>-->
+            <!--            </xpath>-->
+
+            <xpath expr="//form[@id='hr_recruitment_form']//div[3]" position="after">
+
+
+                <div class="form-group row form-field o_website_form_required_custom">
+                    <div class="col-lg-3 col-md-4 text-right">
+                        <label class="col-form-label" for="address">Address</label>
+                    </div>
+                    <div class="col-lg-7 col-md-8">
+                        <input type="text" class="form-control o_website_form_input" name="address" required=""/>
+                    </div>
+                </div>
+
+                <div class="form-group row form-field o_website_form_required_custom">
+                    <div class="col-lg-3 col-md-4 text-right">
+                        <label class="col-form-label" for="qualification ">Qualification</label>
+                    </div>
+                    <div class="col-lg-7 col-md-8">
+                        <input type="text" class="form-control o_website_form_input" name="qualification" required=""/>
+                    </div>
+                </div>
+
+                <div class="form-group row form-field o_website_form_required_custom">
+                    <div class="col-lg-3 col-md-4 text-right">
+                        <label class="col-form-label" for="age ">Age</label>
+                    </div>
+                    <div class="col-lg-7 col-md-8">
+                        <input type="text" class="form-control o_website_form_input" name="age" required=""/>
+                    </div>
+                </div>
+                <div class="form-group row form-field o_website_form_required_custom">
+                    <div class="col-lg-3 col-md-4 text-right">
+                        <label class="col-form-label" for="nominee ">Nominee</label>
+                    </div>
+                    <div class="col-lg-7 col-md-8">
+                        <input type="text" class="form-control o_website_form_input" name="nominee" required=""/>
+                    </div>
+                </div>
+
+                <div class="form-group row form-field o_website_form_required_custom">
+                    <div class="col-lg-3 col-md-4 text-right">
+                        <label class="col-form-label" for="gender ">Gender</label>
+                    </div>
+                    <div class="col-lg-7 col-md-8">
+                        <select class="form-control" name="gender" required="">
+                            <option t-attf-value="Male">Male</option>
+                            <option t-attf-value="Female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+
+            </xpath>
+
+        </template>
+
+        <function model="ir.model.fields" name="formbuilder_whitelist">
+            <value>hr.applicant</value>
+            <value eval="[
+                'description',
+                'email_from',
+                'address',
+                'qualification',
+                'previous_experience',
+                'training_courses',
+                'age',
+                'nominee',
+                'gender',
+                'partner_name',
+                'partner_phone',
+                'job_id',
+                'department_id',
+            ]"/>
+        </function>
+
+
+    </data>
+</odoo>

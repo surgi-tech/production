@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+
+         <!-- Inherit Form View to Modify it -->
+        <record id="account_payment_register_form_views" model="ir.ui.view">
+            <field name="name">account_payment_register_form_views</field>
+            <field name="model">account.payment.register</field>
+            <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='group_payment']" position="after">
+                    <!-- Add your fields or attributes here -->
+                    <field name="check_number"/>
+                    <field name="date_due"/>
+                    <field name="collection_receipt_number"/>
+                    <field name="collection_rep"/>
+                    <field name="collection_rep_name"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

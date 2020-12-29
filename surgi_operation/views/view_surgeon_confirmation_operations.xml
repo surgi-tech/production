@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="surgeon_confirmation_operations_search" model="ir.ui.view">
+       <field name="name">surgeon.confirmation.search</field>
+       <field name="model">operation.operation</field>
+        <field name="arch" type="xml">
+            <search string="Surgeon Confirmation">
+                <field name="name" filter_domain="[('name','ilike',self)]" string="Operation No."/>
+                <field name="responsible" filter_domain="[('responsible','ilike',self)]" string="Sales Man"/>
+                <field name="operation_type" filter_domain="[('operation_type','ilike',self)]" string="Operation Type"/>
+                <field name="hospital_id" filter_domain="[('hospital_id','ilike',self)]" string="Hospital"/>
+                <filter string="Draft" name="state" domain="[('state','=','draft')]"/>
+                <filter string="Done" name="state" domain="[('state','=','done')]"/>
+                </search>
+       </field>
+    </record>
+
+    <!-- This Menu Item must have a parent and an action -->
+
+    <record id="action_surgeon_confirmation_operations" model="ir.actions.act_window">
+        <field name="name">Surgeon Confirmation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">operation.operation</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="search_view_id" ref="surgeon_confirmation_operations_search" />
+        <field name="domain">[('state', '=', 'confirm')]</field>
+        <!--<field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>-->
+        <!--<field name="limit" type="int">500</field>-->
+        <!--<field name="domain">[('type','in',['out_invoice','out_refund'])]</field>-->
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+                    Click to create a new Operation.
+          </p>
+        </field>
+    </record>
+
+        <menuitem id="surgeon_confirmation_operations" name="Surgeon Confirmation" parent="operations_operation_menuitem" action="action_surgeon_confirmation_operations" sequence="5" groups="operations_new_recon_team,operations_new_recon_team_manager,operations_manager_group"/>
+
+
+
+    <record id="surgeon_confirmation_operations_tree" model="ir.ui.view">
+        <field name="name">surgeon.confirmation.operations.tree</field>
+        <field name="model">operation.operation</field>
+        <field name="arch" type="xml">
+        <tree string="Surgeon Confirmation" decoration-info="state=='draft'" decoration-bf="state=='confirm'" decoration-danger="state=='cancel'" decoration-success="state=='done'">
+                    <field name="name" string="Name"/>
+                    <field name="responsible" string="Sales Man"/>
+                    <field name="start_datetime" string="Starting Date"/>
+                    <field name="operation_type"/>
+                    <field name="hospital_id"/>
+                    <field name="surgeon_id"/>
+                    <field name="gs_work_order"/>
+                    <field name="notes"/>
+                    <field name="surgeon_id_first_confirmation"/>
+                    <!--<field name="sender_responsible"/>-->
+                    <field name="surgeon_id_second_confirmation"/>
+                    <!--<field name="returner_responsible"/>-->
+                    <field name="state" invisible="0"/>
+                </tree>
+        </field>
+    </record>
+
+    <record id="action_surgeon_confirmation_operations_tree" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_surgeon_confirmation_operations"/>
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="surgeon_confirmation_operations_tree"/>
+    </record>
+
+    <record id="surgeon_confirmation_operations_form" model="ir.ui.view">
+        <field name="name">surgeon.confirmation.operations.form</field>
+        <field name="model">operation.operation</field>
+        <field name="arch" type="xml">
+            <form string="Surgeon Confirmation">
+                    <header>
+                        <!--<button name="action_done_sales" string="Done" type="object" attrs="{'invisible': [('state','!=','confirm')]}"/>-->
+                        <!--<field name="so_created" invisible="1"/>-->
+                        <!--<button name="create_sales_order" string="Create SO" icon="fa-cart-plus" type="object" attrs="{'invisible': ['|','|',('has_oper_loc_hanged_quant','=',False ),('so_created','=',True),('state','=','draft')]}"/>-->
+                        <!--<button name="action_confirm_sales" string="Confirm" type="object" attrs="{'invisible': [('state','!=','draft')]}"/>-->
+                        <!--<button name="open_wizard_cancel_operation" type="object" string="Cancel" icon="fa-pencil" class="oe_highlight" attrs="{'invisible': ['|',('so_created','=',True),('state', 'in', ['done', 'cancel'])]}"/> -->
+                        <field name="state" widget="statusbar" /><!-- attrs="{'invisible': [('state', 'not in', ['draft','done', 'cancel'])]}"/>-->
+                        <!--<field name="stage_id" widget="statusbar" attrs="{'invisible': [('state', 'in', ['draft','done', 'cancel'])]}" clickable="False"/>-->
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="sequence" readonly="1"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <field name="name" string="Name" invisible="1"/>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="start_datetime" string="Date Start" readonly="1"/>
+                                <field name="operation_type" readonly="1"/>
+                                <field name="hospital_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <!--<field name="sender_responsible" invisible="False" readonly="1" attrs="{'readonly':[('state', 'not in', ['draft'])]}" options="{'no_create': True, 'no_open': True}"/>-->
+                                <field name="surgeon_id_first_confirmation" required="1" domain="[('is_surgeon','=',True)]" attrs="{'invisible':[('hospital_id','=',False)], 'readonly': [('state','not in', ['draft'])]}" options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                            <group>
+                                <!--<field name="returner_responsible" invisible="False" readonly="1" attrs="{'readonly':[('state', 'not in', ['draft'])]}" options="{'no_create': True, 'no_open': True}"/>-->
+                                <field name="surgeon_id_second_confirmation" required="1" domain="[('is_surgeon','=',True)]" attrs="{'invisible':[('hospital_id','=',False)], 'readonly': [('state','not in', ['draft'])]}" options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+        </field>
+    </record>
+
+
+    <record id="action_surgeon_confirmation_operations_form" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_surgeon_confirmation_operations"/>
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="surgeon_confirmation_operations_form"/>
+    </record>
+
+
+    <record id="surgeon_confirmation_operations_pivot" model="ir.ui.view">
+            <field name="name">surgeon.confirmation.operations.pivot</field>
+            <field name="model">operation.operation</field>
+            <field name="arch" type="xml">
+                <pivot string="Surgeon Confirmation" >
+                    <field name="name" string="Name"/>
+                </pivot>
+            </field>
+    </record>
+
+        <record id="action_surgeon_confirmation_operations_pivot" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_surgeon_confirmation_operations"/>
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="surgeon_confirmation_operations_pivot"/>
+    </record>
+
+</odoo>

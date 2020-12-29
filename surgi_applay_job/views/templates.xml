@@ -1,0 +1,34 @@
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="form_view_hr_applicant_inherit" model="ir.ui.view">
+            <field name="name">name.hr.applicant.inherit.form</field>
+            <field name="model">hr.applicant</field>
+            <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='type_id']" position="after">
+                    <field name="address"/>
+                    <field name="qualification"/>
+                    <field name="age"/>
+                    <field name="gender"/>
+                    <field name="nominee"/>
+                </xpath>
+                <xpath expr="//sheet//separator" position="before">
+                    <separator string="Training Courses"/>
+                    <field name="training_courses" placeholder="Training Courses......"/>
+
+                    <separator string="Previous Experience"/>
+                    <field name="previous_experience" placeholder="Previous Experience......"/>
+
+
+                </xpath>
+            </field>
+
+
+        </record>
+
+
+    </data>
+</odoo>

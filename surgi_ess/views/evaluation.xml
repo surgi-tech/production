@@ -1,0 +1,191 @@
+<odoo>
+    <data>
+
+        <record id="surgi_ess_employee_self_assessment_search_new" model="ir.ui.view">
+            <field name="name">surgi.ess.employee.self.assessment.search.new</field>
+            <field name="model">evaluation.evaluation</field>
+            <field name="arch" type="xml">
+
+
+                <search string="Evaluation">
+                <filter name="group_department_id" string="Employee Department" context="{'group_by':'department_id'}"/>
+                <filter name="group_employee_parent_id" string="Employee Job Position" context="{'group_by':'employee_parent_id'}"/>
+                </search>
+            
+            </field>
+        </record>
+
+
+
+
+
+  <!--        ============================================= tree ======================================================-->
+         <record id="surgi_action_surgi_evaluation_employee_self_assessment_tree_view" model="ir.ui.view">
+            <field name="name">surgi.ess.employee.Self.Assessment.tree.view</field>
+            <field name="model">evaluation.evaluation</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Self Assessment " create="false" edit="false" delete="false">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="total_competencies"/>
+                    <field name="total_function_comp"/>
+                    <field name="total_employee_kpi"/>
+                    <field name="total_totals"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+  <!--        ============================================= action======================================================-->
+
+        <record id="surgi_evaluation_employee_self_assessment_form_view" model="ir.ui.view">
+            <field name="name">surgi.ess.employee.self.assessment.form.view</field>
+            <field name="model">evaluation.evaluation</field>
+            <field name="arch" type="xml">
+                <form string="Employee Sell Assessment" create="false" edit="true" delete="false">
+         
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="get_lines_cor" type="object" string="Reset Competencies" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="total_lines_employee_id" type="object" string="Reset KPI" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="submit_esa" type="object" string="Submit" class="oe_highlight" attrs="{'invisible':[('state','=','esa')]}"/>
+                    </header>
+                    <sheet>
+                        <label for="name"/>
+                        <field name="name" attrs="{'readonly':[('check_read','=',True)]}" readonly="1"/>
+                        <br/>
+                        <label for="employee_id"/>
+                        <field name="employee_id" options="{'no_open': True}" attrs="{'readonly':[('check_read','=',True)]}" readonly="1"/>
+                        <br/>
+                        <label for="active_evaluation"/>
+                        <field name="active_evaluation" attrs="{'readonly':[('check_read','=',True)]}" groups="hr.group_hr_user" readonly="1"/>
+                        <br/>
+                        <group>
+                            <group>
+                                <field name="date_start" attrs="{'readonly':[('check_read','=',True)]}" groups="hr.group_hr_user" readonly="1"/>
+                                <field name="check_read" invisible="1"/>
+                                <field name="check_esa" invisible="1"/>
+                                <field name="check_direct_manager" invisible="1"/>
+                                <field name="check_indirect_manager" invisible="1"/>
+
+                                <field name="department_id" options="{'no_open': True}" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="date_end" attrs="{'readonly':[('check_read','=',True)]}" groups="hr.group_hr_user" readonly="1"/>
+                                <field name="duration" attrs="{'readonly':[('check_read','=',True)]}" groups="hr.group_hr_user" readonly="1"/>
+                                <field name="employee_parent_id" options="{'no_open': True}" readonly="1"/>
+                                <field name="jop_ids" options="{'no_open': True}" readonly="1"/>
+                                <field name="evaluation_method" readonly="1"/>
+
+                                <field name="check_eval" readonly="1"/>
+
+
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="core_competencies" string="Core Competencies">
+                                <field name="core_competencies" attrs="{'readonly':[('check_read','=',True)]}">
+                                    <!--domain="[('active_core', '=', True)]"-->
+                                    <!--attrs="{'readonly':[('check_read','=',True)]}"-->
+                                    <tree editable="bottom" create="false">
+                                        <field name="name" force_save="1" readonly="1"/>
+                                        <field name="employee_self_assessment" widget="percentage" force_save="1"/><!--mohamed-salah attrs="{'readonly':[('check_esa','=',True)]}"-->
+                                        <field name="direct_manager" force_save="1" widget="percentage" readonly="1"/>
+                                        <field name="in_direct_manager" force_save="1" widget="percentage" readonly="1"/>
+                                        <field name="percentage" widget="percentage" force_save="1" readonly="1"/>
+                                        <field name="kpi_weight" sum="kpi_weight" widget="percentage" force_save="1" readonly="1"/>
+                                        <field name="state_result" force_save="1" readonly="1"/>
+                                        <field name="active_core" force_save="1" readonly="1"/>
+                                        <field name="score" sum="score" force_save="1" readonly="1"/>
+                                    </tree>
+                                </field>
+                                <!--<label for="total_competencies"/>-->
+                                <!--<field name="total_competencies"/>-->
+                            </page>
+                            <page name="function_competencies" string="Function Competencies">
+                                <field name="function_comp" attrs="{'readonly':[('check_read','=',True)]}">
+                                    <tree editable="bottom" create="false">
+                                        <field name="name" force_save="1" readonly="1"/>
+                                        <field name="employee_self_assessment" widget="percentage" force_save="1"/><!--mohamed-salah attrs="{'readonly':[('check_esa','=',True)]}"-->
+                                        <field name="direct_manager" force_save="1" widget="percentage" readonly="1"/>
+                                        <field name="in_direct_manager" force_save="1" widget="percentage" readonly="1"/>
+                                        <field name="percentage" widget="percentage" force_save="1" readonly="1"/>
+                                        <field name="kpi_weight" sum="kpi_weight" widget="percentage" force_save="1" readonly="1"/>
+                                        <field name="state_result" force_save="1" readonly="1"/>
+                                        <field name="score" sum="score" force_save="1" readonly="1"/>
+                                    </tree>
+                                </field>
+                                <!--<label for="total_function_comp"/>-->
+                                <!--<field name="total_function_comp"/>-->
+
+                            </page>
+                            <page name="kpi_competencies" string="Employee KPI">
+                                <field name="employee_kpi" attrs="{'readonly':[('check_read','=',True)]}">
+                                    <tree editable="bottom" create="false">
+                                        <field name="kra_kpi" force_save="1" readonly="1"/>
+                                        <field name="name" force_save="1" readonly="1"/>
+                                        <field name="employee_self_assessment" widget="percentage" force_save="1"/><!--mohamed-salah attrs="{'readonly':[('check_esa','=',True)]}"-->
+                                        <field name="direct_manager" force_save="1" widget="percentage" readonly="1"/>
+                                        <field name="in_direct_manager" force_save="1" widget="percentage" readonly="1"/>
+                                        <field name="percentage" force_save="1" widget="percentage" readonly="1"/>
+                                        <field name="kpi_weight" force_save="1" sum="kpi_weight" widget="percentage" readonly="1"/>
+                                        <field name="state_result" force_save="1" readonly="1"/>
+                                        <field name="score" force_save="1" sum="score" readonly="1"/>
+                                    </tree>
+                                </field>
+                                <!--<label for="total_employee_kpi"/>-->
+                                <!--<field name="total_employee_kpi"/>-->
+
+                                <label for="total_totals"/>
+
+                                <field name="total_totals"/>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+           
+            </field>
+        </record>
+
+
+  <!--        ============================================= action======================================================-->
+
+        <record id="surgi_action_surgi_evaluation_employee_self_assessment" model="ir.actions.act_window">
+            <field name="name">Self Assessment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">evaluation.evaluation</field>
+            <!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('employee_id.user_id.id', '=', uid)]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="surgi_ess_employee_self_assessment_search_new"/>
+        </record>
+
+
+
+
+  <!--        ============================================= tree and form ======================================================-->
+
+  
+        <record model="ir.actions.act_window.view" id="surgi_ess_evaluation_employee_self_assessment_tree_view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="surgi_action_surgi_evaluation_employee_self_assessment_tree_view"/>
+            <field name="act_window_id" ref="surgi_action_surgi_evaluation_employee_self_assessment"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="surgi_ess_employee_self_assessment_action_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="surgi_evaluation_employee_self_assessment_form_view"/>
+            <field name="act_window_id" ref="surgi_action_surgi_evaluation_employee_self_assessment"/>
+        </record>
+
+        <!--        ===================================================================================================-->
+        <menuitem id="category_menu_employee_self_assessment_list" name="Self Assessment" parent="menu_root_ess_surgi" 
+                  action="surgi_action_surgi_evaluation_employee_self_assessment"
+                  sequence="10"/>
+   
+
+    </data>
+</odoo>

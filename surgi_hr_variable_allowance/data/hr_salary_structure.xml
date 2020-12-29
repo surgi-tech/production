@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <record id="ALW" model="hr.salary.rule.category">
+            <field name="name">Allowance</field>
+            <field name="code">ALW</field>
+        </record>
+
+        <record id="DED" model="hr.salary.rule.category">
+            <field name="name">Deduction</field>
+            <field name="code">DED</field>
+        </record>
+
+        <record id="work_entry_type" model="hr.work.entry.type">
+            <field name="name">Variable Allowance</field>
+            <field name="code">VARIABLEALLOWANCE</field>
+            <field name="round_days">NO</field>
+        </record>
+
+        <record id="variable_structure_type" model="hr.payroll.structure.type">
+            <field name="name"></field>
+            <field name="wage_type">monthly</field>
+            <field name="default_work_entry_type_id" ref="work_entry_type"/>
+        </record>
+
+        <record id="variable_allowance_salary_structure" model="hr.payroll.structure">
+            <field name="name">Variable Allowance Structure</field>
+            <field name="type_id" ref="variable_structure_type"/>
+        </record>
+    </data>
+</odoo>

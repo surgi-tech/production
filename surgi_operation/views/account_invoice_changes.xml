@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_invoice_form_form_inherit" model="ir.ui.view">
+            <field name="name">invoice.form.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='ref']" position="after">
+                                <field name="print_description"/>
+                                <field name="invoice_printing_description"/>
+
+                </xpath>
+                <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+                    <page name="surgi_page_jibKt" string="Operation Info">
+                        <group name="surgi_group_jibKt">
+                            <group name="surgi_group_jibKt_left">
+                                <field name="has_operation"/>
+                                <field name="customer_printed_name"/>
+                                <field name="patient_name" attrs="{'invisible': [('has_operation','=',False)]}"/>
+                                <field name="hospital_id" attrs="{'invisible': [('has_operation','=',False)]}"/>
+                                <field name="surgeon_id" attrs="{'invisible': [('has_operation','=',False)]}"/>
+
+                            </group>
+                            <group name="surgi_group_jibKt_right">
+                                <field name="operation_id" attrs="{'invisible': [('has_operation','=',False)]}"/>
+                                <field name="exchange_invoices"/>
+                                <field name="exchange_invoices_id" attrs="{'invisible': [('exchange_invoices','=',False)]}"/>
+                                <field name="sales_area_manager"/>
+                                <field name="collection_rep"/>
+                                <field name="operation_ids" attrs="{'invisible': [('has_operation','=',False)]}"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!--<template id="report_invoice_document_inherit_description_print" inherit_id="sale.report_invoice_layouted">
+            <xpath expr="//div[@class='page']//table[1]" position="replace">
+                <table t-if="o.print_description" class="table table-condensed" name="invoice_description_table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="invoice_description_tbody">
+                        <tr>
+                            <td><span t-field="o.invoice_printing_description"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table t-if="not o.print_description" class="table table-condensed" name="invoice_line_table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th class="hidden">Source Document</th>
+                            <th class="text-right">Quantity</th>
+                            <th class="text-right">Unit Price</th>
+                            <th t-if="display_discount" class="text-right">Disc.(%)</th>
+                            <th class="text-right">Taxes</th>
+                            <th class="text-right">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody class="invoice_tbody">
+                        <tr t-foreach="o.invoice_line_ids" t-as="l">
+                                <td><span t-field="l.name"/></td>
+                                <td class="hidden"><span t-field="l.origin"/></td>
+                                <td class="text-right">
+                                    <span t-field="l.quantity"/>
+                                    <span t-field="l.uom_id"  groups="product.group_uom"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="l.price_unit"/>
+                                </td>
+                                <td t-if="display_discount" class="text-right">
+                                    <span t-field="l.discount"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="', '.join(map(lambda x: (x.description or x.name), l.invoice_line_tax_ids))"/>
+                                </td>
+                                <td class="text-right" id="subtotal">
+                                    <span t-field="l.price_subtotal"
+                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                            </tr>
+                        <tr t-foreach="range(max(5-len(o.invoice_line_ids),0))" t-as="l">
+                                <td t-translation="off">&amp;nbsp;</td>
+                                <td class="hidden"></td>
+                                <td></td>
+                                <td></td>
+                                <td t-if="display_discount"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                    </tbody>
+                </table>
+
+            </xpath>
+            <xpath expr="//t[@name='lines_layouted']" position="attributes">
+                <attribute name="t-if">not o.print_description</attribute>
+            </xpath>
+            <xpath expr="//div[@id='total']" position="replace">
+                <div t-if="not o.print_description" id="total" class="row">
+                    <div class="col-xs-4 pull-right">
+                        <table class="table table-condensed" style="min-width: 250px;max-width: 400px;">
+                            <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+                                <td><strong>Subtotal</strong></td>
+                                <td class="text-right">
+                                    <span t-field="o.amount_untaxed" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                            </tr>
+                            <t t-foreach="o._get_tax_amount_by_group()" t-as="amount_by_group">
+                                <tr style="border-bottom:1px solid #dddddd;">
+                                    <t t-if="len(o.tax_line_ids) == 1 and o.amount_untaxed == amount_by_group[2]">
+                                        <td>
+                                            <span t-esc="amount_by_group[0]"/>
+                                            <span>&amp;nbsp;<span>on</span>
+                                                <t t-esc="amount_by_group[4]"/>
+                                            </span>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="amount_by_group[3]"/>
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td><span t-esc="amount_by_group[0]"/></td>
+                                        <td class="text-right">
+                                            <span t-esc="amount_by_group[3]" />
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                            <tr class="border-black">
+                                <td><strong>Total</strong></td>
+                                <td class="text-right">
+                                    <span t-field="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+        -->
+    </data>
+</odoo>

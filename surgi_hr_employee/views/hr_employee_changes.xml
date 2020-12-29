@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<odoo>
+	<data>
+		<record id="view_hr_employee_filed_form" model="ir.ui.view">
+			<field name="name">hr.employee.filed.inherited.form</field>
+			<field name="model">hr.employee</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr.view_employee_form" />
+			<field name="arch" type="xml">
+
+                <xpath expr="//field[@name='pin']" position="after">
+
+                    <field name="employee_arabic_name"/>
+                    <field name="private_num"/>
+
+
+                </xpath>
+
+                <xpath expr="//field[@name='address_id']" position="before">
+                        <field name="full_employee_name"/>
+                        <field name="payrolled_employee" groups="hr_payroll.group_hr_payroll_user"/>
+                    </xpath>
+
+                <xpath expr="//field[@name='work_location']" position="after">
+                        <field name="attendance_type"  widget="radio" options="{'horizontal': true}"/>
+                    </xpath>
+
+                    <xpath expr="//field[@name='identification_id']" position="after">
+                        <field name="id_from"/>
+                    </xpath>
+
+                <xpath expr="//field[@name='department_id']" position="after">
+                        <field name="section_id"/>
+                    </xpath>
+                
+                <xpath expr="//field[@name='parent_id']" position="after">
+                        <field name="in_direct_parent_id"/>
+                    </xpath>
+
+                    <xpath expr="//field[@name='birthday']" position="before">
+                        <field name="religion" />
+                    </xpath>
+
+                    <xpath expr="//page[@name='hr_settings']" position="after">
+                        <page name="extra_hr" string="Extra HR Settings" groups="hr.group_hr_user">
+                            <group>
+
+                        <group name="military_status" string="Military Status" attrs="{'invisible':[('gender','!=', 'male')]}">
+                            <field name="military_status"/>
+                            <field name="military_number"/>
+                        </group>
+
+                        <group name="social_Ins" string="Social Insurance" groups="hr_payroll.group_hr_payroll_user">
+                            <field name="social_ins_exist"/>
+                            <field name="social_ins_no" attrs="{'invisible':[('social_ins_exist','=', False)]}"/>
+                            <field name="social_ins_title" attrs="{'invisible':[('social_ins_exist','=', False)]}"/>
+
+                        </group>
+                        <group name="medical_Ins" string="Medical Insurance">
+                            <field name="medical_ins_exist"/>
+                            <field name="medical_company" attrs="{'invisible':[('medical_ins_exist','=', False)]}"/>
+                            <field name="medical_number" attrs="{'invisible':[('medical_ins_exist','=', False)]}"/>
+                            <field name="mi_date" attrs="{'invisible':[('medical_ins_exist','=', False)]}"/>
+                        </group>
+                        <group name="additinal_data" string="Additinal Data">
+                            <field name="labor_linc_no"/>
+                            <field name="resignation_date"/>
+
+                        </group>
+                            </group>
+                        </page>
+                    </xpath>
+
+                <xpath expr="//field[@name='birthday']" position="after">
+                    <label for="age"/>
+                    <div class="o_row">
+                        <field name="age"/>Years
+                    </div>
+                </xpath>
+
+                <xpath expr="//group[@name='active_group']" position="after">
+                    <group string="Experience">
+                        <field name="start_date"/>
+                        <label for="experience_y"/>
+                        <div class="o_row">
+                            <field name="experience_y"/>Years-<field name="experience_m"/>Months-<field
+                                name="experience_d"/>Days
+                        </div>
+
+
+                    </group>
+                </xpath>
+
+                <xpath expr="//page[@name='hr_settings']" position="before">
+                    <page name="education_info" string="Education Info">
+                        <group string="Education">
+                            <field name="edu_phase"/>
+                            <field name="edu_school"/>
+                            <field name="edu_major"/>
+                            <field name="edu_grad"/>
+                            <field name="grad_year"/>
+                        </group>
+                        <field name="edu_note" placeholder="Education Notes ..........."/>
+                    </page>
+                </xpath>
+
+                    </field>
+                </record>
+
+
+        <!-- Inherit Form View to Modify it -->
+<!--        <record id="form_view_hr_employee_public_fields" model="ir.ui.view">-->
+<!--            <field name="name">view_hr_employee_public_fields</field>-->
+<!--            <field name="model">hr.employee.public</field>-->
+<!--            <field name="inherit_id" ref="hr.hr_employee_public_view_form"/>-->
+<!--            <field name="arch" type="xml">-->
+
+<!--                <xpath expr="//field[@name='parent_id']" position="after">-->
+<!--                    &lt;!&ndash; Add your fields or attributes here &ndash;&gt;-->
+<!--                    <field name="labor_linc_no"/>-->
+<!--                    <field name="id_from"/>-->
+<!--                    <field name="military_status"/>-->
+<!--                    <field name="military_number"/>-->
+<!--                    <field name="religion"/>-->
+<!--                    <field name="social_ins_exist"/>-->
+<!--                    <field name="social_ins_no"/>-->
+<!--                    <field name="social_ins_title"/>-->
+<!--                    <field name="medical_ins_exist"/>-->
+<!--                    <field name="medical_company"/>-->
+<!--                    <field name="medical_number"/>-->
+<!--                    <field name="mi_date"/>-->
+<!--                    <field name="section_id"/>-->
+<!--                    <field name="full_employee_name"/>-->
+<!--                    <field name="attendance_type"/>-->
+<!--                    <field name="in_direct_parent_id"/>-->
+<!--                    <field name="age"/>-->
+<!--                    <field name="start_date"/>-->
+<!--                    <field name="edu_phase"/>-->
+<!--                    <field name="edu_school"/>-->
+<!--                    <field name="edu_major"/>-->
+<!--                    <field name="edu_grad"/>-->
+<!--                    <field name="grad_year"/>-->
+<!--                    <field name="edu_note"/>-->
+<!--                    <field name="experience_y"/>-->
+<!--                    <field name="experience_m"/>-->
+<!--                    <field name="experience_d"/>-->
+<!--                    <field name="payrolled_employee"/>-->
+<!--                    <field name="employee_arabic_name"/>-->
+<!--                    <field name="private_num"/>-->
+<!--                </xpath>-->
+
+<!--            </field>-->
+<!--        </record>-->
+
+
+	</data>
+</odoo>

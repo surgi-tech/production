@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="tender_operations_admin_search" model="ir.ui.view">
+       <field name="name">tender.operations.admin.search</field>
+       <field name="model">operation.operation</field>
+        <field name="arch" type="xml">
+            <search string="Recon Operations Search">
+                    <field name="name" filter_domain="[('name','ilike',self)]" string="Operation No."/>
+                    <field name="responsible" filter_domain="[('responsible','ilike',self)]" string="Sales Man"/>
+                    <field name="operation_type" filter_domain="[('operation_type','ilike',self)]" string="Operation Type"/>
+                    <field name="hospital_id" filter_domain="[('hospital_id','ilike',self)]" string="Hospital"/>
+                    <filter string="Draft" name="state" domain="[('state','=','draft')]"/>
+                    <filter string="Done" name="state" domain="[('state','=','done')]"/>
+                </search>
+       </field>
+    </record>
+
+    <!-- This Menu Item must have a parent and an action -->
+
+    <record id="action_tender_operations_admin" model="ir.actions.act_window">
+        <field name="name">Tender Operations Admin</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">operation.operation</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="search_view_id" ref="tender_operations_admin_search" />
+        <field name="domain">[('responsible', '=', uid)]</field>
+        <!--<field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>-->
+        <!--<field name="limit" type="int">500</field>-->
+        <!--<field name="domain">[('type','in',['out_invoice','out_refund'])]</field>-->
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+                    Click to create a new Operation.
+          </p>
+        </field>
+    </record>
+
+        <menuitem id="tender_operations_admin" name="Tender Operations Admin" parent="operations_operation_menuitem" action="action_tender_operations_admin" sequence="2" groups="tender_operation_admin"/>
+
+
+
+    <record id="tender_operations_admin_tree" model="ir.ui.view">
+        <field name="name">tender.operations.admin.tree</field>
+        <field name="model">operation.operation</field>
+        <field name="arch" type="xml">
+        <tree string="Tender Operations Admin" decoration-info="state=='draft'" decoration-bf="state=='confirm'" decoration-danger="state=='cancel'" decoration-success="state=='done'">
+                    <field name="name" string="Name"/>
+                    <field name="responsible" string="Sales Man"/>
+                    <field name="start_datetime" string="Starting Date"/>
+                    <field name="operation_type"/>
+                    <field name="hospital_id"/>
+                    <field name="surgeon_id"/>
+                    <field name="gs_work_order"/>
+                    <field name="notes"/>
+                    <field name="state" invisible="0"/>
+                </tree>
+        </field>
+    </record>
+
+    <record id="action_tender_operations_admin_tree" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_tender_operations_admin"/>
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="tender_operations_admin_tree"/>
+    </record>
+
+    <record id="tender_operations_admin_form" model="ir.ui.view">
+        <field name="name">tender.operations.admin.form</field>
+        <field name="model">operation.operation</field>
+        <field name="arch" type="xml">
+                <form string="Sales Order">
+                    <header>
+                        <!--<button name="action_done_sales" string="Done" type="object" attrs="{'invisible': [('state','!=','confirm')]}"/>-->
+                        <field name="has_oper_loc_hanged_quant" invisible="1"/>
+                        <field name="so_created" invisible="1"/>
+                        <button name="create_sales_order" string="Create SO" icon="fa-cart-plus" type="object" attrs="{'invisible': ['|','|',('has_oper_loc_hanged_quant','=',False ),('so_created','=',True),('state','=','draft')]}"/>
+                        <button name="action_confirm_sales" string="Confirm" type="object" attrs="{'invisible': [('state','!=','draft')]}"/>
+                        <button name="open_wizard_cancel_operation" type="object" string="Cancel" icon="fa-pencil" class="oe_highlight" attrs="{'invisible': ['|',('so_created','=',True),('state', 'in', ['done', 'cancel'])]}"/>
+                        <field name="state" widget="statusbar" attrs="{'invisible': [('state', 'not in', ['draft','done', 'cancel'])]}"/>
+                        <!--<field name="stage_id" widget="statusbar" attrs="{'invisible': [('state', 'in', ['draft','done', 'cancel'])]}" clickable="True"/>-->
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <field name="invoice_id" invisible="1"/>
+                            <button name="action_view_operation_invoice" icon="fa-file-text" type="object" class="oe_stat_button" attrs="{'invisible': [('invoice_id','=',False)]}">View Invoice</button>
+                            <button name="action_view_operation_hanged_quant" type="object" class="oe_stat_button" icon="fa-building-o">
+                                <field string="Operation Hanged Quants" name="oper_loc_hanged_quant" widget="statinfo" modifiers="{'readonly': true}"/>
+                            </button>
+                            <button name="action_view_operation_quant" type="object" class="oe_stat_button" icon="fa-building-o">
+                                <field string="Operation Quant" name="oper_loc_quant" widget="statinfo" modifiers="{'readonly': true}"/>
+                            </button>
+                            <button name="action_view_operation_del" type="object" class="oe_stat_button" icon="fa-building-o">
+                                <field string="Stock Pickings" name="oper_loc_del" widget="statinfo" modifiers="{'readonly': true}"/>
+                            </button>
+<!--                            <button name="action_view_operation_SO" icon="fa-cart-plus" type="object" class="oe_stat_button" attrs="{'invisible': [('so_created','=',False )]}">-->
+<!--                                <field name="oper_loc_so" string="Sale Order" modifiers="{'readonly': true}" widget="statinfo"/>-->
+<!--                            </button>-->
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="sequence" readonly="0"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <field name="name" string="Name" required="0" invisible="0"/>
+                            <!--<field name="tender_id" string="Tender ID" invisible="0"/>
+                            <field name="sector_id" string="Sector ID" invisible="0"/>-->
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="start_datetime" string="Date Start" required="True"/>
+                                <field name="operation_type" invisible="False" required="1"/>
+
+
+                            </group>
+                            <group>
+                                <field name="op_type"/>
+                                <field name="tender_so" widget="selection" attrs="{'invisible': [('op_type', '!=', 'tender')]}"/>
+                                <field name="supply_so" widget="selection" attrs="{'invisible': [('op_type', '!=', 'supply_order')],'required': [('op_type', '=', 'supply_order')]}"/>
+                            </group>
+                            <group>
+                                <field name="side"/>
+                                <field name="responsible" invisible="False"/>
+                            </group>
+                        </group>
+                        <separator string="Patient"/>
+                        <group>
+                            <group>
+                                <field name="patient_national_id"/> <!--required="True"-->
+                                <field name="patient_gender" required="False"/> <!--attrs="{'required': [('is_patient','=',False)],'readonly': [('is_patient','=',True)]}"-->
+                                <!--<field name="is_patient" />-->
+                            </group>
+                            <group>
+                                <field name="patient_name"/><!--attrs="{'required': [('is_patient','=',False)],'readonly': [('is_patient','=',True)]}"-->
+                            </group>
+                        </group>
+
+                        <separator string="Location"/>
+                        <group>
+                            <group>
+                                <field name="hospital_id" required="1" domain="[('is_hospital','=',True)]"/>
+                            </group>
+                            <group>
+                                <field name="surgeon_id" domain="[('is_surgeon','=',True)]"/>
+                            </group>
+                        </group>
+
+                        <separator string="Supply"/>
+                        <group>
+                            <group>
+                                <field name="warehouse_id"/>
+                            </group>
+                            <group>
+                                <field name="location_id" attrs="{'invisible':[('location_id','=',False)]}"/>
+                            </group>
+                            <group>
+                                <field name="customers_operations_location" invisible="1"/>
+                            </group>
+                        </group>
+                        <separator string="Tags"/>
+                        <group>
+                            <field name="tags_ids" widget="many2many_tags"/>
+                        </group>
+                        <notebook>
+                            <page string="Components">
+                                <group>
+                                    <field name="component_ids" widget="many2many_checkboxes" domain="[('operation_type', '=',operation_type),('operation_component','=',True)]"/>
+                                </group>
+                            </page>
+                            <page string="More Items">
+                                <field name="product_lines">
+                                    <tree string="Product_lines" editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="quantity"/>
+                                        <!--<field name="product_uom"/>-->
+                                    </tree>
+
+                                </field>
+
+                            </page>
+                            <page string="Other Info.">
+                                <group>
+                                    <field name="notes"/>
+                                </group>
+                            </page>
+                            <page string="Cancel Reason" attrs="{'invisible':[('state','!=','cancel')]}">
+                                <group>
+                                    <field name="reason"/>
+                                </group>
+                                <group>
+                                    <field name="description"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+
+        </field>
+    </record>
+
+
+    <record id="action_tender_operations_admin_form" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_tender_operations_admin"/>
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="tender_operations_admin_form"/>
+    </record>
+
+
+    <record id="tender_operations_admin_pivot" model="ir.ui.view">
+            <field name="name">tender.operations.admin.pivot</field>
+            <field name="model">operation.operation</field>
+            <field name="arch" type="xml">
+                <pivot string="Tender Operations" >
+                    <field name="name" string="Name"/>
+                </pivot>
+            </field>
+    </record>
+
+        <record id="action_tender_operations_admin_pivot" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_tender_operations_admin"/>
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="tender_operations_admin_pivot"/>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,54 @@
+<odoo>
+
+
+    <data>
+
+        <record id="eavaluation_groups" model="ir.module.category">
+            <field name="name">Evaluation</field>
+            <field name="sequence" eval="1"/>
+        </record>
+
+        <record id="kpi_manger_groups_employee" model="res.groups">
+            <field name="name">KPI Manager Group</field>
+            <field name="category_id" ref="eavaluation_groups"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+
+        <record id="user_permisions_rule_groups_manager" model="ir.rule">
+            <field name="name">User Rule</field>
+            <field name="model_id" ref="model_evaluation_evaluation"/>
+            <field name="groups" eval="[(4,ref('surgi_evaluation.kpi_manger_groups_employee'))]"/>
+            <field name="domain_force">['|',('employee_id.user_id','=',user.id),('employee_id.parent_id.user_id','=',user.id)] </field>
+
+        </record>
+        <record id="user_permisions_rule_groups_hr" model="ir.rule">
+            <field name="name">User Rule HR</field>
+            <field name="model_id" ref="model_evaluation_evaluation"/>
+            <field name="groups" eval="[(4,ref('hr.group_hr_user'))]"/>
+            <field name="domain_force">[(1,'=',1 )]</field>
+
+
+        </record>
+        <!--&lt;!&ndash;################################################&ndash;&gt;-->
+
+
+        <!--<record id="user_permisions_rule_groups_manager22" model="ir.rule">-->
+            <!--<field name="name">User Rule22</field>-->
+            <!--<field name="model_id" ref="model_function_competencies"/>-->
+            <!--<field name="groups" eval="[(4,ref('surgi_evaluation.kpi_manger_groups_employee'))]"/>-->
+            <!--<field name="domain_force">[('active_function','=',True)]</field>-->
+
+        <!--</record>-->
+        <!--<record id="user_permisions_rule_groups_hr22" model="ir.rule">-->
+            <!--<field name="name">User Rule HR22</field>-->
+            <!--<field name="model_id" ref="model_function_competencies"/>-->
+            <!--<field name="groups" eval="[(4,ref('hr.group_hr_user'))]"/>-->
+            <!--<field name="domain_force">[(1,'=',1 )]</field>-->
+
+
+        <!--</record>-->
+
+    </data>
+
+</odoo>

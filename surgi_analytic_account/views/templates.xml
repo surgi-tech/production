@@ -1,0 +1,74 @@
+<odoo>
+    <data>
+
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="analytic_product_normal_form_view" model="ir.ui.view">
+            <field name="name">analytic_product_normal_product</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='barcode']" position="after">
+                    <field name="product_id"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="tree_view_product_line_page" model="ir.ui.view">
+            <field name="name">Product Line</field>
+            <field name="model">product.lines</field>
+            <field name="arch" type="xml">
+                <tree string="Product Line">
+                    <field name="name"/>
+                    <field name="product_line"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="form_view_product_lines" model="ir.ui.view">
+            <field name="name">Product Line</field>
+            <field name="model">product.lines</field>
+            <field name="arch" type="xml">
+                <form string="Product Line">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Product Line Name"/>
+                            </h1>
+                        </div>
+
+
+                        <group>
+                            <field name="product_line"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_product_lines_pages" model="ir.actions.act_window">
+            <field name="name">Product Line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.lines</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="menu_product_lines_views" name="Product Line" parent="sale.menu_sale_config"
+                  action="action_product_lines_pages" sequence="2"/>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,67 @@
+<odoo>
+    <data>
+
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="add_fields_edit_account_bank_statement" model="ir.ui.view">
+            <field name="name">account_bank_statement_tree</field>
+            <field name="model">account.bank.statement</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='line_ids']" position="replace">
+                    <!-- Add your fields or attributes here -->
+                    <field name="line_ids" context="{'date':date}">
+                        <tree editable="bottom" string="Statement lines" decoration-muted="journal_entry_ids"
+                              limit="500">
+                            <field name="sequence" widget="handle"/>
+                            <field name="journal_entry_ids" invisible="1"/>
+                            <field name="date" attrs="{'readonly' : [('journal_entry_ids', '!=', [])] }"/>
+                            <field name="name" attrs="{'readonly' : [('journal_entry_ids', '!=', [])] }"/>
+                            <field name="partner_id" domain="['|',('parent_id','=',False),('is_company','=',True)]"
+                                   attrs="{'readonly' : [('journal_entry_ids', '!=', [])] }"/>
+                            <field name="ref" attrs="{'readonly' : [('journal_entry_ids', '!=', [])] }"
+                                   groups="base.group_no_one"/>
+                            <field name="transaction_type" attrs="{'readonly' : [('journal_entry_ids', '!=', [])] }"
+                                   optional="hidden"/>
+                            <field name="note" optional="hidden"/>
+                            <field name="amount" attrs="{'readonly' : [('journal_entry_ids', '!=', [])] }"/>
+                            <field name="journal_currency_id" invisible="1"/>
+                            <field name="bank_account_id" invisible="1"/>
+                            <field name="account_number" optional="hidden"/>
+                            <field name="amount_currency" optional="hidden"/>
+                            <field name="currency_id" optional="hidden"/>
+                            <field name="state" invisible="1"/>
+                            <button name="button_cancel_reconciliation"
+                                    attrs="{'invisible': ['|',('journal_entry_ids', '=', []), ('state', '=', 'confirm')]}"
+                                    string="Revert reconciliation" type="object" icon="fa-undo"/>
+
+                            <field name="is_check" attrs="{'invisible' : [('journal_entry_ids', '=', [])] }"/>
+
+                        </tree>
+                    </field>
+
+                </xpath>
+
+                <xpath expr="//field[@name='balance_end']" position="after">
+                    <!--<br/>-->
+                    <!--<br/>-->
+                    <!--<group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total2">-->
+                    <div class="oe_subtotal_footer_separator oe_inline">
+                        <label for="total_check"/>
+                    </div>
+                    <field name="total_check" nolabel="1" class="oe_subtotal_footer_separator"/>
+                    <!--<div class="oe_subtotal_footer_separator oe_inline">-->
+                        <!--<label for="account_balance"/>-->
+                    <!--</div>-->
+                    <!--<field name="account_balance" nolabel="1" class="oe_subtotal_footer_separator"/>-->
+                    <!--</group>-->
+                </xpath>
+
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

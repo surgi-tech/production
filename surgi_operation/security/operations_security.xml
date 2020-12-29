@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data> <!--noupdate="0"-->
+
+        <record model="ir.module.category" id="surgi_operations_group_category">
+        <field name="name">Operations</field>
+        <field name="description">Operation Reservation</field>
+        <field name="sequence">10</field>
+         </record>
+
+        <record id="operations_viewer_group" model="res.groups">
+            <field name="name">Operations Viewer</field>
+            <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="operations_user_group" model="res.groups">
+            <field name="name">Operations User</field>
+            <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="operations_manager_group" model="res.groups">
+            <field name="name">Operations Manager</field>
+            <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="waiting_list_manager_group" model="res.groups">
+            <field name="name">Waiting List Manager</field>
+            <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+
+        <record id="operations_coordinator" model="res.groups">
+            <field name="name">Operations Coordinator</field>
+            <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+
+
+
+        <record id="operations_waiting_list_patients_group" model="res.groups">
+            <field name="name">Waitting List Patients</field>
+            <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+
+
+
+
+        <record id="operations_tanta_coordinator" model="res.groups">
+            <field name="name">Operations Tanta Coordinator</field>
+            <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="operations_assuit_coordinator" model="res.groups">
+            <field name="name">Operations Assuit Coordinator</field>
+            <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="operations_alex_coordinator" model="res.groups">
+            <field name="name">Operations Alex Coordinator</field>
+            <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="operations_sports_coordinator" model="res.groups">
+            <field name="name">Operations Sports Coordinator</field>
+            <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+
+        <record id="operations_coordinator_trauma" model="res.groups">
+            <field name="name">Trauma Operations Coordinator</field>
+            <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="operations_tender_coordinator" model="res.groups">
+            <field name="name">Tender Operations Coordinator</field>
+            <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="tender_operation_admin" model="res.groups">
+            <field name="name">Tender Operations Admin</field>
+            <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="operations_recon_team" model="res.groups">
+             <field name="name">Recon Team</field>
+             <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+        <record id="operations_sports_team" model="res.groups">
+             <field name="name">Sports Team</field>
+             <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+        <record id="operations_biologics_team" model="res.groups">
+             <field name="name">Biologics Oerations Team</field>
+             <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+
+
+operations_biologics_team
+        <record id="operations_recon_team_manager" model="res.groups">
+             <field name="name">Recon Team Manager</field>
+             <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="operations_trauma_team" model="res.groups">
+             <field name="name">Trauma Team</field>
+             <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="operations_trauma_team_manager" model="res.groups">
+             <field name="name">Trauma Team Manager</field>
+             <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="operations_recon_area_manager" model="res.groups">
+             <field name="name">Recon Area Manager</field>
+             <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="operations_new_recon_team" model="res.groups">
+             <field name="name">New Recon Team</field>
+             <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="operations_new_recon_team_manager" model="res.groups">
+             <field name="name">New Recon Team Manager</field>
+             <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="operations_spine_team" model="res.groups">
+             <field name="name">Spine Team</field>
+             <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="operations_spine_team_manager" model="res.groups">
+             <field name="name">Spine Team Manager</field>
+             <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+        <record id="operations_hospitals_activation" model="res.groups">
+             <field name="name">Hospitals Activation</field>
+             <field name="category_id" ref="surgi_operations_group_category"/>
+        </record>
+
+    </data>
+
+    <!--    <data noupdate="1"> -->
+
+</odoo>

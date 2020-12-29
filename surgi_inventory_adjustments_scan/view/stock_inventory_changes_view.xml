@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id="assets_backend" name="petstore_assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/surgi_inventory_adjustments_scan/static/src/css/font-awesome.min.css"/>
+                <link rel="stylesheet" href="/surgi_inventory_adjustments_scan/static/src/css/stock.css"/>
+                <script src="/point_of_sale/static/lib/backbone/backbone.js"></script>
+                <script src="/surgi_inventory_adjustments_scan/static/src/js/crypto-js.js"></script>
+                <script src="/surgi_inventory_adjustments_scan/static/src/js/md5.min.js"></script>
+                <script type="text/javascript" src="/surgi_inventory_adjustments_scan/static/src/js/stock.js"/>
+<!--                <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>-->
+<!--                <script type="text/javascript" src="/surgi_inventory_adjustments_scan/static/src/js/surgitech_inventory_adjustments_scan.js"/>-->
+<!--           <script type="text/javascript" src="/surgi_inventory_adjustments_scan/static/src/js/button.js"/>-->
+<!--                <script type="text/javascript" src="/surgi_inventory_adjustments_scan/static/src/js/test.js"/>-->
+-->
+            </xpath>
+        </template>
+
+
+
+
+
+
+    <record id="adjustment_stock_inventory_inherit" model="ir.ui.view">
+            <field name="name">stock.inventory.inherit</field>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="stock.view_inventory_form"/>
+            <field name="arch" type="xml">
+
+                <field name="name" position="after">
+                    <field name="scanning_box" attrs="{'invisible':[('state','=','draft')]}"/>
+                </field>
+
+
+
+
+
+            </field>
+        </record>
+
+     <record id="action_start_inventory_scanning" model="ir.actions.client">
+            <field name="name">Start Scanning</field>
+            <field name="tag">stock.inventory</field>
+        </record>
+ <record id="view_inventory_form_inherit" model="ir.ui.view">
+            <field name="name">stock.inventory.scan.inherit.surgitech</field>
+            <field name="model">stock.inventory</field>
+            <field name="priority">17</field>
+            <field name="inherit_id" ref="stock.view_inventory_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="%(action_start_inventory_scanning)d" type="action" string="Start Scan" attrs="{'invisible': [('id', '=', False)]}" />
+                </xpath>
+                <field name="scanning_box" position="replace"></field>
+            </field>
+        </record>
+
+
+ <record id="stock_inventory_line_tree2_adjsutment" model="ir.ui.view">
+            <field name="name">"stock.stock.inventory.line.tree2.adjsutment</field>
+            <field name="model">stock.inventory.line</field>
+            <field name="priority">17</field>
+            <field name="inherit_id" ref="stock.stock_inventory_line_tree"/>
+            <field name="arch" type="xml">
+<!--                <xpath expr="//field[@name='product_qty']" position="inside">-->
+                  <field name="product_qty" position="after">
+                    <field name="scanned_quantity"/>
+                  </field>
+
+<!--                </xpath>-->
+
+            </field>
+        </record>
+
+
+
+
+    <record id="adjustment_stock_inventory_inherit_accountdate" model="ir.ui.view">
+            <field name="name">stock.inventory.inherit</field>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="stock_account.view_inventory_form_inherit"/>
+            <field name="arch" type="xml">
+
+
+                <field name="product_ids" position="after">
+                    <field name="location_id" />
+
+                </field>
+                  <field name="accounting_date" position="after">
+                    <field name="scanning_mode"  attrs="{'required':True}" />
+                </field>
+
+
+
+
+            </field>
+        </record>
+
+
+
+
+    <record  id="stock.model_stock_inventory_line_action_reset_product_qty" model="ir.actions.server">
+        <field name="name">Set counted quantities to 0</field>
+        <field name="model_id" ref="model_stock_inventory_line"/>
+        <field name="binding_model_id" ref="model_stock_inventory_line"/>
+
+
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records.action_reset_product_qty()
+        </field>
+    </record>
+
+<record id="model_stock_inventory_line_action_sync_quantity" model="ir.actions.server">
+        <field name="name">Sync Scanned Quantity</field>
+        <field name="model_id" ref="model_stock_inventory_line"/>
+        <field name="binding_model_id" ref="model_stock_inventory_line"/>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records.synchronize_inventorylines()
+        </field>
+    </record>
+
+    </odoo>

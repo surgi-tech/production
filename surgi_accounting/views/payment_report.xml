@@ -1,0 +1,76 @@
+<odoo>
+    <data>
+
+        <template id="edit_report_customer_payment_inherit_report" inherit_id="account.report_payment_receipt_document">
+
+
+            <xpath expr="//div[@class='page']//div[@class='row mb64']" position="before">
+
+                <div class="row">
+                    <div class="col-6">
+                        <strong>Receipt Number (Payment) : </strong><span t-field="o.collection_receipt_number"/>
+                    </div>
+                    <div class="col-6">
+                        <strong>Created By : </strong><span t-field="o.create_uid"/>
+                    </div>
+
+                    <div class="col-6">
+                        <strong>Check Number : </strong><span t-field="o.check_number"/>
+                    </div>
+                    <div class="col-6">
+                        <strong>Due Date : </strong><span t-field="o.date_due"/>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-6">
+                        <strong>Check Number : </strong><span t-field="o.check_number"/>
+                    </div>
+                    <div class="col-6">
+                        <strong>Due Date : </strong><span t-field="o.date_due"/>
+                    </div></div>
+
+            </xpath>
+
+            <xpath expr="//div[@class='page']" position="inside">
+                <br/>
+                <br/>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th><span>Date</span></th>
+                            <th><span>Company</span></th>
+                            <th class="text-right"><span>Journal Entry</span></th>
+                            <th class="text-right"><span>Account</span></th>
+                            <th class="text-right"><span>Partner</span></th>
+                            <th class="text-right"><span>Label</span></th>
+                            <th class="text-right"><span>Matching</span></th>
+                            <th class="text-right"><span>Debit</span></th>
+                            <th class="text-right"><span>Credit</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="o.move_line_ids" t-as="move">
+                            <td><span t-field="move.date"/></td>
+                            <td><span t-field="move.company_id.name"/></td>
+                            <td class="text-right"><span t-field="move.move_id.name"/></td>
+                            <td class="text-right"><span t-esc="move.account_id.name"/></td>
+                            <td class="text-right"><span t-field="move.partner_id.name"/></td>
+                            <td class="text-right"><span t-field="move.name"/></td>
+                            <td class="text-right"><span t-field="move.full_reconcile_id.name"/></td>
+                            <td class="text-right"><span t-field="move.debit"/></td>
+                            <td class="text-right"><span t-field="move.credit"/></td>
+                        </tr>
+                    </tbody>
+
+
+                </table>
+            </xpath>
+
+        </template>
+
+
+    </data>
+</odoo>

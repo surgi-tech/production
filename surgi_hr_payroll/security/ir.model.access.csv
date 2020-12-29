@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rank_rank,access_rank_rank,model_rank_rank,hr.group_hr_user,1,1,1,0
+access_rang_rang,access_rang_rang,model_rang_rang,hr.group_hr_user,1,1,1,0
+access_grade_grade,access_grade_grade,model_grade_grade,hr.group_hr_user,1,1,1,0
+access_increment_contract_user,access_increment_contract,model_increment_contract,hr_payroll.group_hr_payroll_user,1,1,1,0
+access_increment_contract_manager,access_increment_contract,model_increment_contract,hr_payroll.group_hr_payroll_manager,1,1,1,1
+

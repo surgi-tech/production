@@ -1,0 +1,19 @@
+
+<templates>
+<!--       <record id="action_start_inventory_scanning" model="ir.actions.client">-->
+<!--            <field name="name">Start Scanning</field>-->
+<!--            <field name="tag">stock.inventory</field>-->
+<!--        </record>-->
+<!--    <t t-extend="ListView.buttons">-->
+<!--        <t t-jquery="button.o_list_button_add" t-operation="after" >-->
+<!--            <button  type="action" t-if='widget.modelName == "stock.inventory.line"'-->
+
+<!--              class="btn btn-primary o_start_scan_adjust o_list_button_upload"-->
+
+
+
+<!--            >Start Scan</button>-->
+
+<!--        </t>-->
+<!--    </t>-->
+</templates>

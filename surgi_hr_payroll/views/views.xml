@@ -1,0 +1,119 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="contract_incee_tree">
+      <field name="name">contract.incee.tree</field>
+      <field name="model">increment.contract</field>
+      <field name="arch" type="xml">
+            <tree string="Increment" editable="bottom">
+
+                <field name="increment_id" />
+                <field name="job_ides" />
+                <field name="grade_id" />
+                <field name="rank_id" />
+                <field name="rang_id" />
+                <field name="year_increment" />
+                <field name="current_salary" />
+                <field name="amount_increment" />
+                <field name="total_empp_salary"  />
+                <field name="total_current_salary" />
+
+            </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="contract_inc_form">
+      <field name="name">contract.inc.form</field>
+      <field name="model">increment.contract</field>
+      <field name="arch" type="xml">
+            <form string="Employee Increment">
+                <sheet colspan="4">
+
+                    <group>
+                        <group colspan="8">
+                            <group>
+                                <field name="increment_id" />
+                                <field name="job_ides" forcesave='1'/>
+                            </group>
+                            <group>
+                                 <field name="current_salary" />
+                                <field name="amount_increment" forcesave='1'/>
+
+                                <field name="total_empp_salary" forcesave='1' />
+                                <field name="total_current_salary" />
+                            </group>
+                            <group>
+                                <field name="grade_id" forcesave='1'/>
+                                <field name="rank_id" forcesave='1'/>
+                                <field name="rang_id" forcesave='1'/>
+                            </group>
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="increment_contract_action">
+      <field name="name">Increment Contract Employee</field>
+      <field name="res_model">increment.contract</field>
+      <field name="view_mode">tree,form,pivot</field>
+    </record>
+
+
+      <record id="view_increment_pivot" model="ir.ui.view">
+         <field name="name">increment.contract.pivot</field>
+         <field name="model">increment.contract</field>
+         <field name="arch" type="xml">
+             <pivot string="Increment Historical" disable_linking="True">
+                 <field name="employee_id" type="row"/>
+                 <field name="year_increment" type="col"/>
+ 
+                 <field name="amount_increment" type="measure"/>
+                 <field name="job_ides" type="measure"/>
+
+
+             </pivot>
+         </field>
+    </record>
+
+
+
+    <!-- server action to the one above -->
+
+<!--    <record id="hr_contract_form_cont_inherit" model="ir.ui.view">-->
+<!--            <field name="name">hr.contract.view.form.cont.inherit</field>-->
+<!--            <field name="model">hr.contract</field>-->
+<!--            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//notebook/page[@name='other']" position="after">-->
+<!--                    <page name="icrement_emp_surgi" string="increment historical">-->
+<!--                        <group colspan="8">-->
+
+<!--                                <field name="increment_contr" string="increment" >-->
+<!--                                    <field name="increment_id"/>-->
+<!--                                    <tree editable="bottom">-->
+<!--                                        <field name="year_incerment" forcesave='1'/>-->
+<!--                                        <field name="amount_increment" forcesave='1'/>-->
+
+<!--                                    </tree>-->
+<!--                                </field>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--    </record>-->
+
+
+
+
+
+    <menuitem name="Employee Increment" id="contract_inccrement_menu" parent="hr_work_entry_contract.menu_hr_payroll_root" action="increment_contract_action" groups="hr_payroll.group_hr_payroll_user" sequence="100"/>
+
+  </data>
+</odoo>

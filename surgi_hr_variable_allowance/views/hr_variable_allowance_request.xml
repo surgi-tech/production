@@ -1,0 +1,61 @@
+<odoo>
+    <data>
+
+        <record id="variable_allowance_request_form" model="ir.ui.view">
+            <field name="name">Variable Allowance Form</field>
+            <field name="model">hr.variable.allowance.request</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="True"/>
+                            <field name="date" required="True"/>
+                            <field name="employee_id" required="True"/>
+                            <field name="contract_id" required="True"/>
+                        </group>
+                        <group>
+                            <field name="rule_id" required="True"/>
+                            <field name="rule_id_allowance_type" invisible="True"/>
+                        </group>
+                        <group>
+                            <field name="tmp_amount" invisible="True"/>
+                            <field name="amount_rate_multiplier" attrs="{'invisible': [('rule_id_allowance_type', '=', 'fixed')]}"/>
+                            <field name="amount" attrs="{'readonly': [('rule_id_allowance_type', '!=', 'fixed')]}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="variable_allowance_request_tree" model="ir.ui.view">
+            <field name="name">Variable allowance tree</field>
+            <field name="model">hr.variable.allowance.request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="date"/>
+                    <field name="amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="variable_allowance_request_action" model="ir.actions.act_window">
+            <field name="name">Variable Allowance</field>
+            <field name="res_model">hr.variable.allowance.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create new Variable Allowance Request.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="variable_allowance_submenu" name="Variable Allowance"
+                  groups="hr.group_hr_manager"/>
+        <menuitem id="variable_allowance_request" name="Variable Allowance Request"
+                  parent="variable_allowance_submenu"
+                  action="variable_allowance_request_action"
+                  groups="hr.group_hr_manager"/>
+    </data>
+</odoo>

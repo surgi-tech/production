@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+           <!-- ========res.partner.inherit.view=========== -->
+
+        <record id="view_operations_surgi_partner_inherit" model="ir.ui.view">
+            <field name="name">res.operations.partner.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="surgi_partner.res_partner_new_fields"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='sale_team']" position="after">
+                        <group name="Operation" string="Operation">
+                            <group>
+                                <field name="customers_operations_location" domain="[('usage','=','view')]" invisible="1"/>
+                                <field name="customers_operations_location2" domain="[('usage','=','view')]" invisible="1"/>
+                                <field name="operations_location" readonly="1"/>
+                                <field name="customers_sales_order_location_id" readonly="1"/>
+                            </group>
+                          <group>
+                                <field name="is_surgeon"/>
+                                <field name="is_hospital"/>
+                                <field name="is_patient"/>
+                            </group>
+                        </group>
+        </xpath>
+                <!--
+                <xpath expr="//field[@name='function']" position="before">
+                    <field name="national_id" attrs="{'required': [('is_patient','=',True)]}"/>
+                    <field name="gender" attrs="{'required': [('is_patient','=',True)]}"/>
+                </xpath>
+                 -->
+            </field>
+        </record>
+    </data>
+</odoo>

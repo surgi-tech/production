@@ -1,0 +1,43 @@
+<odoo>
+
+    <data>
+
+
+        <record id="evaluation_form_wizard_page" model="ir.ui.view">
+            <field name="name">Evaluation Wizard</field>
+            <field name="model">evaluation.wizard</field>
+            <field name="arch" type="xml">
+                <form string="G2M">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="start_date"/>
+                        </group>
+                        <group>
+                            <field name="end_date"/>
+                            <field name="employee_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="evaluation_create" string="Create Evaluation" class="oe_right oe_highlight" type="object"/>
+                        <button string="Cancel" class="oe_right" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="surgi_action_wizard_page_evaluation" model="ir.actions.act_window">
+            <field name="name">Evaluation Wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">evaluation.wizard</field>
+            <!--<field name="view_type">form</field>-->
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="evaluation_form_wizard_page"/>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="surgi_wizard_page_evalaution" name="Evaluation Wizard" parent="surgi_evaluation_menuitem" action="surgi_action_wizard_page_evaluation" groups="hr.group_hr_user"
+                  sequence="13"/>
+
+
+    </data>
+
+</odoo>

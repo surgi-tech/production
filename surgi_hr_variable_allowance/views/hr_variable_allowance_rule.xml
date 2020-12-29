@@ -1,0 +1,48 @@
+<odoo>
+    <data>
+        <record id="view_variable_allowance_rule_form" model="ir.ui.view">
+            <field name="name">Variable Allowance Rule Form</field>
+            <field name="model">hr.variable.allowance.rule</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="create_salary_rule" string="Create Salary rule" type="object"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" required="True"/>
+                            <field name="code" required="True"/>
+                            <field name="allowance_type" required="True"/>
+                            <field name="allowance_or_deduction" string="Allowance/Deduction" required="True"/>
+                            <field name="rule"
+                                   attrs="{'invisible':[('allowance_type', '!=', 'rule')], 'required':[('allowance_type', '=', 'rule')]}"
+                                   placeholder="To access contract's fields use 'contract', Example contract.wage * 2"/>
+                        </group>
+                        <group>
+                            <field name="payslip_input_type_id" readonly="1"/>
+                            <field name="salary_rule_id" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="variable_allowance_rule_action" model="ir.actions.act_window">
+            <field name="name">Variable Allowance Rule</field>
+            <field name="res_model">hr.variable.allowance.rule</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create new Variable Allowance Rule.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="variable_allowance_rule"
+                  name="Variable Allowance Rule"
+                  groups="hr.group_hr_manager"
+                  parent="surgi_hr_variable_allowance.variable_allowance_submenu"
+                  action="variable_allowance_rule_action"
+        />
+    </data>
+</odoo>
