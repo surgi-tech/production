@@ -9,6 +9,7 @@ class CustomStockProductionLot(models.Model):
     _inherit = "stock.production.lot"
 
     lot_name = fields.Char(string='Lot Name',  help="Unique Serial Number")
+    lot_no = fields.Char(string='Lot Fake no work with',  help="Unique Serial Number")
     expiration_date = fields.Date()
     gs_mrn = fields.Char(string='GS MRN')
     import_ref = fields.Char(string='Import Ref.')
