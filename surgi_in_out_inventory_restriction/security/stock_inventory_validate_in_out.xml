@@ -22,11 +22,11 @@
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
-        <record id="validate_inventory_adjustment_group" model="res.groups">
-            <field name="name">Can Validate Inventory Adjustment</field>
-            <field name="category_id" ref="warehouse_validate_in_out"/>
-            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-        </record>
+<!--        <record id="validate_inventory_adjustment_group" model="res.groups">-->
+<!--            <field name="name">Can Validate Inventory Adjustment</field>-->
+<!--            <field name="category_id" ref="warehouse_validate_in_out"/>-->
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>-->
+<!--        </record>-->
 
     </data>
 </odoo>

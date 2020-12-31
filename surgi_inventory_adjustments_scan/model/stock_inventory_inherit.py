@@ -16,7 +16,7 @@ class stock_inventory_inherit(models.Model):
         readonly=True, check_company=True,
         states={'draft': [('readonly', False)]},
         domain="[]")
-
+    block = fields.Boolean(string="Block")
     scanning_box = fields.Char(string="Scan")
     scanning_mode = fields.Selection(
         [('internal_ref', 'By Internal reference'), ('lot_serial_no', 'By Lot/Serial Number')], string="Scanning Mode")

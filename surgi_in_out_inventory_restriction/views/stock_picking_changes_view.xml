@@ -64,16 +64,16 @@
             </field>
         </record>
 
-        <record id="stock_inventory_form_inherit" model="ir.ui.view">
-            <field name="name">stock.inventory.form.inherit</field>
-            <field name="model">stock.inventory</field>
-            <field name="inherit_id" ref="stock.view_inventory_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//button[@name='action_validate']" position="replace">
-                 <button name="action_validate" string="Validate Inventory" type="object" attrs="{'invisible': ['|', ('state', '!=', 'confirm'), ('line_ids', '!=', [])]}" groups="surgi_in_out_inventory_restriction.validate_inventory_adjustment_group"/>
-                </xpath>
-            </field>
-        </record>
+<!--        <record id="stock_inventory_form_inherit" model="ir.ui.view">-->
+<!--            <field name="name">stock.inventory.form.inherit</field>-->
+<!--            <field name="model">stock.inventory</field>-->
+<!--            <field name="inherit_id" ref="stock.view_inventory_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//button[@name='action_validate']" position="replace">-->
+<!--                 <button name="action_validate" string="Validate Inventory" type="object" attrs="{'invisible': ['|', ('state', '!=', 'confirm'), ('line_ids', '!=', [])]}" groups="surgi_in_out_inventory_restriction.validate_inventory_adjustment_group"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
 
 
     </data>
