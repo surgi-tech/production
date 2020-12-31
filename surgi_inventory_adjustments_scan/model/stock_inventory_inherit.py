@@ -94,7 +94,7 @@ class stock_inventory_inherit(models.Model):
                     {'id': lot.id, 'product_id': lot.product_id.id, 'lot_no': serial, 'lot_name': lot_name,
                      # Ahmed Hashed 'expiration_date': str(lot.expiration_date)
                      })
-                datalower[serial.lower].append(
+                datalower[str(serial).lower()].append(
                     {'id': lot.id, 'product_id': lot.product_id.id, 'lot_no': serial, 'lot_name': lot_name,
                      # Ahmed Hashed 'expiration_date': str(lot.expiration_date)
                      })
