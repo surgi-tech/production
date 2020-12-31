@@ -337,7 +337,8 @@ class stock_picking_inherit(models.Model):
                 'scan_lines': linesData,
                 'type_of_scaning': rec.type_of_scaning,
                 'pickin_Typ_code': rec.pickin_Typ_code,
-                'usecreatelot': usecreatelotobj
+                'usecreatelot': usecreatelotobj,
+                'company_id':rec.company_id.id
             }
             print(returnData);
            # logging.warning(returnData)
