@@ -87,7 +87,7 @@
 
                <xpath expr="//button[@name='action_start']" position="attributes">
 
-                <attribute name="attrs">{'invisible': ['|',('state', '!=', 'draft'),('block' ,'=', True)]}</attribute>
+                <attribute name="attrs">{'invisible': [('state', '!=', 'draft')]}</attribute>
                 <attribute name="states"/>
                 </xpath>
 
@@ -121,13 +121,23 @@
 
 
 
-
+<record id="stock.model_stock_inventory_line_action_recompute_quantity" model="ir.actions.server">
+        <field name="name">Recompute On Hand Quantity</field>
+        <field name="model_id" ref="model_stock_inventory_line"/>
+        <field name="binding_model_id" ref="model_stock_inventory_line"/>
+        <field name="state">code</field>
+     <field name="groups_id" eval="[(4, ref('stock.group_stock_manager'))]"/>
+        <field name="code">
+if records:
+    action = records.action_refresh_quantity()
+        </field>
+    </record>
 
     <record  id="stock.model_stock_inventory_line_action_reset_product_qty" model="ir.actions.server">
         <field name="name">Set counted quantities to 0</field>
         <field name="model_id" ref="model_stock_inventory_line"/>
         <field name="binding_model_id" ref="model_stock_inventory_line"/>
-
+<field name="groups_id" eval="[(4, ref('stock.group_stock_manager'))]"/>
 
         <field name="state">code</field>
         <field name="code">
@@ -140,6 +150,7 @@ if records:
         <field name="name">Sync Scanned Quantity</field>
         <field name="model_id" ref="model_stock_inventory_line"/>
         <field name="binding_model_id" ref="model_stock_inventory_line"/>
+    <field name="groups_id" eval="[(4, ref('stock.group_stock_manager'))]"/>
         <field name="state">code</field>
         <field name="code">
 if records:

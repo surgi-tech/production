@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+         <menuitem
+                id="tender_menuitem"
+                name="Tender"
+                web_icon="surgitech_tender,static/src/img/icon.png"
+                sequence="1"
+                groups="surgitech_tender_officer_group,surgitech_tender_manager_group"/>
+
+        <menuitem
+                id="tender_configration_menuitem"
+                name="Configration"
+                parent="tender_menuitem"
+                groups="surgitech_tender_officer_group,surgitech_tender_manager_group"/>
+
+                                                                                <!-- ========tender.hospital.sectors.view========== -->
+
+        <record id="hospital_sectors_tree" model="ir.ui.view">
+            <field name="name">hospital.sectors.tree</field>
+            <field name="model">hospital.sectors</field>
+            <field name="arch" type="xml">
+                <tree string="Sectors">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="surgitech_hospital_sectors_action">
+            <field name="name">Sectors</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hospital.sectors</field>
+            <field name="view_mode">tree,form</field>
+<!--            <field name="view_type">form</field>-->
+        </record>
+
+        <menuitem id="surgitech_hospital_sectors_action_menu" name="Tender Sectors" parent="tender_configration_menuitem" action="surgitech_hospital_sectors_action" sequence="2"/>
+
+                                                                                <!-- ========tender.hospital.categories.view========== -->
+
+        <record id="hospital_categories_tree" model="ir.ui.view">
+            <field name="name">hospital.categories.tree</field>
+            <field name="model">hospital.categories</field>
+            <field name="arch" type="xml">
+                <tree string="Categories">
+                    <field name="name"/>
+                    <field name="sector_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="surgitech_hospital_categories_action">
+            <field name="name">Categories</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hospital.categories</field>
+            <field name="view_mode">tree,form</field>
+<!--            <field name="view_type">form</field>-->
+        </record>
+
+        <menuitem id="surgitech_hospital_categories_action_menu" name="Tender Categories" parent="tender_configration_menuitem" action="surgitech_hospital_categories_action" sequence="3"/>
+
+                                                                                <!-- ========tender.operation.type.parent.view========== -->
+
+        <record id="operation_type_parent_tree_view" model="ir.ui.view">
+            <field name="name">product.operation.type.parent.tree</field>
+            <field name="model">product.operation.type.parent</field>
+            <field name="arch" type="xml">
+                <tree string="Operation Type Parent Category">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="operation_type_parent_tree_action">
+            <field name="name">Parent Categories</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.operation.type.parent</field>
+            <field name="view_mode">tree,form</field>
+<!--            <field name="view_type">form</field>-->
+        </record>
+
+        <menuitem id="operation_type_parent_tree_action_menu" name="Operation Types Parent Categories" parent="tender_configration_menuitem" action="operation_type_parent_tree_action" sequence="10"/>
+
+        <record id="operation_type_tree_view_inherit" model="ir.ui.view">
+            <field name="name">operation.type.inherit</field>
+            <field name="model">product.operation.type</field>
+            <field name="inherit_id" ref="surgi_operation.operation_type_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="parent_category_id" />
+                </xpath>
+            </field>
+        </record>
+                                                                        <!-- ========operation.operation.inherit=========== -->
+
+        <record id="ooperation_form_view_inherit" model="ir.ui.view">
+            <field name="name">operation.operation.inherit</field>
+            <field name="model">operation.operation</field>
+            <field name="inherit_id" ref="surgi_operation.operation_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="tender_id" invisible="1" />
+                    <field name="can_cancel" invisible="1"/>
+                </xpath>
+                <xpath expr="//button[@name='open_wizard_cancel_operation']" position="replace">
+                    <button name="open_wizard_cancel_operation" states="" type="object" string="Cancel"
+                            icon="fa-pencil" class="oe_highlight" attrs="{'invisible': ['|','|',('state','=','cancel'),('tender_id','>',0),('can_cancel','=',False)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='component_ids']" position="replace">
+                    <field name="component_ids" widget="many2many_checkboxes" domain="[('operation_type', '=',operation_type),('operation_component','=',True)]" attrs="{'invisible': [('tender_id','>=',1)]}"/>
+                    <field name="tender_component_ids" widget="many2many_checkboxes" domain="[('operation_component','=',True)]" attrs="{'invisible': [('tender_id','=',0)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='notes']" position="after">
+                    <field name="hospital_additional_notes" />
+                </xpath>
+            </field>
+        </record>
+
+                                                                    <!-- ========tender.operation.inherit=========== -->
+
+<!--        <record id="warehouse_coordinator_operations_form_view_inhr" model="ir.ui.view">-->
+<!--            <field name="name">Warehouse Coordinator Operations inhr</field>-->
+<!--            <field name="model">operation.operation</field>-->
+<!--            <field name="inherit_id" ref="surgitech_tender.ooperation_form_view_inherit" />-->
+<!--            &lt;!&ndash;<field name="groups_id" eval="[(4, ref('surgitech_operation.group_warehouse_coordinator'))]"/>&ndash;&gt;-->
+<!--            <field name="arch" type="xml">-->
+<!--                <field name="tender_id" position="after">-->
+<!--                    <field name="is_coordinator" invisible="1"/>-->
+<!--                </field>-->
+<!--                <xpath expr="//field[@name='tender_id']" position="attributes">-->
+<!--                    <attribute name="attrs">{'readonly': [('is_coordinator','=',True)]}</attribute>-->
+<!--                </xpath>-->
+
+<!--                <xpath expr="//field[@name='component_ids']" position="attributes">-->
+<!--                    <attribute name="attrs">{'readonly': [('is_coordinator','=',True)], 'invisible': [('tender_id','>=',1)]}</attribute>-->
+<!--                </xpath>-->
+
+<!--                <xpath expr="//field[@name='tender_component_ids']" position="attributes">-->
+<!--                    <attribute name="attrs">{'readonly': [('is_coordinator','=',True)], 'invisible': [('tender_id','=',0)]}</attribute>-->
+<!--                </xpath>-->
+
+<!--                <xpath expr="//field[@name='hospital_additional_notes']" position="attributes">-->
+<!--                    <attribute name="attrs">{'readonly': [('is_coordinator','=',True)]}</attribute>-->
+<!--                </xpath>-->
+
+<!--            </field>-->
+<!--        </record>-->
+
+        <record id="view_surgitech_tender_partner_form_inherit" model="ir.ui.view">
+            <field name="name">surgitech tender partner</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+        <xpath expr="//notebook/page[@name='sales_configuration']" position="inside">
+            <!--<page name="sales_configuration" string="Sales Configuration" attrs="{'invisible': [('customer', '=', False)]}">-->
+                                <group string="Tender">
+                                    <field name="integration" readonly="0"/>
+                                    <field name="tender_id" readonly="0"/>
+                                    <field name="tender_sector_id" readonly="0"/>
+                                    <field name="tender_category_id" readonly="0"/>
+                                </group>
+                        <!--</page>-->
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
