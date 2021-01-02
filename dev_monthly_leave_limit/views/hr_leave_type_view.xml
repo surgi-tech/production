@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2015 DevIntelle Consulting Service Pvt.Ltd (<http://www.devintellecs.com>).
+
+For Module Support : devintelle@gmail.com  or Skype : devintelle
+ -->
+<odoo>
+  <record id="leave_type_dev_monthly_leave_limit_inherited" model="ir.ui.view">
+	 <field name="name">leave.type.dev.monthly.leave.limit.inherited</field>
+	 <field name="model">hr.leave.type</field>
+	 <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+	 <field name="arch" type="xml">
+		 <xpath expr="//group[@name='calendar']" position="after">
+            <group name="leave_limit_options" string="Leave Limit">
+                <field name="flag_monthly_limit"/>
+                <field name="leave_limit_days" attrs="{'invisible':[('flag_monthly_limit','=',False)],
+                'required':[('flag_monthly_limit','=',True)]}"/>
+            </group>
+		 </xpath>
+	</field>
+ </record>
+</odoo>

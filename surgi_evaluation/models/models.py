@@ -10,13 +10,6 @@ class NewModule(models.Model):
 
     evaluation_method = fields.Selection(string="Evaluation Method", selection=[('dm', 'Direct Manager'), ('average', 'Average'),('pm','Parent Manager') ], required=False, )
 
-    # @api.model
-    # def name_search(self, name='', args=None, operator='ilike', limit=100):
-    #     args = args or []
-    #     domain_name = ['|', ('name', 'ilike', name), ('pin', 'ilike', name)]
-    #     recs = self.search(domain_name + args, limit=limit)
-    #     return recs.name_get()
-
 
 class NewModule(models.Model):
     _inherit = 'hr.job'

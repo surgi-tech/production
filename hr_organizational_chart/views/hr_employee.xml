@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+
+        <record id="form_view_hr_employee_inherit_count" model="ir.ui.view">
+            <field name="name">name.hr.employee.inherit.form.count</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='department_id']" position="after">
+                    <field name="count_man_employee"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

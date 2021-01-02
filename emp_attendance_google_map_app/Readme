@@ -1,0 +1,15 @@
+Installation Manual
+
+Before Installing this module Install the following packages:
+
+sudo pip3 install googlemaps
+sudo pip3 install python-googlegeocoder
+sudo pip3 install geopy
+
+then
+
+Configure google project and get api key for googlemaps
+
+https://developers.google.com/maps/documentation/javascript/get-api-key
+
+

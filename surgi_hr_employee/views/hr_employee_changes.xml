@@ -65,7 +65,6 @@
                         <group name="additinal_data" string="Additinal Data">
                             <field name="labor_linc_no"/>
                             <field name="resignation_date"/>
-
                         </group>
                             </group>
                         </page>
