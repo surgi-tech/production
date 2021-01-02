@@ -25,7 +25,7 @@
                     <header>
                         <field name="state" widget="statusbar"/>
                         <button name="rest_kpi" type="object" string="Rest to draft"
-                                attrs="{'invisible':['|',('state','=','draft')]}"/>
+                                attrs="{'invisible':[('state','=','draft')]}"/>
                         <button name="submit_kpi" type="object" string="Submit KPI" class="oe_highlight"
                                 attrs="{'invisible':['|',('state','!=','draft'),('active_kpi','=',True)]}"/>
                         <button name="review_kpi" type="object" string="Reviewing KPI" class="oe_highlight"

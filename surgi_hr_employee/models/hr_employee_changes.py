@@ -1,6 +1,7 @@
 from odoo import api, _
 from odoo import fields
 from odoo import models
+from odoo.models import _logger
 from odoo.exceptions import ValidationError
 from datetime import datetime, date
 from dateutil import relativedelta
@@ -14,8 +15,8 @@ class DepartmentFields(models.Model):
 
 class HrEmployeeBaseDate(models.AbstractModel):
     _inherit = "hr.employee.base"
+
     resignation_date = fields.Date()
-    parent_id = fields.Many2one('hr.employee', 'Manager')
     labor_linc_no = fields.Char(string="Labor Linc No.", )
     id_from = fields.Char(string="ID From", store=True)
     military_status = fields.Selection(string="Military Status",
@@ -152,15 +153,22 @@ class HREmployeeFields(models.Model):
         return not any(char.isdigit() for char in name)
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
-        if self._name == 'hr.employee':
-            if not self._is_name(name):
-                self._rec_name = 'registration_number'
-            res = super().name_search(name, args, operator, limit)
-        else:
-            res = super().name_search(name, args, operator, limit)
-        return res
+    def _name_search(self, name='', args=None, operator='ilike', limit=100, name_get_uid=None):
+        """ _name_search(name='', args=None, operator='ilike', limit=100, name_get_uid=None) -> ids
 
+               Private implementation of name_search, allows passing a dedicated user
+               for the name_get part to solve some access rights issues.
+               """
+        args = list(args or [])
+        # optimize out the default criterion of ``ilike ''`` that matches everything
+        if not self._rec_name:
+            _logger.warning("Cannot execute name_search, no _rec_name defined on %s", self._name)
+        elif not (name == '' and operator == 'ilike'):
+            if self._name == 'hr.employee' and not self._is_name(name):
+                args += [('registration_number', operator, name)]
+            else:
+                args += [(self._rec_name, operator, name)]
+        return self._search(args, limit=limit, access_rights_uid=name_get_uid)
 
     @api.constrains('in_direct_parent_id')
     def _check_parent_id(self):
