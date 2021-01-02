@@ -51,7 +51,6 @@
         <record id="structure_attendance_sheet" model="hr.payroll.structure">
             <field name="name">Attendance Sheet Salary Structure</field>
             <field name="type_id" ref="structure_type_attendance_sheet"/>
-            <field name="regular_pay" eval="True"/>
             <field name="country_id" eval="False"/>
             <field name="unpaid_work_entry_type_ids"
                    eval="[
@@ -67,7 +66,8 @@
             <field name="allocation_type">fixed</field>
             <field name="color_name">lightgreen</field>
             <field name="request_unit">hour</field>
-            <field name="validation_type">both</field>
+            <field name="leave_validation_type">both</field>
+            <field name="allocation_validation_type">both</field>
         </record>
 
 

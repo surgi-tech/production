@@ -6,10 +6,13 @@
             <field name="model">hr.contract</field>
             <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='trial_date_end']"
-                       position="after">
-                    <field name="multi_shift"/>
-                    <field name="shift_allowance"/>
+                <xpath expr="//page[@name='information']" position="after">
+                    <page string="Surgi attendance sheet" name="surgi_attendance_sheet">
+                      <group>
+                        <field name="multi_shift"/>
+                        <field name="shift_allowance"/>
+                      </group>
+                    </page>
                 </xpath>
             </field>
         </record>
