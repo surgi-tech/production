@@ -50,6 +50,11 @@ class surgitech_tender_operation_type(models.Model):
 
     tender_id = fields.Integer('Tender Id')
     parent_category_id = fields.Many2one('product.operation.type.parent', 'Parent Category', ondelete="set null")
+    
+class surgitech_tender_operation_product(models.Model):
+    _inherit = 'product.template'
+    #product_tender_rel=fields.many2many("operation.operation","tender_component_ids")
+    tender_id = fields.Integer('Tender Id')
 
 class surgitech_tender_operation_product(models.Model):
     _inherit = 'product.product'
