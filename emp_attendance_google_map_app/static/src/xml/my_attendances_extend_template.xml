@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <template xml:space="preserve">
+
+		<t t-extend="HrAttendanceGreetingMessage">
+			<t t-jquery=".o_hr_attendance_random_message" t-operation="after">
+				<t t-if="widget.attendance.check_out">
+					<div class="mt0">
+						<p><span style="font-weight: 600;color:teal;">Location : </span><span class="mylocation" /></p>
+					</div>
+					<div class="mt0">
+						<p><span style="font-weight: 600;color:teal;">Operating System : </span><span class="myos" /></p>
+					</div>
+					<div class="mt0">
+						<p><span style="font-weight: 600;color:teal;">Browser : </span><span class="mybrowser" /></p>
+					</div>
+				</t>
+				<t t-else="">
+					<div class="mt0">
+						<p><span style="font-weight: 600;color:teal;">Location : </span><span class="mylocation" /></p>
+					</div>
+					<div class="mt0">
+						<p><span style="font-weight: 600;color:teal;">Operating System : </span><span class="myos" /></p>
+					</div>
+					<div class="mt0">
+						<p><span style="font-weight: 600;color:teal;">Browser : </span><span class="mybrowser" /></p>
+					</div>
+				</t>
+			</t>
+		</t>
+
+	</template>

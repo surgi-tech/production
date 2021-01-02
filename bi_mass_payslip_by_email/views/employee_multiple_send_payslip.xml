@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <act_window
+                    id="action_mass_invoice"
+                    name="Send Payslip By Email"
+                    binding_model="hr.payslip"
+                    res_model="send.multiple.mail"
+                    view_mode="form"
+                    target="new"
+                    />
+            
+            <record id="view_wizard_employee_payslip_send_mail" model="ir.ui.view">
+                <field name="name">wizard.employee.payslip.form</field>
+                <field name="model">send.multiple.mail</field>
+                <field name="type">form</field>
+                <field name="priority" eval="8"/>
+                <field name="arch" type="xml">
+                <form string="Employee Payslip Email Send">
+                
+                		<b>Do You want to send multiple payslip by email?</b>
+                    <footer>
+                        <button string="Send" type="object" name="send_muliple_mail"/>
+                         Or 
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

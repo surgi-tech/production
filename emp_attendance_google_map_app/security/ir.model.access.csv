@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_odoo_map,access_odoo_map_name,model_odoo_map,,1,1,1,1
