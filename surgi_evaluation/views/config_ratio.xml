@@ -6,7 +6,7 @@
             <field name="name">Competencies Ratios</field>
             <field name="model">competencies.ratio</field>
             <field name="arch" type="xml">
-                <form string="Ratio" create="false">
+                <form string="Ratio">
                     <sheet>
                         <group>
                             <field name="core_ratio" widget="percentage" groups="hr.group_hr_user"/>
@@ -22,7 +22,7 @@
             <field name="name">Competencies Ratios</field>
             <field name="model">competencies.ratio</field>
             <field name="arch" type="xml">
-                <tree string="Ratio" create="false">
+                <tree string="Ratio">
                     <field name="core_ratio"/>
                     <field name="function_ratio"/>
                     <field name="kpi_ratio"/>

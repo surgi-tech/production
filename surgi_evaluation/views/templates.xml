@@ -23,7 +23,7 @@
             <field name="arch" type="xml">
             <form string="" >
                     <header>
-                        <field name="state" widget="statusbar"/>
+                        <field name="state" widget="statusbar" readonly="1"/>
                         <button name="rest_kpi" type="object" string="Rest to draft"
                                 attrs="{'invisible':[('state','=','draft')]}"/>
                         <button name="submit_kpi" type="object" string="Submit KPI" class="oe_highlight"
