@@ -41,26 +41,26 @@ class sale_order_line(models.Model):
         'Lines in pack'
     )
 
-    @api.constrains('product_id', 'price_unit', 'product_uom_qty')
-    def expand_pack_line(self):
-        detailed_packs = ['components_price', 'totalice_price', 'fixed_price']
-        if (
-                self.state == 'draft' and
-                self.product_id.pack and
-                self.pack_type in detailed_packs):
-            for subline in self.product_id.pack_line_ids:
-                vals = subline.get_sale_order_line_vals(
-                    self, self.order_id)
-                vals['sequence'] = self.sequence
-                existing_subline = self.search([
-                    ('product_id', '=', subline.product_id.id),
-                    ('pack_parent_line_id', '=', self.id),
-                    ], limit=1)
-                # if subline already exists we update, if not we create
-                if existing_subline:
-                    existing_subline.write(vals)
-                else:
-                    self.create(vals)
+    # @api.constrains('product_id', 'price_unit', 'product_uom_qty')
+    # def expand_pack_line(self):
+    #     detailed_packs = ['components_price', 'totalice_price', 'fixed_price']
+    #     if (
+    #             self.state == 'draft' and
+    #             self.product_id.pack and
+    #             self.pack_type in detailed_packs):
+    #         for subline in self.product_id.pack_line_ids:
+    #             vals = subline.get_sale_order_line_vals(
+    #                 self, self.order_id)
+    #             vals['sequence'] = self.sequence
+    #             existing_subline = self.search([
+    #                 ('product_id', '=', subline.product_id.id),
+    #                 ('pack_parent_line_id', '=', self.id),
+    #                 ], limit=1)
+    #             # if subline already exists we update, if not we create
+    #             if existing_subline:
+    #                 existing_subline.write(vals)
+    #             else:
+    #                 self.create(vals)
 
     def button_save_data(self):
         return True
@@ -96,22 +96,22 @@ class sale_order_line(models.Model):
     def _onchange_pack_line_ids(self):
         self.price_unit = self.pack_total
 
-    @api.constrains('product_id')
-    def expand_none_detailed_pack(self):
-        if self.product_id.pack_price_type == 'none_detailed_assited_price':
-            # remove previus existing lines
-            self.pack_line_ids.unlink()
-
-            # create a sale pack line for each product pack line
-            for pack_line in self.product_id.pack_line_ids:
-                price_unit = pack_line.product_id.lst_price
-                quantity = pack_line.quantity
-                vals = {
-                    'order_line_id': self.id,
-                    'product_id': pack_line.product_id.id,
-                    'product_uom_qty': quantity,
-                    'price_unit': price_unit,
-                    'discount': pack_line.discount,
-                    'price_subtotal': price_unit * quantity,
-                    }
-                self.pack_line_ids.create(vals)
+    # @api.constrains('product_id')
+    # def expand_none_detailed_pack(self):
+    #     if self.product_id.pack_price_type == 'none_detailed_assited_price':
+    #         # remove previus existing lines
+    #         self.pack_line_ids.unlink()
+    #
+    #         # create a sale pack line for each product pack line
+    #         for pack_line in self.product_id.pack_line_ids:
+    #             price_unit = pack_line.product_id.lst_price
+    #             quantity = pack_line.quantity
+    #             vals = {
+    #                 'order_line_id': self.id,
+    #                 'product_id': pack_line.product_id.id,
+    #                 'product_uom_qty': quantity,
+    #                 'price_unit': price_unit,
+    #                 'discount': pack_line.discount,
+    #                 'price_subtotal': price_unit * quantity,
+    #                 }
+    #             self.pack_line_ids.create(vals)
