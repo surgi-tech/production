@@ -44,10 +44,13 @@
                      <div class="row">
                          <div class="col-12">
                              <img t-if="o.qr_image" t-att-src="image_data_uri(o.qr_image)"
-                             style="max-height: 100px; position: absolute; left:750px;"  alt="QR"/>
+                             style="max-height: 100px; position: absolute; left:800px;"  alt="QR"/>
                          </div>
                      </div>
-                    <div style="text-align: center;"><h1>فاتورة</h1></div>
+                    <div style="text-align: center;"><h1>فــــاتـــورة</h1></div>
+                    <br/>
+                    <br/>
+                    <br/>
                     <div style="text-align: center;"><h1 t-field="o.name"/></div>
 
                      <div>
@@ -93,12 +96,35 @@
                             <th><span>TOTAL</span><br/><span>الاجمالى</span></th>
                         </tr>
                         <t t-foreach="o.invoice_line_ids" t-as="line">
-                            <tr>
-                                <td><span t-field="line.name"/></td>
-                                <td><span t-field="line.quantity"/></td>
-                                <td><span t-field="line.price_unit"/></td>
-                                <td><span t-field="line.price_subtotal"/></td>
-                            </tr>
+<!--                            <t t-if="line.product_id">-->
+                                <tr>
+                                    <t t-if="line.display_type == 'line_section'">
+                                        <td><b><span t-field="line.name"/></b></td>
+                                    </t>
+                                    <t t-else="">
+                                        <td><span t-field="line.name"/></td>
+                                    </t>
+
+                                    <t t-if="line.product_id">
+                                        <td><span t-field="line.quantity"/></td>
+                                        <td><span t-field="line.price_unit"/></td>
+                                        <td><span t-field="line.price_subtotal"/></td>
+                                    </t>
+                                    <t t-else="">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </t>
+                                </tr>
+<!--                            </t>-->
+<!--                            <t t-elif="line.display_name == 'line_section'">-->
+<!--                                <tr>-->
+<!--                                    <td><b><span t-field="line.name"/></b></td>-->
+<!--                                    <td></td>-->
+<!--                                    <td></td>-->
+<!--                                    <td></td>-->
+<!--                                </tr>-->
+<!--                            </t>-->
                         </t>
                     </table>
 
