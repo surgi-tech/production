@@ -159,7 +159,7 @@
                         <separator string="Supply"/>
                         <group>
                             <group>
-                                <field name="flag" string="Confirmation Flag" attrs="{'invisible':['|',('hospital_id','=',False),('authority','=','open_approval')], 'readonly': [('state', 'not in', ['draft'])]}"/>
+<!--                                <field name="flag" string="Confirmation Flag" attrs="{'invisible':['|',('hospital_id','=',False),('authority','=','open_approval')], 'readonly': [('state', 'not in', ['draft'])]}"/>-->
                                 <field name="warehouse_id" readonly="1"/>
                             </group>
                             <group>

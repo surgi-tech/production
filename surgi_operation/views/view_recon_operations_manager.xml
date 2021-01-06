@@ -25,7 +25,7 @@
         <field name="res_model">operation.operation</field>
         <field name="view_mode">tree,form,pivot</field>
         <field name="search_view_id" ref="recon_operations_manager_search" />
-        <field name="domain">[('responsible', '!=', 'MOH Tender')]</field>
+        <field name="domain">[('responsible', '!=', 'Tender User')]</field>
         <!--<field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>-->
         <!--<field name="limit" type="int">500</field>-->
         <!--<field name="domain">[('type','in',['out_invoice','out_refund'])]</field>-->
@@ -156,7 +156,7 @@
                         <separator string="Supply"/>
                         <group>
                             <group>
-                                <field name="flag" string="Confirmation Flag" attrs="{'invisible':['|',('hospital_id','=',False)], 'readonly': [('authority','=','open_approval'),('responsible','not in','direct_sales_users')]}"/>
+<!--                                <field name="flag" string="Confirmation Flag" attrs="{'invisible':['|',('hospital_id','=',False)], 'readonly': [('authority','=','open_approval'),('responsible','not in','direct_sales_users')]}"/>-->
                                 <field name="warehouse_id" readonly="1"/>
                             </group>
                             <group>

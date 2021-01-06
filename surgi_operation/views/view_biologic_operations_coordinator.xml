@@ -58,7 +58,6 @@
                     <field name="side"/>
                     <field name="gs_work_order"/>
                     <field name="notes"/>
-                    <field name="flag"/>
                     <field name="state" invisible="0"/>
                 </tree>
         </field>
@@ -86,7 +85,7 @@
                         <!--<field name="state" widget="statusbar" />--> <!-- attrs="{'invisible': [('state', 'not in', ['draft','done', 'cancel'])]}"/>-->
                         <!--<field name="stage_id" widget="statusbar" attrs="{'invisible': [('state', 'in', ['draft','done', 'cancel'])]}" clickable="False"/>-->
                         <!--<button name="action_done_sales" string="Done" type="object" attrs="{'invisible': ['|',('state','=','draft'),'|',('state','=','cancel'),('state','=','done')]}"/>-->
-                        <button name="action_check_operation" string="Check" icon="fa-cart-plus" type="object" attrs="{'invisible': ['|',('state','!=','draft'),('flag','=',True)],}"/>
+                        <button name="action_check_operation" string="Check" icon="fa-cart-plus" type="object" attrs="{'invisible': [('state','!=','draft')]}"/>
                         <button name="action_confirm_sales" string="Confirm" type="object" attrs="{'invisible': [('state','!=','draft')]}"/>
                         <field name="state" widget="statusbar" attrs="{'invisible': [('state', 'not in', ['draft','done','cancel'])]}"/>
                         <!--<field name="stage_id" widget="statusbar" attrs="{'invisible': [('state', 'in', ['draft','done','cancel'])]}" clickable="True"/>-->
@@ -165,9 +164,7 @@
                         <separator string="Supply"/>
                         <group>
                             <group>
-                                <field name="flag" string="Confirmation Flag" readonly="1" attrs="{'invisible':['|',('hospital_id','=',False)], 'readonly': [('state','not in', ['draft'])]}"/>
-                                <field name="warehouse_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible':[('flag','=',False)], 'readonly': [('state','not in', ['draft'])]}"/>
-                                <field name="gs_work_order" attrs="{'invisible':[('flag','=',False)], 'readonly': [('state','in', ['Done'])]}"/>
+                                <field name="warehouse_id" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state','not in', ['draft'])]}"/>
                             </group>
                             <group>
                                 <field name="location_id" invisible="1" readonly="1" attrs="{'invisible':[('location_id','=',False)]}"/>
