@@ -1,0 +1,215 @@
+<odoo>
+    <data>
+
+
+        <record model="ir.rule" id="daily_user_rule_plan">
+            <field name="name">User: see the individual Record</field>
+            <field name="model_id" ref="surgi_ess.model_surgi_outdoor_attendance"/>
+            <field name="domain_force">[('employee_name','=',user.id)]</field>
+            <field name="groups" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+
+
+        <record id="surgi_ess_outdoor_attendance_search" model="ir.ui.view">
+            <field name="name">surgi.ess.outdoor_attendance.search</field>
+            <field name="model">surgi.outdoor.attendance</field>
+            <field name="arch" type="xml">
+                <search string="Outdoor Attendance">
+                    <field name="employee_name" string="Employees"/>
+                    <field name="sales_area" string="Sales Area"/>
+                    <field name="area_manager" string="Area Manager"/>
+                    <!--                    <filter name="state_employee" string="State"/>-->
+
+                    <group expand="0" string="Group By">
+                        <filter name="employee_name" string="Employee"/>
+                        <filter name="area_manager" string="Area Manager"/>
+                        <filter name="sales_area" string="Sales Area"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="surgi_ess_outdoor_attendance_form_view" model="ir.ui.view">
+            <field name="name">surgi.ess.outdoor.attendance.form.view</field>
+            <field name="model">surgi.outdoor.attendance</field>
+            <!--
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            -->
+            <field name="arch" type="xml">
+                <form string="Outdoor Attendance" create="true" edit="false" delete="false">
+                    <sheet string="Outdoor Attendance">
+                        <group>
+                            <field name="employee_name" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="ref" readonly="1" invisible="1"/>
+                            <field name="mobile" readonly="1" invisible="1"/>
+                            <field name="sales_area" readonly="1" invisible="1"/>
+                            <field name="area_manager" readonly="1" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="state_employee" attrs="{'invisible':[('is_set','=',True)]}"/>
+                            <field name="state_employee2" attrs="{'invisible':[('is_set','=',False)]}"/>
+                            <field name="is_set" invisible="1"/>
+                            <field name="operation_id" domain="[('op_sales_area','=',sales_area),
+                            ('start_datetime','&gt;=', ((context_today()).strftime('%Y-%m-%d'))),
+                            ('start_datetime','&lt;=', ((context_today()+datetime.timedelta(days=1)).strftime('%Y-%m-%d')))]"
+                                   options="{'no_create': False, 'no_open': True}"
+                                   attrs="{'required':[('state_employee','=','operation')],'invisible':[('state_employee','!=','operation')]}"/>
+                            <field name="operation_type" readonly="1"/>
+                            <field name="hospital" readonly="1"/>
+                            <field name="surgeon" readonly="1"/>
+                            <field name="op_start_datetime" force_save="1"/>
+                            <field name="op_start_date" force_save="1" invisible="1"/>
+                            <field name="op_start_today" force_save="1" invisible="1"/>
+<!--                            <field name="today_date" force_save="1"/>-->
+                        </group>
+                        <label for="mission_description" string="Mission"
+                               attrs="{'invisible':[('state_employee','!=','mission')]}"/>
+                        <field name="mission_description" attrs="{'invisible':[('state_employee','!=','mission')]}"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="surgi_ess_outdoor_attendance_tree_view" model="ir.ui.view">
+            <field name="name">surgi.ess.outdoor.attendance.tree.view</field>
+            <field name="model">surgi.outdoor.attendance</field>
+            <field name="arch" type="xml">
+                <tree string="Outdoor Attendance" create="true" edit="false" delete="false"
+                      decoration-danger="state_employee=='free'" decoration-info="state_employee=='operation'"
+                      decoration-success="state_employee=='mission'">
+                    <field name="employee_name"/>
+                    <field name="ref" invisible="1"/>
+                    <field name="mobile" invisible="1"/>
+                    <field name="sales_area"/>
+                    <field name="area_manager"/>
+                    <field name="operation_id"/>
+                    <field name="operation_type"/>
+                    <field name="hospital"/>
+                    <field name="surgeon"/>
+                    <field name="op_start_datetime"/>
+
+                    <field name="state_employee"/>
+                </tree>
+            </field>
+        </record>
+        <record id="surgi_ess_outdoor_attendance_kanban_view" model="ir.ui.view">
+            <field name="name">surgi.ess.outdoor_attendance.kanban.view</field>
+            <field name="model">surgi.outdoor.attendance</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <kanban class="o_outdoor_attendance_kanban" create="true" edit="false" delete="false">
+                    <field name="employee_name"/>
+                    <field name="operation_type"/>
+                    <field name="hospital"/>
+                    <field name="surgeon"/>
+                    <field name="mobile"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_outdoor_attendance_kanban"
+                                 style="background-color:#00438a;color:#fff;border-radius:15px;">
+                                <!--                                <div class="o_kanban_image">-->
+
+                                <!--                                    <field name="image_128" widget="image"-->
+                                <!--                                           class="o_kanban_image_fill_left o_hr_rounded_circle" -->
+                                <!--                                           options="{'zoom': true, 'background': true, 'preventClicks': false}"/>-->
+
+                                <!--                                    <img  t-att-src="kanban_image('res.users', 'image_medium', record.employee_name.raw_value)" widget="image"/>-->
+                                <div class="o_kanban_image">
+                                    <img t-att-src="kanban_image('res.users', 'image_medium', record.employee_name.raw_value)"
+                                         t-att-title="record.employee_name.raw_value"
+                                         t-att-alt="record.employee_name.raw_value"
+                                         class="oe_kanban_avatar"/>
+                                </div>
+
+                                <!--                                </div>-->
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_name o_outdoor_attendance_kanban"
+                                            style="font-size:16px;">
+                                        <div>
+                                            <field name="employee_name" style="display:block;"/>
+                                        </div>
+                                    </strong>
+                                    <strong class="o_kanban_record_operation_type o_outdoor_attendance_kanban"
+                                            style="font-size:16px;">
+                                        <div>
+                                            <field name="operation_type" style="display:block;"/>
+                                        </div>
+                                    </strong>
+                                    <strong class="o_kanban_record_hospital o_outdoor_attendance_kanban"
+                                            style="font-size:16px;">
+                                        <div>
+                                            <field name="hospital" style="display:block;"/>
+                                        </div>
+                                    </strong>
+                                    <strong class="o_kanban_record_surgeon o_outdoor_attendance_kanban"
+                                            style="font-size:16px;">
+                                        <div>
+                                            <field name="surgeon" style="display:block;"/>
+                                        </div>
+                                    </strong>
+                                    <strong class="o_kanban_record_mobile o_outdoor_attendance_kanban"
+                                            style="font-size:16px;">
+                                        <div>
+                                            <field name="mobile" style="display:block;"/>
+                                        </div>
+                                    </strong>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <record id="surgi_ess_outdoor_attendance_action" model="ir.actions.act_window">
+            <field name="name">Daily Plan</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">surgi.outdoor.attendance</field>
+            <!--        <field name="view_type">form</field>-->
+<!--            <field name="domain">[('state_employee','=','operation')]</field>-->
+            <field name="domain">['|',('op_start_date','>=',(context_today()).strftime('%Y-%m-%d') ),
+                ('op_start_today','=',(context_today()).strftime('%Y-%m-%d') )
+                ]</field>
+
+            <field name="view_mode">kanban,tree,form</field>
+<!--            <field name="domain">[('op_start_today','=','sttoday_date')]</field>-->
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="surgi_ess_outdoor_attendance_search"/>
+        </record>
+
+        <menuitem id="menu_outdoor_attendance" name="Daily Plan" parent="menu_root_ess_surgi"
+                  action="surgi_ess_outdoor_attendance_action" sequence="-99"
+                  groups="hr.group_hr_manager"
+        />
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="form_view_hr_employee_inherit" model="ir.ui.view">
+            <field name="name">name.hr.employee.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <field name="set_daily_plan" groups="surgi_ess.employee_can_set_plane"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <record id="ir_cron_daily_plan_set" model="ir.cron">
+            <field name="name">Daily Plan</field>
+            <field name="model_id" ref="model_surgi_outdoor_attendance"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="state">code</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="nextcall" eval="(datetime.utcnow() + timedelta(days=0)).strftime('%Y-%m-%d 22:00:00')"/>
+            <field eval="False" name="doall"/>
+            <field name="code">model.cron_daily_plan()</field>
+        </record>
+
+
+    </data>
+</odoo>

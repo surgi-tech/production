@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 ess_hr_survey_officer,ess_hr_survey_officer,model_ess_hr_survey,,1,0,0,0
 ess_hr_survey_manager,ess_hr_survey_manager,model_ess_hr_survey,hr.group_hr_manager,1,0,0,1
+access_surgi_outdoor_attendance,surgi_outdoor_attendance,model_surgi_outdoor_attendance,,1,1,1,1
+

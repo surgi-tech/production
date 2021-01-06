@@ -14,12 +14,10 @@ class HRLeave(models.Model):
     
     @api.onchange('holiday_status_id')
     def _onchange_holiday_status_id(self):
-        res=super(HRLeave, self)._onchange_holiday_status_id()
         if self.holiday_status_id.request_unit=='hour':
             self.request_unit_hours=True
         else:
             self.request_unit_hours = False
-        return res
 
 
     @api.constrains('holiday_status_id','request_hour_from','request_hour_to')

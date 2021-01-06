@@ -20,21 +20,30 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base',
-                'hr',
-                'hr_attendance',
-                'hr_holidays',
-                'project',
-                'surgi_evaluation',
-                'surgi_attendance_sheet',
-                'attendance_sheet_extra',
-                'hr_appraisal',
-                'survey'],
+    'depends': [
+        'base',
+        'hr',
+        'hr_attendance',
+        'hr_holidays',
+        'project',
+        'surgi_evaluation',
+        'surgi_attendance_sheet',
+        'attendance_sheet_extra',
+        'hr_appraisal',
+        'survey',
+        'hr_payroll',
+        'crm',
+        'surgi_operation'
+    ],
+
+
+
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
         'security/ess_security.xml',
+        'security/ir.model.access.csv',
         'report/waiting_approval_report.xml',
         'views/employee_directory.xml',
         'views/attendance.xml',
@@ -44,14 +53,16 @@
         'views/my_permissions.xml',
         'views/missions.xml',
         'views/hr_leave_type.xml',
-	    'views/manager.xml',
+        'views/manager.xml',
         'views/my_tasks.xml',
         'views/menu.xml',
         'views/attendance_sheet.xml',
         'views/evaluation.xml',
         'views/kra-kpi.xml',
         'views/ess_hr_survey.xml',
-        'views/survey_invite.xml'
+        'views/survey_invite.xml',
+        'views/daily_plan.xml',
+        'views/daily_plan_acual.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
