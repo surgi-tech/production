@@ -2,11 +2,11 @@
 
 <odoo>
 
-    <record id="recon_operations_alex_coordinator_search" model="ir.ui.view">
-       <field name="name">recon.operations.alex.coordinator.search</field>
+    <record id="biologic_operations_coordinator_search" model="ir.ui.view">
+       <field name="name">biologic.operations.coordinator.search</field>
        <field name="model">operation.operation</field>
         <field name="arch" type="xml">
-            <search string="Recon Operations Coordinator Search">
+            <search string="Biologic Operations Coordinator Search">
                 <field name="name" filter_domain="[('name','ilike',self)]" string="Operation No."/>
                 <field name="responsible" filter_domain="[('responsible','ilike',self)]" string="Sales Man"/>
                 <field name="operation_type" filter_domain="[('operation_type','ilike',self)]" string="Operation Type"/>
@@ -20,13 +20,13 @@
 
     <!-- This Menu Item must have a parent and an action -->
 
-    <record id="action_recon_operations_alex_coordinator" model="ir.actions.act_window">
-        <field name="name">Recon Operations Alex Coordinator</field>
+    <record id="action_biologic_operations_coordinator" model="ir.actions.act_window">
+        <field name="name">Biologic Operations Coordinator</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">operation.operation</field>
         <field name="view_mode">tree,form,pivot</field>
-        <field name="search_view_id" ref="recon_operations_alex_coordinator_search" />
-        <field name="domain">[('op_sales_area.id','=',34)]</field>
+        <field name="search_view_id" ref="biologic_operations_coordinator_search" />
+        <field name="domain">[('operation_type','=','Biologic Operation')]</field>
         <!--<field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>-->
         <!--<field name="limit" type="int">500</field>-->
         <!--<field name="domain">[('type','in',['out_invoice','out_refund'])]</field>-->
@@ -37,15 +37,15 @@
         </field>
     </record>
 
-        <menuitem id="recon_operations_alex_coordinator" name="Operation Alex Coordinator	" parent="operations_operation_menuitem" action="action_recon_operations_alex_coordinator" sequence="10" groups="operations_alex_coordinator,operations_manager_group"/>
+        <menuitem id="biologic_operations_coordinator" name=" Biologic Operation Coordinator	" parent="operations_operation_menuitem" action="action_biologic_operations_coordinator" sequence="21" groups="biologic_operations_coordinator,operations_manager_group"/>
 
 
 
-    <record id="recon_operations_alex_coordinator_tree" model="ir.ui.view">
-        <field name="name">recon.operations.coordinator.tree</field>
+    <record id="biologic_operations_coordinator_tree" model="ir.ui.view">
+        <field name="name">biologic.operations.coordinator.tree</field>
         <field name="model">operation.operation</field>
         <field name="arch" type="xml">
-        <tree string="Recon Operations Coordinator" decoration-info="state=='draft'" decoration-bf="state=='confirm'" decoration-danger="state=='cancel'" decoration-success="state=='done'">
+        <tree string="Biologic Operations Coordinator" decoration-info="state=='draft'" decoration-bf="state=='confirm'" decoration-danger="state=='cancel'" decoration-success="state=='done'">
                     <field name="name" string="Name"/>
                     <field name="responsible" string="Sales Man"/>
                     <field name="start_datetime" string="Starting Date"/>
@@ -54,6 +54,7 @@
                     <field name="surgeon_id"/>
                     <field name="patient_name"/>
                     <field name="patient_national_id"/>
+                    <field name="moh_approved_operation"/>
                     <field name="side"/>
                     <field name="gs_work_order"/>
                     <field name="notes"/>
@@ -63,20 +64,21 @@
         </field>
     </record>
 
-    <record id="action_recon_operations_alex_coordinator_tree" model="ir.actions.act_window.view">
-            <field name="act_window_id" ref="action_recon_operations_alex_coordinator"/>
+    <record id="action_biologic_operations_coordinator_tree" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_biologic_operations_coordinator"/>
             <field name="sequence" eval="1"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="recon_operations_alex_coordinator_tree"/>
+            <field name="view_id" ref="biologic_operations_coordinator_tree"/>
     </record>
 
-    <record id="recon_operations_alex_coordinator_form" model="ir.ui.view">
-        <field name="name">recon.operations.alex.coordinator.form</field>
+    <record id="biologic_operations_coordinator_form" model="ir.ui.view">
+        <field name="name">biologic.operations.coordinator.form</field>
         <field name="model">operation.operation</field>
         <field name="arch" type="xml">
              <form string="Sales Order">
                     <header>
                         <!--<button name="action_done_sales" string="Done" type="object" attrs="{'invisible': [('state','!=','confirm')]}"/>-->
+                        <!--<field name="has_oper_loc_hanged_quant" invisible="1"/>-->
                         <!--<field name="so_created" invisible="1"/>-->
                         <!--<button name="create_sales_order" string="Create SO" icon="fa-cart-plus" type="object" attrs="{'invisible': ['|','|',('has_oper_loc_hanged_quant','=',False ),('so_created','=',True),('state','=','draft')]}"/>-->
                         <!--<button name="action_confirm_sales" string="Confirm" type="object" attrs="{'invisible': [('state','!=','draft')]}"/>-->
@@ -97,7 +99,7 @@
                             <button name="action_view_operation_del" type="object" class="oe_stat_button" icon="fa-building-o">
                                 <field string="Stock Pickings" name="oper_loc_del" widget="statinfo" modifiers="{'readonly': true}"/>
                             </button>
-<!--                            <button name="action_view_operation_SO" icon="fa-cart-plus" type="object" class="oe_stat_button" attrs="{'invisible': [('so_created','=',False )]}">-->
+<!--                            <button name="action_view_operation_SO" icon="fa-cart-plus" type="object" class="oe_stat_button" attrs="{'invisible': ['|',('state','=','draft'),('op_type','!=','surgery')]}">-->
 <!--                                <field name="oper_loc_so" string="Sale Order" modifiers="{'readonly': true}" widget="statinfo"/>-->
 <!--                            </button>-->
                         </div>
@@ -114,7 +116,7 @@
                         <group>
                             <group>
                                 <field name="start_datetime" string="Date Start" required="True" readonly="1"/>
-                                <field name="operation_type" invisible="False" required="1" domain="[('operation_type_category','like','surgitech recon')]" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="operation_type" invisible="False" required="1" domain="[('operation_type_category','like','surgitech biologic')]" readonly="1" options="{'no_create': True, 'no_open': True}"/>
 
 
                             </group>
@@ -135,6 +137,8 @@
                         <group>
                             <group>
                                 <field name="patient_name" readonly="1" /> <!--attrs="{'required': [('is_patient','=',False)],'readonly': [('is_patient','=',True)]}"-->
+                                <field name="patient_national_id"/>
+                                <field name="moh_approved_operation"/>
                                 <field name="side" readonly="1"/>
                         </group>
                             <group>
@@ -162,7 +166,7 @@
                         <group>
                             <group>
                                 <field name="flag" string="Confirmation Flag" readonly="1" attrs="{'invisible':['|',('hospital_id','=',False)], 'readonly': [('state','not in', ['draft'])]}"/>
-                                <field name="warehouse_id" options="{'no_create': True, 'no_open': True}"  attrs="{'invisible':[('flag','=',False)], 'readonly': [('state','not in', ['draft'])]}"/>
+                                <field name="warehouse_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible':[('flag','=',False)], 'readonly': [('state','not in', ['draft'])]}"/>
                                 <field name="gs_work_order" attrs="{'invisible':[('flag','=',False)], 'readonly': [('state','in', ['Done'])]}"/>
                             </group>
                             <group>
@@ -227,29 +231,29 @@
     </record>
 
 
-    <record id="action_recon_operations_alex_coordinator_form" model="ir.actions.act_window.view">
-            <field name="act_window_id" ref="action_recon_operations_alex_coordinator"/>
+    <record id="action_biologic_operations_coordinator_form" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_biologic_operations_coordinator"/>
             <field name="sequence" eval="2"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="recon_operations_alex_coordinator_form"/>
+            <field name="view_id" ref="biologic_operations_coordinator_form"/>
     </record>
 
 
-    <record id="recon_operations_alex_coordinator_pivot" model="ir.ui.view">
-            <field name="name">recon.operations.pivot</field>
+    <record id="biologic_operations_coordinator_pivot" model="ir.ui.view">
+            <field name="name">biologic.operations.pivot</field>
             <field name="model">operation.operation</field>
             <field name="arch" type="xml">
-                <pivot string="Recon Operations" >
+                <pivot string="Biologic Operations" >
                     <field name="name" string="Name"/>
                 </pivot>
             </field>
     </record>
 
-        <record id="action_recon_operations_alex_coordinator_pivot" model="ir.actions.act_window.view">
-            <field name="act_window_id" ref="action_recon_operations_alex_coordinator"/>
+        <record id="action_biologic_operations_coordinator_pivot" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_biologic_operations_coordinator"/>
             <field name="sequence" eval="3"/>
             <field name="view_mode">pivot</field>
-            <field name="view_id" ref="recon_operations_alex_coordinator_pivot"/>
+            <field name="view_id" ref="biologic_operations_coordinator_pivot"/>
     </record>
 
 

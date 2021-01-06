@@ -61,7 +61,7 @@ class operation_operation(models.Model):
         self.state = 'done'
     # button to recheck on the policy of confirmation flag for Tender Team  #
     def action_check_operation(self):
-        if (self.responsible.name and self.responsible.name == 'Tender User'):
+        if (self.responsible.name and self.responsible.name == 'MOH Tender'):
             self.flag = True
         else :
             self.flag = True
