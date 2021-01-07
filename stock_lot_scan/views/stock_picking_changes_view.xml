@@ -75,6 +75,7 @@
                                 <!--attrs="{'invisible': [('pick_Typ_code', '!=', 'incoming')]}"/>-->
                                 <field name="lot_name" string="Lot Name"/>
                                 <field name="expiration_date"/>
+                                <field name="id" invisible="1"/>
                                 <field name="product_availabilty"/>
                             </tree>
                         </field>
