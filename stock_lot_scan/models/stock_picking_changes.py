@@ -149,7 +149,7 @@ class stock_picking_inherit(models.Model):
                 else:
                     for lot in lots:
                         lot_id = rec.env['stock.production.lot'].search(
-                            [('name', '=', lot['lot_no']), ('product_id', '=', product_id)])
+                            [('name', '=', lot['lot_name']), ('product_id', '=', product_id)])
                         if lot_id:
                             product = self.env['product.product'].search([('id', '=', product_id)])
                             mov_id_var = {
