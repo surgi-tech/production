@@ -97,15 +97,13 @@ class stock_picking_inherit(models.Model):
                     finalArray[line.product_id.id].append({
                         'product_id': line.product_id.id,
                         'product_uom_qty': line.product_uom_qty,
-                        'lot_name': line.lot_name,
-                        'lot_no': line.lot_no,
+                        'lot_name': line.lot_no,
                     })
                 else:
                     finalArray[line.product_id.id] = [{
                         'product_id': line.product_id.id,
                         'product_uom_qty': line.product_uom_qty,
-                        'lot_name': line.lot_name,
-                        'lot_no': line.lot_no,
+                        'lot_name': line.lot_no,
                     }]
 
             move_lines = rec.mapped('move_lines').filtered(lambda move: move.state not in ('cancel', 'done'))
@@ -124,7 +122,7 @@ class stock_picking_inherit(models.Model):
                         lambda move_line_id: move_line_id.state not in ('cancel', 'done'))
                     for lot in lots:
                         lot_id = rec.env['stock.production.lot'].search(
-                            [('name', '=', lot['lot_no']), ('product_id', '=', product_id)])
+                            [('name', '=', lot['lot_name']), ('product_id', '=', product_id)])
                         if len(move_line_ids) > 0 and lot_id:
                             move_line_ids.write({
                                 'qty_done': lot['product_uom_qty'],
@@ -272,7 +270,8 @@ class stock_picking_inherit(models.Model):
                         'product_qty': product_qty,
                         'lot_no': serial,
                         'lot_name': lot.lot_name,
-                        'expiration_date': str(expdate)
+                        'expiration_date': str(expdate),
+
                     })
                     datalower[serial.lower()].append({
                         'product_id': lot.product_id.id,
@@ -341,6 +340,7 @@ class stock_picking_inherit(models.Model):
                 'pickin_Typ_code': rec.pickin_Typ_code,
                 'usecreatelot': usecreatelotobj,
                 'company_id':rec.company_id.id
+
             }
             print(returnData);
            # logging.warning(returnData)
