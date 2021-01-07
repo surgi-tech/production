@@ -159,7 +159,7 @@ class operation_operation(models.Model):
         print ('Operations')
         for rec in self:
             if rec.location_id:
-                operations = self.env['stock.quant'].search([('location_id', '=', rec.location_id.id)])
+                operations = self.env['stock.quant'].search([('location_id', '=', rec.location_id.id),('quantity', '>', 0)])
                 if operations:
                     rec.oper_loc_quant = len(operations)
                 else:
@@ -275,7 +275,7 @@ class operation_operation(models.Model):
     def action_view_operation_quant(self):
         for rec in self:
             compose_tree = self.env.ref('stock.view_stock_quant_tree', False)
-            operations = self.env['stock.quant'].search([('location_id', '=', rec.location_id.id)])
+            operations = self.env['stock.quant'].search([('location_id', '=', rec.location_id.id),('quantity', '>', 0)])
             list = []
             for op in operations:
                 list.append(op.id)
