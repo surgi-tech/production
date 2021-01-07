@@ -106,7 +106,6 @@ class stock_picking_inherit(models.Model):
                         'product_uom_qty': line.product_uom_qty,
                         'lot_name': line.lot_name,
                         'lot_no': line.lot_no,
-
                     }]
 
             move_lines = rec.mapped('move_lines').filtered(lambda move: move.state not in ('cancel', 'done'))
@@ -150,7 +149,7 @@ class stock_picking_inherit(models.Model):
                 else:
                     for lot in lots:
                         lot_id = rec.env['stock.production.lot'].search(
-                            [('name', '=', lot['lot_name']), ('product_id', '=', product_id)])
+                            [('name', '=', lot['lot_no']), ('product_id', '=', product_id)])
                         if lot_id:
                             product = self.env['product.product'].search([('id', '=', product_id)])
                             mov_id_var = {
@@ -341,10 +340,10 @@ class stock_picking_inherit(models.Model):
                 'type_of_scaning': rec.type_of_scaning,
                 'pickin_Typ_code': rec.pickin_Typ_code,
                 'usecreatelot': usecreatelotobj,
-                'company_id': rec.company_id.id
+                'company_id':rec.company_id.id
             }
             print(returnData);
-            # logging.warning(returnData)
+           # logging.warning(returnData)
             return json.dumps(returnData, ensure_ascii=False)
 
     def savebeforescanbutton(self):
