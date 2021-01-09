@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--<record id="stock_picking_inherit333" model="ir.ui.view">-->
+            <!--<field name="name">stock.picking.inherit</field>-->
+            <!--<field name="model">stock.picking</field>-->
+            <!--<field name="inherit_id" ref="stock.view_picking_form"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="//header" position="inside">-->
+                    <!--<field name="initial_loaded" invisible="1"/>-->
+                    <!--<button name="save_descrip_action" states="" type="object" string="Save Initial Demand" icon="fa-pencil" class="oe_highlight" attrs="{'invisible': [('initial_loaded','=',True)]}" />-->
+                <!--</xpath>-->
+                <!--<xpath expr="//page[2]" position="after" >-->
+                    <!--<page string=" Components" invisible="1">-->
+
+                            <!--<field name="initial_demand_lines" >-->
+                                <!--<tree string=" lines">-->
+                                    <!--<field name="product_id"/>-->
+                                    <!--<field name="product_uom_qty"/>-->
+                                <!--</tree>-->
+                            <!--</field>-->
+                    <!--</page>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+    </data>
+</odoo>

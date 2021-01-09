@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+        <act_window name="Delivery Order"
+                    res_model="wizard_stock_quant"
+                    src_model="stock.quant"
+                    key2="client_action_multi"
+                    view_mode="form" target="new"
+                    view_type="form"
+                    id="act_new_sub_menu"/>
+
+        <act_window name="Back To Warehouse"
+                    res_model="wizard_back_to_warehouse"
+                    src_model="stock.quant"
+                    key2="client_action_multi"
+                    view_mode="form" target="new"
+                    view_type="form"
+                    id="act_new_back_to_warehouse_sub_menu"/>
+
+<!--        <act_window name="Delivery Order"-->
+<!--                    res_model="wizard_hanged_delivery"-->
+<!--                    src_model="hanged.stock.quant"-->
+<!--                    key2="client_action_multi"-->
+<!--                    view_mode="form" target="new"-->
+<!--                    view_type="form"-->
+<!--                    id="act_new_delivery_order_sub_menu"/>-->
+
+        <act_window name="Back To Warehouse"
+                    res_model="wizard_hanged_back_to_warehouse"
+                    src_model="hanged.stock.quant"
+                    key2="client_action_multi"
+                    view_mode="form" target="new"
+                    view_type="form"
+                    id="act_new_hanged_back_to_warehouse_sub_menu"/>
+
+<!--        <act_window name="Create Invoice"-->
+<!--                    res_model="hanged.stock.quant.invoice"-->
+<!--                    src_model="hanged.stock.quant"-->
+<!--                    key2="client_action_multi"-->
+<!--                    view_mode="form" target="new"-->
+<!--                    view_type="form"-->
+<!--                    id="act_new_hanged_invoice_sub_menu"/>-->
+
+<!--        <act_window name="Create Sale Order"-->
+<!--                    res_model="hanged.stock.quant.so"-->
+<!--                    src_model="hanged.stock.quant"-->
+<!--                    key2="client_action_multi"-->
+<!--                    view_mode="form" target="new"-->
+<!--                    view_type="form"-->
+<!--                    id="act_new_hanged_so_sub_menu"/>-->
+
+        <act_window name="Move To Another Operation"
+                    res_model="wizard_move_to_location"
+                    src_model="stock.quant"
+                    key2="client_action_multi"
+                    view_mode="form" target="new"
+                    view_type="form"
+                    id="act_new_move_to_location_sub_menu"/>
+
+        <act_window name="Move to Hanged Warehouse"
+                    res_model="wizard_move_to_hanged_warehouse"
+                    src_model="stock.quant"
+                    key2="client_action_multi"
+                    view_mode="form" target="new"
+                    view_type="form"
+                    id="act_new_move_to_hanged_warehouse_sub_menu"/>
+
+
+
+
+<odoo>
+
+    <record id="recon_operations_coordinator_search" model="ir.ui.view">
+       <field name="name">recon.operations.coordinator.search</field>
+       <field name="model">operation.operation</field>
+        <field name="arch" type="xml">
+            <search string="Recon Operations Coordinator Search">
+                    <field name="sequence" filter_domain="['|','|','|',('gs_work_order','ilike',self),('sequence','=',self),('responsible','ilike',self),('location_id','ilike',self)]"/>
+                    <field name="hospital_id"/>
+                    <field name="warehouse_id"/>
+                    <field name="responsible"/>
+                    <filter string="Today" name="start_datetime" domain="[('start_datetime', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('start_datetime', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>
+                    <filter string="2 days" name="2_days" domain="[('start_datetime','&gt;=', ((context_today()).strftime('%Y-%m-%d'))), ('start_datetime','&lt;=', ((context_today()+datetime.timedelta(days=1)).strftime('%Y-%m-%d')))]"/>
+                    <filter string="Current Month" name="current_month" domain="[('start_datetime','&lt;',(context_today()+relativedelta(months=1)).strftime('%Y-%m-01')), ('start_datetime','&gt;=',time.strftime('%Y-%m-01'))]"/>
+                    <filter string="Current Week" name="current_week" domain="[('start_datetime','&gt;=', ((context_today()).strftime('%Y-%m-%d'))), ('start_datetime','&lt;=', ((context_today()+datetime.timedelta(days=7)).strftime('%Y-%m-%d')))]"/>
+                    <filter string="Cancelled" name="state" domain="[('state','=','cancel')]"/>
+                    <filter string="Confirmed" name="state" domain="[('state','=','confirm')]"/>
+                    <filter string="Draft" name="state" domain="[('state','=','draft')]"/>
+                    <filter string="Done" name="state" domain="[('state','=','done')]"/>
+
+
+                    <group string="Group by">
+                        <filter string="Surgeon" icon="terp-personal" domain="[]" context="{'group_by':'surgeon_id'}"/>
+                        <filter string="Hospital" icon="terp-personal" domain="[]" context="{'group_by':'hospital_id'}"/>
+                        <filter name="type_group" string="Type" icon="terp-personal" domain="[]" context="{'group_by':'op_type'}"/>
+                    </group>
+
+                </search>
+       </field>
+    </record>
+
+    <!-- This Menu Item must have a parent and an action -->
+
+    <record id="action_recon_operations_coordinator" model="ir.actions.act_window">
+        <field name="name">Recon Operations Coordinator</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">operation.operation</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="search_view_id" ref="recon_operations_coordinator_search" />
+        <field name="domain"></field>
+        <!--<field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>-->
+        <!--<field name="limit" type="int">500</field>-->
+        <!--<field name="domain">[('type','in',['out_invoice','out_refund'])]</field>-->
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+                    Click to create a new Operation.
+          </p>
+        </field>
+    </record>
+
+        <menuitem id="recon_operations_coordinator" name="Operation Coordinator	" parent="operations_operation_menuitem" action="action_recon_operations_coordinator" sequence="10" groups="operations_coordinator,operations_manager_group"/>
+
+
+
+    <record id="recon_operations_coordinator_tree" model="ir.ui.view">
+        <field name="name">recon.operations.coordinator.tree</field>
+        <field name="model">operation.operation</field>
+        <field name="arch" type="xml">
+        <tree string="Recon Operations Coordinator" decoration-info="state=='draft'" decoration-bf="state=='confirm'" decoration-danger="state=='cancel'" decoration-success="state=='done'">
+                    <field name="name" string="Name"/>
+                    <field name="responsible" string="Sales Man"/>
+                    <field name="start_datetime" string="Starting Date"/>
+                    <field name="operation_type"/>
+                    <field name="hospital_id"/>
+                    <field name="surgeon_id"/>
+                    <field name="gs_work_order"/>
+                    <field name="notes"/>
+                    <field name="flag"/>
+                    <field name="state" invisible="0"/>
+                </tree>
+        </field>
+    </record>
+
+    <record id="action_recon_operations_coordinator_tree" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_recon_operations_coordinator"/>
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="recon_operations_coordinator_tree"/>
+    </record>
+
+    <record id="recon_operations_coordinator_form" model="ir.ui.view">
+        <field name="name">recon.operations.coordinator.form</field>
+        <field name="model">operation.operation</field>
+        <field name="arch" type="xml">
+             <form string="Sales Order">
+                    <header>
+                        <!--<button name="action_done_sales" string="Done" type="object" attrs="{'invisible': [('state','!=','confirm')]}"/>-->
+                        <!--<button name="create_sales_order" string="Create SO" icon="fa-cart-plus" type="object" attrs="{'invisible': ['|','|',('has_oper_loc_hanged_quant','=',False ),('so_created','=',True),('state','=','draft')]}"/>-->
+                        <!--<button name="action_confirm_sales" string="Confirm" type="object" attrs="{'invisible': [('state','!=','draft')]}"/>-->
+                        <!--<<button name="open_wizard_cancel_operation" type="object" string="Cancel" icon="fa-pencil" class="oe_highlight" attrs="{'invisible': [('state', 'in', ['Return','done', 'cancel'])]}"/>-->
+                        <!--<field name="state" widget="statusbar" />--> <!-- attrs="{'invisible': [('state', 'not in', ['draft','done', 'cancel'])]}"/>-->
+                        <!--<field name="stage_id" widget="statusbar" attrs="{'invisible': [('state', 'in', ['draft','done', 'cancel'])]}" clickable="False"/>-->
+                        <!--<button name="action_done_sales" string="Done" type="object" attrs="{'invisible': ['|',('state','=','draft'),'|',('state','=','cancel'),('state','=','done')]}"/>-->
+                        <button name="action_check_operation" string="Check" icon="fa-cart-plus" type="object" attrs="{'invisible': ['|',('state','!=','draft'),('flag','=',True)],}"/>
+                        <button name="action_confirm_sales" string="Confirm" type="object" attrs="{'invisible': [('state','!=','draft')]}"/>
+                        <field name="state" widget="statusbar" attrs="{'invisible': [('state', 'not in', ['draft','done','Return','cancel'])]}"/>
+                        <!--<field name="stage_id" widget="statusbar" attrs="{'invisible': [('state', 'in', ['draft','done','Return','cancel'])]}" clickable="True"/>-->
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_operation_quant" type="object" class="oe_stat_button" icon="fa-building-o">
+                                <field string="Operation Quant" name="oper_loc_quant" widget="statinfo" modifiers="{'readonly': true}"/>
+                            </button>
+                            <button name="action_view_operation_del" type="object" class="oe_stat_button" icon="fa-building-o">
+                                <field string="Stock Pickings" name="oper_loc_del" widget="statinfo" modifiers="{'readonly': true}"/>
+                            </button>
+                            <button name="action_view_operation_SO" icon="fa-cart-plus" type="object" class="oe_stat_button" attrs="{'invisible': [('so_created','=',False )]}">
+                                <field name="oper_loc_so" string="Sale Order" modifiers="{'readonly': true}" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="sequence" readonly="1"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <field name="name" string="Name" invisible="1"/>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="start_datetime" string="Date Start" required="True" readonly="1"/>
+                                <field name="operation_type" invisible="False" required="1" domain="[('parent_category_id','like','surgitech recon')]" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+
+                            </group>
+                            <group>
+                                <field name="op_type" invisible="1"/>
+                                <field name="tender_so" widget="selection" attrs="{'invisible': [('op_type', '!=', 'tender')],'required': [('op_type', '=', 'tender')]}"/>
+                                <field name="supply_so" widget="selection" attrs="{'invisible': [('op_type', '!=', 'supply_order')],'required': [('op_type', '=', 'supply_order')]}"/>
+                            </group>
+                            <group>
+                                <field name="responsible" invisible="False" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="op_sales_area" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="op_area_manager" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                                <!--<field name="sales_team_operation" widget="many2many_checkboxes" invisible="False" readonly="1" domain="[('member_ids','like',uid)]" attrs="{'readonly':[('state', 'not in', ['draft'])]}"/> -->
+                                <field name="start" invisible="True"/>
+                                <field name="stop" invisible="True"/>
+                            </group>
+                        </group>
+                        <separator string="Patient"/>
+                        <group>
+                            <group>
+                                <field name="patient_name" readonly="1" /> <!--attrs="{'required': [('is_patient','=',False)],'readonly': [('is_patient','=',True)]}"-->
+                                <field name="side" readonly="1"/>
+                        </group>
+                            <group>
+                                <field name="patient_gender" required="False" readonly="1"/> <!--attrs="{'required': [('is_patient','=',False)],'readonly': [('is_patient','=',True)]}"-->
+
+                            </group>
+                        </group>
+                        <separator string="Surgeon"/>
+                        <group>
+                            <group>
+                                <field name="hospital_id" required="1" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="authority" readonly="1" />
+                                <field name="hospital_sales_users" widget="many2many_tags" />
+                                <field name="hospital_sales_man" />
+                            </group>
+                            <group>
+
+                                <!--<field name="surgeon_id" required="1" domain="[('is_surgeon','=',True)]"/>-->
+                                <field name="surgeon_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="payment_methods" readonly="1"/>
+                                <field name="operation_price" invisible="1"/>
+                            </group>
+                        </group>
+                        <separator string="Supply"/>
+                        <group>
+                            <group>
+                                <field name="flag" string="Confirmation Flag" readonly="1" attrs="{'invisible':['|',('hospital_id','=',False)], 'readonly': [('state','not in', ['draft'])]}"/>
+                                <field name="warehouse_id" attrs="{'invisible':[('flag','=',False)], 'readonly': [('state','in', ['Done'])]}"/>
+                                <field name="gs_work_order" attrs="{'invisible':[('flag','=',False)], 'readonly': [('state','in', ['Done'])]}"/>
+                            </group>
+                            <group>
+                                <field name="location_id" invisible="1" readonly="1" attrs="{'invisible':[('location_id','=',False)]}"/>
+                            </group>
+                            <group>
+                                <field name="customers_operations_location" invisible="1"/>
+                            </group>
+                        </group>
+                        <separator string="Tags"/>
+                        <group>
+                            <field name="tags_ids" widget="many2many_tags" readonly="1"/>
+                        </group>
+                        <field name="message_com" invisible="1"/>
+                        <field name="message_item" invisible="1"/>
+                        <notebook>
+                            <page string="Components"><button name="update_operation_type" string="Update Components" type="object" class="oe_highlight" attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
+                                <group>
+                                    <field name="component_ids" readonly="1" /> <!--attrs="{'readonly':[('state', 'not in', ['draft'])]}"-->
+                                </group>
+                                <group>
+                                <field name="product_lines"  readonly="1" >
+                                    <tree string="Product_lines" editable="bottom">
+                                        <field name="product_id" options="{'no_create': True, 'no_open': True}"/>
+                                        <field name="quantity"/>
+                                        <!--<field name="product_uom"/>-->
+                                    </tree>
+                                </field>
+                                </group>
+                                <group>
+                                    <field name="notes" readonly="1"/>
+                                </group>
+                            </page>
+                            <!--<page string="Accessories">
+                                <group>
+                                    <field name="component_ids" string="Accessories" widget="many2many_checkboxes" domain="[('operation_component','=',False),('is_op_acc','=',True)]"/> #('tag_ids','ilike','accessories')
+                                </group>
+                            </page>-->
+
+                            <page string="More Items">
+
+                            </page>
+                            <page string="Other Info.">
+
+                            </page>
+                            <page string="Cancel Reason" attrs="{'invisible':[('state','!=','cancel')]}">
+                                <group>
+                                    <field name="reason" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="description" readonly="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+        </field>
+    </record>
+
+
+    <record id="action_recon_operations_coordinator_form" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_recon_operations_coordinator"/>
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="recon_operations_coordinator_form"/>
+    </record>
+
+
+    <record id="recon_operations_coordinator_pivot" model="ir.ui.view">
+            <field name="name">recon.operations.pivot</field>
+            <field name="model">operation.operation</field>
+            <field name="arch" type="xml">
+                <pivot string="Recon Operations" >
+                    <field name="name" string="Name"/>
+                </pivot>
+            </field>
+    </record>
+
+        <record id="action_recon_operations_coordinator_pivot" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_recon_operations_coordinator"/>
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="recon_operations_coordinator_pivot"/>
+    </record>
+
+
+</odoo>

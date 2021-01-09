@@ -1,0 +1,98 @@
+<odoo>
+    <data noupdate="1">
+
+         <record id="other_alw_an17" model="hr.other_alw">
+            <field name="name">2017 Annual Raise</field>
+            <field name="code">ANR17</field>
+            <field eval="20" name="amount"/>
+        </record>
+        <!--<record id="other_alw_an17_line" model="hr.other_alw_line">-->
+            <!--<field name="alw_id" ref="other_alw_an17"/>-->
+            <!--<field name="code">ANR17</field>-->
+            <!--<field eval="130" name="amount"/>-->
+        <!--</record>-->
+
+
+        <record id="hr_education_bacelor" model="hr.eg.education">
+            <field name="name">bachelor of Engineering</field>
+        </record>
+
+        <record id="hr_school_eng" model="hr.eg.school">
+            <field name="name">Faculty of Electronic Engineering</field>
+        </record>
+
+              <!--Payroll rule for  allowances-->
+    <record id="hr_payroll_rule_raise2017" model="hr.salary.rule">
+        <field name="code">ANR17</field>
+        <field name="name">2017 annual Raise</field>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = employee.get_alw("ANR17") and employee.get_alw("ANR17").amount > 0 or False</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = employee.get_alw("ANR17").amount</field>
+        <field name="sequence" eval="35"/>
+        <field name="note">2017 Annual Raise</field>
+    </record>
+
+
+        <record id="employee_rk" model="hr.employee">
+            <field name="name">Ramadan Khalil</field>
+            <field name="department_id" ref="hr.dep_management"/>
+            <field name="job_id" ref="hr.job_developer"/>
+            <!--<field eval="[(6, 0, [ref('other_alw_an17_line')])]" name="other_alw_ids"/>-->
+            <field name="work_phone">+201020043915</field>
+            <field name="work_email">rkhalil1990@gmail.com</field>
+            <field  name="sin_exist">True</field>
+            <field name="edu_phase" ref="hr_education_bacelor"/>
+            <field name="edu_school" ref="hr_school_eng"/>
+            <field  name="marital">married</field>
+            <field name="image" type="base64" file="eg_hr_payroll/static/img/rkh.jpg"/>
+            <field name="birthday">1986-06-20</field>
+            <field name="start_date">2010-10-1</field>
+            <!--<field eval="850" name="basic_salary"/>-->
+            <!--<field eval="970" name="variable_salary"/>-->
+            <!--<field eval="1020" name="allowances"/>-->
+            <!--<field eval="750" name="prev_raise"/>-->
+
+        </record>
+
+
+        <!-- Salary Structure -->
+         <record id="hr_salary_structure_2017" model="hr.payroll.structure">
+            <field name="code">Y17SS</field>
+            <field name="name">Base Salary Structure of Egypt with 2017 annual raise</field>
+            <field eval="[(6, 0, [ref('hr_salary_rule_basic'),ref('hr_salary_rule_variable'),
+        ref('hr_payroll_rule_raise'),ref('hr_payroll_rule_allowances'),ref('hr_salary_rule_insurance_deduction'),
+        ref('hr_salary_rule_absence'),ref('hr_salary_rule_attdelay'),ref('hr_salary_rule_penalties'),ref('hr_salary_rule_tax_deduction'),
+        ref('hr_rule_gross'),ref('hr_rule_taxable'),ref('hr_payroll.hr_rule_net'),ref('hr_payroll_rule_raise2017')])]" name="rule_ids"/>
+            <field name="parent_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="hr_contract_ramadan" model="hr.contract">
+            <field name="name">Contract For Ramadan Khalil</field>
+            <field name="type_id" ref="hr_contract.hr_contract_type_emp"/>
+            <field name="date_start" eval="time.strftime('%Y-%m')+'-1'"/>
+            <field name="date_end" eval="time.strftime('%Y')+'-12-31'"/>
+            <field name="struct_id" ref="hr_salary_structure_2017"/>
+            <field name="employee_id" ref="employee_rk"/>
+            <field name="notes">This is Ramadan Khalil`s contract</field>
+            <field eval="4000.0" name="wage"/>
+            <field name="resource_calendar_id" ref="resource.resource_calendar_std"/>
+            <field eval="850" name="basic_salary"/>
+            <field eval="970" name="variable_salary"/>
+            <field eval="1020" name="allowances"/>
+            <field eval="750" name="prev_raise"/>
+        </record>
+
+
+
+
+
+
+
+
+
+
+    </data>
+</odoo>

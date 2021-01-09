@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+        <template id="waiting_approval_report">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <h3 align="center">Waiting Approvals</h3>
+                    <br/>
+                    <table class="table table-sm text-center mt4 mb4" align="center" style="font-size:10px">
+                        <tr>
+                            <th>Employee</th>
+                            <th>Time Off type</th>
+                            <th>Description</th>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>Duration(days)</th>
+                        </tr>
+                        <t t-foreach="docs" t-as="o">
+                            <tr>
+                                <td><span t-esc="o.employee_id.name"/></td>
+                                <td><span t-esc="o.holiday_status_id.name"/></td>
+                                <td><span t-esc="o.name"/></td>
+                                <td><span t-esc="o.date_from"/></td>
+                                <td><span t-esc="o.date_to"/></td>
+                                <td><span t-esc="o.number_of_days"/></td>
+                            </tr>
+                        </t>
+                    </table>
+                </t>
+            </t>
+        </template>
+
+        <report
+            id="report_waiting_approval_report"
+            string="Waiting Approval"
+            model="hr.leave"
+            report_type="qweb-pdf"
+            file="surgi_ess.waiting_approval_report"
+            name="surgi_ess.waiting_approval_report"
+        />
+    </data>
+</odoo>

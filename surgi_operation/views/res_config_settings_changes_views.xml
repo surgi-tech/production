@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_res_config_settings_inherit" model="ir.ui.view">
+            <field name="name">res.config.settings.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="sale_stock.res_config_settings_view_form_stock"/>
+            <field name="arch" type="xml">
+
+                <field name="default_picking_policy" position="after">
+                    <field name="customers_operations_location" domain="[('usage','=','view')]"/>
+                </field>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

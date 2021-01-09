@@ -1,0 +1,31 @@
+<odoo>
+
+    <data>
+
+              <record id="form_view_account_payment_register" model="ir.ui.view">
+            <field name="name">form_view_account_payment_register</field>
+            <field name="model">account.payment.register</field>
+            <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='action_create_payments']" position="attributes">
+                    <attribute name="string">Save</attribute>
+                </xpath>
+
+<!--                <xpath expr="//form[1]/sheet[1]/group[1]" position="after">-->
+<!--                    <group name="surgi_group_ZwO">-->
+<!--                        <group name="surgi_group_ZwO_left">-->
+<!--                            <field name="check_number" required="True"/>-->
+<!--                            <field name="date_due" required="True"/>-->
+<!--                            <field name="collection_receipt_number"/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+<!--                </xpath>-->
+
+            </field>
+        </record>
+
+
+    </data>
+
+</odoo>

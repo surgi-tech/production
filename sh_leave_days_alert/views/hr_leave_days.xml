@@ -1,0 +1,19 @@
+<?xml version ="1.0" encoding="utf-8" ?>
+
+<odoo>
+	<data>
+	
+	  	<record id="sh_holidays_stauts_leave_days_alert_form_inherit" model="ir.ui.view">
+			<field name="name">hr.holidays.status.leave.days.form</field>
+			<field name="model">hr.leave.type</field>
+			<field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+			<field name="arch" type="xml">
+				<field name="color_name" position="after">
+					<field name="leave_before_day_alert"/>
+  					<field name="leave_before_days" attrs="{'invisible':[('leave_before_day_alert','=',False)] }" />
+				</field>
+	 		</field>
+		</record>
+
+	</data>	
+ </odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sales_order_form_inherit_1" model="ir.ui.view">
+            <field name="name">sale_order.form.inherit_1</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit_sale_stock"/>
+            <field name="arch" type="xml">
+                <field name="warehouse_id" position="after">
+                    <field name="location_id"/>
+                    <field name="location_dest_id"/>
+                </field>
+
+                <field name="partner_id" position="before">
+                    <field name="customer_printed_name"/>
+                </field>
+
+                <field name="partner_id" position="after">
+                    <field name="hospital_id"/>
+                    <field name="surgeon_id"/>
+                    <field name="patient_name"/>
+                    <field name="sales_area_manager"/>
+                    <field name="collection_rep"/>
+                    <field name="so_type"/>
+                    <field name="flag" invisible="1" />
+                    <field name="message_error" string="." style="color:Red;" attrs="{'invisible': [('flag', '=', True)]}"/>
+                </field>
+
+                <field name="team_id" position="after">
+                    <field name="sales_area_manager"/>
+                    <field name="collection_rep"/>
+                    <!--<field name="collection_team"/>-->
+                </field>
+
+                <xpath expr="//sheet/div/button[1]" position="after">
+                    <button name="action_view_operations" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': ['|',('so_type', 'not in', ['tender','supply_order']),('state', '!=', 'sale')]}">
+                                <field string="Operations" name="oper_count" widget="statinfo" modifiers="{'readonly': true}"/>
+                    </button>
+
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

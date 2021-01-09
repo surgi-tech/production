@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--add field at product.template-->
+        <record id="view_operation_component_form_inherit" model="ir.ui.view">
+            <field name="name">surgitech product</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <div name="options" position="inside">
+                    <div>
+                        <field name="operation_component" />
+                        <label for="operation_component" string="Operation Component" />
+                    </div>
+                 </div>
+                <!--add new page related to surgitech changes-->
+                <xpath expr="//notebook/page[@name='sales']" position="after">
+                    <page string="Operation Component" attrs="{'invisible': [('operation_component', '=', False)]}">
+                        <group>
+                                <group>
+                                    <field name="is_op_acc"/>
+                                        </group>
+                        <group>
+                            <field name="operation_type"
+                                       attrs="{'invisible': [('operation_component', '=', False)]}"/>
+                        </group>
+                        <group>
+                            <field name="tool_line_ids" attrs="{'invisible': [('operation_component', '=', False)],}">
+                                    <tree editable="bottom">
+                                        <field name="product_id" domain="[('is_tool','=',True)]"/>
+                                        <field name="quantity"/>
+                                    </tree>
+                                </field>
+                        </group>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!--product.product inherit view-->
+        <!-- Inherit Form View to Modify it -->
+        <!--<record id="view_operation_component_product_form_inherit" model="ir.ui.view">
+            <field name="name">product.product.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <div name="options" position="inside">
+                    <div>
+                        <field name="operation_component" />
+                        <label for="operation_component" string="Operation Component" />
+                    </div>
+                 </div>-->
+                <!--add new page related to surgitech changes-->
+                <!--<xpath expr="//notebook/page[@name='sales']" position="after">
+                    <page string="Operation Component" attrs="{'invisible': [('operation_component', '=', False)]}">
+                        <group>
+                                <group>
+                                    <field name="is_op_acc"/>
+                                        </group>
+                        <group>
+                            <field name="operation_type"
+                                       attrs="{'invisible': [('operation_component', '=', False)]}"/>
+                        </group>
+                        <group>
+                            <field name="tool_line_ids" attrs="{'invisible': [('operation_component', '=', False)],}">
+                                    <tree editable="bottom">
+                                        <field name="product_id" domain="[('is_tool','=',True)]"/>
+                                        <field name="quantity"/>
+                                    </tree>
+                                </field>
+                        </group>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>-->
+
+        <!--search view of product.template-->
+        <record model='ir.ui.view' id='view_surgitech_product_template_filter'>
+            <field name='name'>product.template.select.inherit.filter</field>
+            <field name='model'>product.template</field>
+            <field name='inherit_id' ref='product.product_template_search_view'/>
+            <field name='arch' type='xml'>
+                <field name="pricelist_id" position="after">
+                    <filter string="Operation Component" name="operation_component"
+                            domain="[('operation_component','=',True)]"/>
+                </field>
+            </field>
+        </record>
+
+        <!--operation type form view-->
+        <record id="operation_type_tree_view" model="ir.ui.view">
+            <field name="name">operation.type.tree.view</field>
+            <field name="model">product.operation.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                            <field name="name" string="Operation Type"/>
+                                </group>
+                            <group>
+                            <field name="operation_type_category" string="Category"/>
+                                </group>
+                            <group>
+                            <field name="operation_product_line" string="Product Line"/>
+                        </group>
+                        </group>
+                        <notebook>
+                            <page name="printing_description" string="Invoice Printing Description">
+                                <field name="invoice_printing_description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <group>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!--action for operation type-->
+        <record id="action_operation_type" model="ir.actions.act_window">
+            <field name="name">Operation Type</field>
+            <field name="res_model">product.operation.type</field>
+            <field name="view_mode">tree,form,pivot</field>
+        </record>
+        <!--Menus for operation Model-->
+        <menuitem id="menu_surgi_operation_type" action="action_operation_type"
+                  parent="operations_configration_menuitem"
+                  name="Sales Operations Types"/>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+
+    <record id="hospital_surgeon_search" model="ir.ui.view">
+       <field name="name">hospital.surgeon.list</field>
+       <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <search string="Search Partner">
+                   <field name="name" filter_domain="['|','|',('name','ilike',self),('arabic_name','ilike',self),('ref','ilike',self)]" string="Customer"/>
+                   <filter string="Hospitals" name="customer_kind" domain="[('customer_kind','=','hospital')]"/>
+                   <filter string="Hospitals" name="customer_kind" domain="[('customer_kind','=','surgeon')]"/>
+                   <filter string="Hospitals" name="customer_kind" domain="[('customer_kind','=','company')]"/>
+                   <filter string="Hospitals" name="customer_kind" domain="[('customer_kind','=','patient')]"/>
+                   <filter string="Operation Hospitals" name="is_hospital" domain="[('is_hospital','=',True)]"/>
+                   <filter string="Operation Surgeons" name="is_surgeon" domain="[('is_surgeon','=',True)]"/>
+                   <filter string="Customers" name="customer" domain="[('customer','=',1), ('parent_id', '=', False)]"/>
+                   <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+            </search>
+       </field>
+    </record>
+
+    <record id="action_hospital_list" model="ir.actions.act_window">
+        <field name="name">Hospital list</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,pivot</field>
+        <field name="search_view_id" ref="hospital_surgeon_search" />
+        <field name="domain">[('user_ids', '=', False),('customer', '=', True),('is_hospital', '=', True)]</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            <!-- Add Text Here -->
+          </p><p>
+            <!-- More details about what a user can do with this object will be OK -->
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="hospital_list" name="Hospital List" parent="operations_operation_menuitem" action="action_hospital_list" sequence="15" groups="surgi_operation.operations_viewer_group"/>
+
+
+
+    <record id="hospital_list_tree" model="ir.ui.view">
+        <field name="name">hospital.list.tree</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+        <tree string="Contacts" create='false' delete='false'>
+                    <field name="ref"/>
+                    <field name="display_name" string="EN Name"/>
+                    <field name="arabic_name" string="AR Name"/>
+                    <field name="authority"/>
+                    <field name="team_id"/>
+                    <field name="user_id"/>
+                    <field name="direct_sales_users"/>
+                </tree>
+        </field>
+    </record>
+
+    <record id="action_hospital_list_tree" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_hospital_list"/>
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="hospital_list_tree"/>
+    </record>
+
+<!--========================================================================================================================-->
+
+    <record id="action_surgeon_list" model="ir.actions.act_window">
+        <field name="name">Surgeon List</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,pivot</field>
+        <field name="search_view_id" ref="hospital_surgeon_search" />
+        <field name="domain">[('user_ids', '=', False),('customer', '=', True),('is_surgeon', '=', True)]</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            <!-- Add Text Here -->
+          </p><p>
+            <!-- More details about what a user can do with this object will be OK -->]
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="surgeon_list" name="Surgeon List" parent="operations_operation_menuitem" action="action_surgeon_list" sequence="16" groups="surgi_operation.operations_viewer_group"/>
+
+
+
+    <record id="surgeon_list_tree" model="ir.ui.view">
+        <field name="name">surgeon.list.tree</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+        <tree string="Contacts" create='false' delete='false'>
+                    <field name="ref"/>
+                    <field name="display_name" string="EN Name"/>
+                    <field name="arabic_name" string="AR Name"/>
+                    <field name="authority"/>
+                    <field name="team_id"/>
+                    <field name="user_id"/>
+                    <field name="direct_sales_users"/>
+                </tree>
+        </field>
+    </record>
+
+    <record id="action_surgeon_list_tree" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_surgeon_list"/>
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="surgeon_list_tree"/>
+    </record>
+</odoo>

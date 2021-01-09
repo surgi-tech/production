@@ -1,0 +1,103 @@
+<odoo>
+    <data>
+
+         <record id="hr_employee_security" model="res.groups">
+            <field name="name">Employee Permissions</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+
+        <record id="hr_employee_hr_edit" model="ir.ui.view">
+            <field name="name">name.hr.employee.data</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="delete">false</attribute>
+                    <!-- Add your fields or attributes here -->
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="groub_hr_employee_hr_edit" model="ir.ui.view">
+            <field name="name">name.hr.employee.data.group</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="groups_id" eval="[(4, ref('surgi_hr_groups.hr_employee_security'))]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="attributes">
+                    <attribute name="create">true</attribute>
+                    <attribute name="edit">true</attribute>
+                    <attribute name="delete">true</attribute>
+                </xpath>
+
+            </field>
+        </record>
+        <!--      ==================================================================================-->
+
+        <record id="tree_view_hr_employee" model="ir.ui.view">
+            <field name="name">name.hr.employee.data.tree</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="delete">false</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <record id="tree_view_hr_employee_group" model="ir.ui.view">
+            <field name="name">name.hr.employee.group</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="groups_id" eval="[(4, ref('surgi_hr_groups.hr_employee_security'))]"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="create">true</attribute>
+                    <attribute name="edit">true</attribute>
+                    <attribute name="delete">true</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="kanban_view_hr_employee">
+            <field name="name">name.kanban.view.data</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban" position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="delete">false</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="kanban_view_hr_employee_groups">
+            <field name="name">name.kanban.view.data.group</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+            <field name="groups_id" eval="[(4, ref('surgi_hr_groups.hr_employee_security'))]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban" position="attributes">
+                    <attribute name="create">true</attribute>
+                    <attribute name="edit">true</attribute>
+                    <attribute name="delete">true</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--========================= A.Salama=======================-->
+        <record id="cancel_operation_tree_view" model="ir.ui.view">
+            <field name="name">cancel.operation.tree.view</field>
+            <field name="model">operation.cancel.reason</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+         <record id="cancel_operation_form_view" model="ir.ui.view">
+            <field name="name">cancel.operation.form.view</field>
+            <field name="model">operation.cancel.reason</field>
+            <field name="arch" type="xml">
+                <form string="Reasons">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="cancel_reason_action" model="ir.actions.act_window">
+            <field name="name">cancel.reason.action</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">operation.cancel.reason</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Cancel Reasons -->
+              </p><p>
+                <!-- reasons of cancel operations.. -->
+              </p>
+            </field>
+        </record>
+        <!-- cancel reason action -->
+        <menuitem id="cancel_reason_menuitem" name="Cancel Reasons" parent="operations_configration_menuitem" action="cancel_reason_action" sequence="1"/>
+
+
+    </data>
+</odoo>

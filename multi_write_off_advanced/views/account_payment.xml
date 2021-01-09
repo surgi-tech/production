@@ -1,0 +1,105 @@
+<odoo>
+    <data>
+
+        <record id="form_view_account_move_line_inherit_page" model="ir.ui.view">
+            <field name="name">name.account.move.line.inherit</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='name']" position="after">
+                    <!-- Add your fields or attributes here -->
+                    <field name="no_check" force_save="1" invisible="1"/>
+                    <field name="is_no" force_save="1" invisible="1"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+
+<!--        <record id="account_payment_register_tree_view" model="ir.ui.view">-->
+<!--            <field name="name">Register Payment</field>-->
+<!--            <field name="model">account.payment.register</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree string="Register Payment">-->
+<!--                    <field name="sequence_num"/>-->
+<!--                    <field name="payment_option"/>-->
+<!--                    <field name="journal_id"/>-->
+<!--                    <field name="amount_pay_total"/>-->
+<!--                    <field name="amount"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        <record id="seq_hr_employee_application" model="ir.sequence">-->
+<!--            <field name="name">Application Number</field>-->
+<!--            <field name="code">library.card.number</field>-->
+<!--            <field name="prefix">RG/PAY</field>-->
+<!--            <field name="padding">5</field>-->
+<!--        </record>-->
+
+<!--        <record id="action_register_payment_view" model="ir.actions.act_window">-->
+<!--            <field name="name">Register Payment</field>-->
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model">account.payment.register</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="help" type="html">-->
+<!--                <p class="oe_view_nocontent_create">-->
+<!--                    &lt;!&ndash; Add Text Here &ndash;&gt;-->
+<!--                </p>-->
+<!--                <p>-->
+<!--                    &lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+<!--                </p>-->
+<!--            </field>-->
+<!--        </record>-->
+
+
+<!--        &lt;!&ndash; This Menu Item must have a parent and an action &ndash;&gt;-->
+<!--        <menuitem id="menu_account_payment_action" name="Register Payment" parent="account.menu_finance_receivables"-->
+<!--                  action="action_register_payment_view" sequence="4"/>-->
+
+<!--        &lt;!&ndash; Inherit Form View to Modify it &ndash;&gt;-->
+<!--        <record id="account_view_account_payment_form_multi_form_view" model="ir.ui.view">-->
+<!--            <field name="name">view_account_payment_form_multi_form_view</field>-->
+<!--            <field name="model">account.payment.register</field>-->
+<!--            <field name="inherit_id" ref="account.view_account_payment_form_multi"/>-->
+<!--            <field name="arch" type="xml">-->
+
+<!--                <xpath expr="//button[@name='create_payments']" position="before">-->
+<!--                    &lt;!&ndash; Add your fields or attributes here &ndash;&gt;-->
+<!--                    <field name="is_pay" invisible="1"/>-->
+<!--                    <button name="save_register" type="object" string="Save" class="oe_highlight"-->
+<!--                            attrs="{'invisible': [('check_create', '=', True)]}"/>-->
+<!--                    <field name="check_create" invisible="True"/>-->
+<!--                    <button name="ar_validation" type="object" string="AR Validation" class="oe_highlight"-->
+<!--                            attrs="{'invisible':['|',('ar_validate', '=', True),('check_create', '=', False)]}"-->
+<!--                            groups="surgi_accounting.only_show_data_groups_ar_team"/>-->
+
+
+<!--                </xpath>-->
+
+<!--                <xpath expr="//button[@class='btn btn-secondary']" position="attributes">-->
+<!--                    <attribute name="invisible">True</attribute>-->
+<!--                </xpath>-->
+
+<!--                <xpath expr="//button[@name='create_payments']" position="attributes">-->
+<!--                    <attribute name="attrs">{'invisible': ['|','|',('ar_validate', '=', False),('check_create', '=',-->
+<!--                        False),('is_pay', '=', True)]}-->
+<!--                    </attribute>-->
+<!--                    <attribute name="groups">surgi_accounting.only_show_data_teregaly_team</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='payment_option']" position="before">-->
+<!--                    &lt;!&ndash; Add your fields or attributes here &ndash;&gt;-->
+<!--                    <h2>-->
+<!--                        <field name="sequence_num" nolabel="1"/>-->
+<!--                    </h2>-->
+<!--                    <br/>-->
+<!--                    <br/>-->
+<!--                </xpath>-->
+
+
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>

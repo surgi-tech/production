@@ -1,0 +1,128 @@
+<odoo>
+    <data>
+        <record id="hr_contract_form_egypt_inherit" model="ir.ui.view">
+            <field name="name">hr.contract.view.form.egypt.inherit</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='information']" position="after">
+                    <page name="icrement_emp_surgi" string="increment historical">
+
+                        <group colspan="8">
+<!--                            <group>-->
+<!--                                <field name="emp_contract_name" />-->
+
+<!--                            </group>-->
+
+                                <field name="increment_contract" string="increment" >
+                                            <tree editable="bottom" colspan="6">
+        <!--                                        <field name="job_pos" />-->
+                                                <field name="job_ides"/>
+
+                                                <field name="grade_id" forcesave='1'/>
+                                                <field name="rank_id" forcesave='1'/>
+                                                <field name="rang_id" forcesave='1'/>
+
+                                                <field name="year_increment" forcesave='1'/>
+                                                <field name="current_salary" />
+
+                                                <field name="amount_increment" forcesave='1'/>
+                                                <field name="total_current_salary" />
+
+<!--                                                    <field name="total_empp_salary" />-->
+                                            </tree>
+
+                                </field>
+
+                        </group>
+
+                    </page>
+                    <page name="insurance_info" string="Insurance Information">
+                        <group>
+                            <group>
+                                <field name="registration_number"/>
+                                <field name="sin_exist"/>
+                                <field name="sin_no" attrs="{'invisible':[('sin_exist','=', False)]}"/>
+                                <field name="sin_date" attrs="{'invisible':[('sin_exist','=', False)]}"/>
+                                <field name="sin_end_date" attrs="{'invisible':[('sin_exist','=', False)]}"/>
+                                <field name="sin_title" attrs="{'invisible':[('sin_exist','=', False)]}"/>
+                                <field name="sin_basic_salary" attrs="{'invisible':[('sin_exist','=', False)]}"/>
+                                <field name="sin_variable_salary" attrs="{'invisible':[('sin_exist','=', False)]}"/>
+                            </group>
+                            <group>
+                                <field name="mi_exist"/>
+                                <field name="mi_company" attrs="{'invisible':[('mi_exist','=', False)]}"/>
+                                <field name="mi_no" attrs="{'invisible':[('mi_exist','=', False)]}"/>
+                                <field name="mi_date" attrs="{'invisible':[('mi_exist','=', False)]}"/>
+                            </group>
+                        </group>
+                    </page>
+                   <page name="salary_items" string="Salary Items" groups="hr.group_hr_manager">
+                       <group>
+                       <group name="salary" string="Salary Details">
+                        <field name="basic_salary"/>
+                        <field name="basic_salary_precent"/>
+                        <field name="increase_2014"/>
+                        <field name="increase_2015"/>
+                        <field name="increase_2016"/>
+                        <field name="increase_2017"/>
+                        <field name="increase_2018"/>
+                        <field name="increase_total"/>
+                        <field name="total_salary_without_incentive"/>
+                    </group>
+                       <group name="Incentives" string="Incentive">
+                        <field name="standalone_incentive"/>
+                        <field name="advanced_incentive"/>
+                        <field name="incentive_2014"/>
+                        <field name="incentive_2015"/>
+                        <field name="incentive_2016"/>
+                        <field name="incentive_2017"/>
+                        <field name="incentive_2018"/>
+                        <field name="incentive_total"/>
+                    </group>
+                       </group>
+                    <group name="Allowance" string="Monthly Allowance in Cash">
+                    <group>
+                        <!--<field name="trans_allow"/>-->
+                        <field name="trans_allow_mokattam"/>
+                        <field name="trans_allow_bank"/>
+                        <field name="travel_expenses_allow"/>
+                        <field name="travel_allow_int_f"/>
+                    </group>
+                    <group>
+                        <field name="car_allow"/>
+                        <field name="fuel_allow"/>
+                        <field name="mobi"/>
+                        <field name="housing"/>
+                        <field name="nature"/>
+                        <field name="hazard_pay"/>
+                    </group>
+                        <group name="Advanced Commissions" string="Monthly Advanced Commissions in Cash">
+                        <field name="advance_sales_comm"/>
+                        <field name="advance_collection_comm"/>
+                    </group>
+                    </group>
+                    <group>
+                        <field name="total_salary"/>
+                    </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+<!--        <record id="view_contract_form_grade_ranks" model="ir.ui.view">-->
+<!--            <field name="name">hr.contract.form.grade.ranks</field>-->
+<!--            <field name="model">hr.contract</field>-->
+<!--            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='grade_total_salary']" position="after">-->
+
+<!--                    <field name="total_salary"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+
+
+    </data>
+</odoo>

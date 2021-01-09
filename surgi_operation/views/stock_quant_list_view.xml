@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="stock_quant_inherit" model="ir.ui.view">
+            <field name="name">stock.quant.inherit</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_form"/>
+            <field name="arch" type="xml">
+
+                <field name="location_id" position="after">
+                    <field name="is_operation_related" invisible="1"/>
+                </field>
+                <field name="location_id" position="after">
+                    <field name="is_wh_user" invisible="1"/>
+                </field>
+
+            </field>
+        </record>
+
+        <!--Inherit Tree View-->
+        <record id="stock_quant_tree_inherit" model="ir.ui.view">
+            <field name="name">stock.quant.tree.inherit</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree"/>
+            <field name="arch" type="xml">
+
+                <field name="location_id" position="after">
+                    <field name="is_operation_related" invisible="0"/>
+                </field>
+                <field name="location_id" position="after">
+                    <field name="is_wh_user" invisible="0"/>
+                </field>
+
+            </field>
+        </record>
+
+        <!--'search_default_internal_loc': 1-->
+        <record model="ir.actions.act_window" id="custom_quantsact">
+            <field name="name">Operation Quants</field>
+            <field name="res_model">stock.quant</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'group_by': ['location_id']}</field>
+            <field name="domain"></field>
+            <!--[('is_operation_related','=',1),('is_wh_user','=',1),('is_hanged','=',0)]-->
+            <field name="help">This analysis gives you a fast overview on the current stock level of your products and
+                their current inventory value.
+            </field>
+        </record>
+
+        <!--Inherit Tree View-->
+        <record id="hanged_stock_quant_tree_inherit" model="ir.ui.view">
+            <field name="name">hanged.stock.quant.tree.inherit</field>
+            <field name="model">hanged.stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree"/>
+            <field name="arch" type="xml">
+                <field name="location_id" position="replace">
+                    <field name="operation_location_id"/>
+                </field>
+            </field>
+        </record>
+
+
+        <record id="custom_stock_quant_search_view" model="ir.ui.view">
+            <field name="name">stock.quant.custom.search</field>
+            <field name="model">stock.quant</field>
+            <field eval="10" name="priority"/>
+            <field name="arch" type="xml">
+                <search string="Quants">
+                    <field name="location_id" string="Location" filter_domain="[('location_id','ilike', self)]"/>
+                    <field name="product_id" string="Product" filter_domain="[('product_id','ilike', self)]"/>
+                    <field name="lot_id" string="Lot" filter_domain="[('lot_id','ilike', self)]"/>
+                    <field name="is_wh_user" string="Is WH User" filter_domain="[('lot_id','ilike', self)]"/>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="custom_hanged_stock_quant_search_view" model="ir.ui.view">
+            <field name="name">hanged.stock.quant.custom.search</field>
+            <field name="model">hanged.stock.quant</field>
+            <field eval="10" name="priority"/>
+            <field name="arch" type="xml">
+                <search string="Quants">
+                    <field name="operation_location_id" string="Location"
+                           filter_domain="[('operation_location_id','ilike', self)]"/>
+                    <field name="product_id" string="Product" filter_domain="[('product_id','ilike', self)]"/>
+                    <field name="lot_id" string="Lot" filter_domain="[('lot_id','ilike', self)]"/>
+                    <field name="is_wh_user" string="Is WH User" filter_domain="[('lot_id','ilike', self)]"/>
+
+
+                </search>
+            </field>
+        </record>
+
+
+        <!--'search_default_internal_loc': 1-->
+        <record id="hanged_quants" model="ir.actions.act_window">
+            <field name="name">Hanged Quantities</field>
+            <field name="res_model">hanged.stock.quant</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="hanged_stock_quant_tree_inherit"/>
+            <field name="context">{}</field>
+            <field name="domain">[('is_operation_related','=',1),('is_wh_user','=',1)]</field>
+        </record>
+
+        <act_window
+                id="act_new_move_to_delivery_order_sub_menu_stock_quant_list"
+                name="Delivery Order"
+                binding_model="stock.quant"
+
+                res_model="wizard_stock_quant"
+                view_mode="form"
+                target="new"
+                binding_views="list"
+        />
+        <record id="act_new_move_to_delivery_order_sub_menu_stock_quant_list_record" model="ir.actions.act_window">
+            <field name="name">Delivery Order</field>
+            <field name="res_model">wizard_stock_quant</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_stock_quant_tree"/>
+            <field name="context">{}</field>
+
+        </record>-->
+        <!--<act_window-->
+        <act_window
+                id="act_new_back_to_warehouse_sub_menu_stock_quant_list"
+                name="Back To Warehouse"
+                binding_model="stock.quant"
+                res_model="wizard_back_to_warehouse"
+                view_mode="form"
+                target="new"
+                binding_views="list"
+        />
+        <!--        nassar-->
+        <record model="ir.actions.act_window" id="act_new_hanged_back_to_warehouse_sub_menu_record">
+            <field name="name">Back To Ware House</field>
+            <field name="res_model">wizard_back_to_warehouse</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+
+            <field name="view_id" ref="stock.view_stock_quant_tree"/>
+        </record>
+        <!--        nassar-->
+        <!--id="act_new_hanged_back_to_warehouse_sub_menu"-->
+        <!--name="Back To Warehouse"-->
+        <!--binding_model="hanged.stock.quant"-->
+        <!--res_model="wizard_hanged_back_to_warehouse"-->
+        <!--view_mode="form"-->
+        <!--target="new"-->
+        <!--binding_views="form"-->
+        <!--/>-->
+        <!--========================-->
+
+        <record id="form_views_wizard_po_open_wizard" model="ir.ui.view">
+            <field name="name">form_views_wizard_po_open_wizard_name</field>
+            <field name="model">wizard.po.open</field>
+            <field name="arch" type="xml">
+                <form string="PO">
+                    <sheet>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="partner_id"/>
+                        </group>
+<!--                        <button name="create_po123" type="object" string="Create OP"/>-->
+                    </sheet>
+                    <footer>
+                        <button name="create_po" type="object" class="btn-primary"
+                                string="Create PO"/>
+                        <button special="cancel" class="btn-primary" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_po_wizard_to_create" model="ir.actions.act_window">
+            <field name="name">Crate PO</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.po.open</field>
+            <field name="view_mode">form</field>
+<!--            <field name="view_id" ref="form_views_wizard_po_open_wizard"/>-->
+
+            <field name="target">new</field>
+        </record>
+
+        <record id="create_purchase_order_from_shipments" model="ir.actions.act_window">
+            <field name="name">Create Purchase Order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.po.open</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <!--<field name="groups_id" eval="[(4,ref('sales_team.group_sale_salesman'))]"/>-->
+            <field name="binding_model_id" ref="stock.model_stock_quant"/>
+            <field name="binding_view_types">list</field>
+        </record>
+
+
+        <!--        =====================================-->
+
+
+        <act_window
+                id="act_new_wizard_move_to_location_sub_menu_stock_quant_list"
+                name="Move To Another Operation"
+                binding_model="stock.quant"
+
+                res_model="wizard_move_to_location"
+                view_mode="form"
+                target="new"
+                binding_views="list"
+        />
+
+        <act_window
+                id="act_new_move_to_hanged_warehouse_sub_menu_stock_quant_list"
+                name="Move To Hanged Warehouse"
+                binding_model="stock.quant"
+
+                res_model="wizard_move_to_hanged_warehouse"
+                view_mode="form"
+                target="new"
+                binding_views="list"
+        />
+
+
+        <menuitem id="custom_menu_quants" name="Operation Quantities" parent="stock.menu_stock_warehouse_mgmt"
+                  sequence="120" action="custom_quantsact"/>
+
+        <menuitem id="custom_menu_hanged_quants" name="Hanged Quantities" parent="account.menu_finance_receivables"
+                  sequence="120" action="hanged_quants"/>
+
+        <menuitem id="custom_menu_invemtory_hanged_quants" name="Hanged Quantities"
+                  parent="stock.menu_stock_warehouse_mgmt"
+                  sequence="10" action="hanged_quants"/>
+
+
+    </data>
+</odoo>

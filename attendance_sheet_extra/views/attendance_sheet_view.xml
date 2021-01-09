@@ -1,0 +1,14 @@
+<odoo>
+
+    <record id="attendance_sheet_form_view_batch_inherited" model="ir.ui.view">
+        <field name="name">attendance.sheet.form.view</field>
+        <field name="model">attendance.sheet</field>
+        <field name="inherit_id" ref="rm_hr_attendance_sheet.attendance_sheet_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//label[@for='date_from']" position="before">
+                <field name="batch_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+                <!--add field at product.template-->
+        <record id="surgi_product_template_form_inherit" model="ir.ui.view">
+            <field name="name">surgitech product</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+
+                <div name="options" position="inside">
+                    <div>
+                        <field name="is_medical"/>
+                        <label for="is_medical" string="Medical Product"/>
+                    </div>
+                    <div>
+                        <field name="is_tool" attrs="{'invisible': [('is_medical', '=', False)]}"/>
+                        <label for="is_tool" string="Tools" attrs="{'invisible': [('is_medical', '=', False)]}"/>
+                    </div>
+
+                </div>
+
+            </field>
+        </record>
+
+        <record id="surgi_product_template_standard_ref" model="ir.ui.view">
+            <field name="name">product.template.standard.ref</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"></field>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='default_code']" position="after">
+                    <field name="standard_default_code"/>
+                    <field name="product_group"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!--add field at product.product-->
+        <record id="surgi_product_product_form_inherit" model="ir.ui.view">
+            <field name="name">surgitech product</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+
+                <div name="options" position="inside">
+                    <div>
+                        <field name="is_medical"/>
+                        <label for="is_medical" string="Medical Product"/>
+                    </div>
+                    <div>
+                        <field name="is_tool" attrs="{'invisible': [('is_medical', '=', False)]}"/>
+                        <label for="is_tool" string="Tools" attrs="{'invisible': [('is_medical', '=', False)]}"/>
+                    </div>
+
+                </div>
+
+            </field>
+        </record>
+
+        <record id="surgi_product_product_standard_ref" model="ir.ui.view">
+            <field name="name">product.product.standard.ref</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"></field>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='default_code']" position="after">
+                    <field name="standard_default_code"/>
+                    <field name="product_group"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

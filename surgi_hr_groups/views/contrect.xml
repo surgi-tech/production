@@ -1,0 +1,101 @@
+<odoo>
+    <data>
+        <record id="hr_contract_security" model="res.groups">
+            <field name="name">Contract Permissions</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="form_view_hr_contract" model="ir.ui.view">
+            <field name="name">name.hr.contract.data</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//form" position="attributes">
+                    <!-- Add your fields or attributes here -->
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="delete">false</attribute>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="form_view_hr_contract_groups" model="ir.ui.view">
+            <field name="name">name.hr.contract.data.groups</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="groups_id" eval="[(4, ref('surgi_hr_groups.hr_contract_security'))]"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//form" position="attributes">
+                    <!-- Add your fields or attributes here -->
+                    <attribute name="create">true</attribute>
+                    <attribute name="edit">true</attribute>
+                    <attribute name="delete">true</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="tree_views_hr_contract" model="ir.ui.view">
+            <field name="name">name.hr.contract.data.tree</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="delete">false</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="tree_views_hr_contract_groups" model="ir.ui.view">
+            <field name="name">name.hr.contract.data.tree.groups</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_tree"/>
+            <field name="groups_id" eval="[(4, ref('surgi_hr_groups.hr_contract_security'))]"/>
+
+            <field name="arch" type="xml">
+
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="create">true</attribute>
+                    <attribute name="edit">true</attribute>
+                    <attribute name="delete">true</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="kanban_view_hr_contract">
+            <field name="name">name.kanban.contract.data</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban" position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="delete">false</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="kanban_view_hr_contract_groups">
+            <field name="name">name.kanban.contract.data.groups</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_kanban"/>
+            <field name="groups_id" eval="[(4, ref('surgi_hr_groups.hr_contract_security'))]"/>
+
+            <field name="arch" type="xml">
+                <xpath expr="//kanban" position="attributes">
+                    <attribute name="create">true</attribute>
+                    <attribute name="edit">true</attribute>
+                    <attribute name="delete">true</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

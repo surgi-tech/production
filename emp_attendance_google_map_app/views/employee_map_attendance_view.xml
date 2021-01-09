@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backends_attendances" name="hr_attendance assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/emp_attendance_google_map_app/static/src/css/gmaps.css" />
+            <script type="text/javascript" src="/emp_attendance_google_map_app/static/src/js/my_attendances_extend.js"></script>
+            <script type="text/javascript" src="/emp_attendance_google_map_app/static/src/js/gmaps.js"></script>
+        </xpath>
+    </template>
+
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.hr.attendance</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="80"/>
+        <field name="inherit_id" ref="hr_attendance.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('app_settings_block')][@data-key='hr_attendance']/div[1]/div[1]" position="after">
+                <div class="col-12 col-lg-6 o_setting_box" >
+                    <div class="o_setting_left_pane">
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <span class="o_form_label">Google API Key</span>
+                        <div class="text-muted">
+                            Use Key to access Google map feature.
+                        </div>
+                        <field name="google_api_key"/>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="hr_attendance_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr.attendance.view.form.inherit</field>
+        <field name="model">hr.attendance</field>
+        <field name="priority" eval="80"/>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+        <field name="arch" type="xml">
+            <field name="check_out" position="after">
+                <field name="address" /> 
+                <field name="browser" /> 
+                <field name="os" /> 
+            </field>
+        </field>
+    </record>
+
+    <record id="hr_attendance_view_tree_inherit" model="ir.ui.view">
+        <field name="name">hr.attendance.view.tree.inherit</field>
+        <field name="model">hr.attendance</field>
+        <field name="priority" eval="80"/>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+        <field name="arch" type="xml">
+            <field name="check_out" position="after">
+                <field name="address" /> 
+                <field name="browser" /> 
+                <field name="os" /> 
+            </field>
+        </field>
+    </record>
+
+    
+
+    <record model="ir.ui.view" id="odoo_map_form">
+        <field name="name">odoo_map.form</field>
+        <field name="model">odoo.map</field>
+        <field name="arch" type="xml">
+            <form string="description">
+                <header>
+                    <button name="search_map" class="btn btn-primary my_map_button" string="Search Map" type="object" icon="fa-search" id="search_gmap"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="department_id"/>
+                            <field name="employee_id"/>
+                            <field name="date" required="1"/>
+                            <field name="map_key" widget='url' invisible='1'/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name='map' string='Map'>
+                        </page>
+                    </notebook>
+                    <div id="map-container" style="height:640px;">
+                        <div id="googleMap" style="height:540px;width:100%;">
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_odoo_map" model="ir.actions.act_window">
+        <field name="name">Odoo Map</field>
+        <field name="res_model">odoo.map</field>
+    </record>
+
+    <menuitem id="odoo_map_menu" name="Search Map" parent="hr_attendance.menu_hr_attendance_root" sequence="22" groups="hr_attendance.group_hr_attendance_user" action="action_odoo_map"/>
+
+</odoo>

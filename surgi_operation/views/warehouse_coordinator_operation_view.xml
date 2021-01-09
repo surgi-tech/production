@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="warehouse_coordinator_operations_form_view" model="ir.ui.view">
+            <field name="name">Warehouse Coordinator Operations</field>
+            <field name="model">operation.operation</field>
+            <field name="inherit_id" ref="surgi_operation.operation_form" />
+            <field name="groups_id" eval="[(4, ref('surgi_operation.operations_tender_coordinator'))]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[1]" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+                <xpath expr="//button[2]" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+                <xpath expr="//button[3]" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+                 <xpath expr="//field[@name='state']" position="attributes">
+                    <attribute name="attrs">{'readonly':True,'invisible': [('state', 'not in', ['draft','done', 'cancel'])]}</attribute>
+                 </xpath>
+
+                <!--<xpath expr="//field[@name='stage_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':True,'invisible': [('state', 'in', ['draft','done', 'cancel'])]}</attribute>
+                </xpath>-->
+
+                <xpath expr="//field[@name='start_datetime']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='operation_type']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='sequence']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='op_type']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='tender_so']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='side']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='responsible']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='start']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='stop']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='patient_national_id']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='patient_gender']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='patient_name']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='hospital_id']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='surgeon_id']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+
+                <xpath expr="//field[@name='warehouse_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('state','not in', ['draft'])]}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='location_id']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='customers_operations_location']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='notes']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='reason']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='description']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='product_lines']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='message_follower_ids']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='message_ids']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
+

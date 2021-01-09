@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ir_cron_attendance_sheet_get_attendance_cron"
+                model="ir.cron">
+            <field name="name">Update Attendance Sheet Attendance</field>
+            <field name="active" eval="True"/>
+            <field name="interval_number">7</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="state">code</field>
+            <field name="code">model.cron_update_attendance_sheet()</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id"
+                   ref="rm_hr_attendance_sheet.model_attendance_sheet"/>
+        </record>
+
+          <record id="hr_salary_rule_att_penalty" model="hr.salary.rule">
+            <field name="code">ATTPEN</field>
+            <field name="name">Attendance Penalties</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = payslip.penalty_amount > 0  or False
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result =-payslip.penalty_amount * contract.wage / (8*26)
+            </field>
+            <field name="sequence" eval="65"/>
+            <field name="note">deduction of Attendance Penalties</field>
+        </record>
+
+
+
+    </data>
+</odoo>

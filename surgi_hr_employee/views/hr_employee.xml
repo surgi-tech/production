@@ -1,0 +1,16 @@
+<odoo>
+  <data>
+      <record id="view_employee_filter_attendance_id" model="ir.ui.view">
+          <field name="name">Registration number search</field>
+          <field name="model">hr.employee</field>
+          <field name="inherit_id" ref="hr.view_employee_filter"/>
+          <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="registration_number"
+                           string="Registration Number of the Employee"
+                           filter_domain="[('registration_number','ilike',self)]"/>
+                </field>
+          </field>
+      </record>
+  </data>
+</odoo>

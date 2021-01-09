@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_employee_education_degree,access_surgi_hr_employee,model_education_degree,hr.group_hr_user,1,1,1,1
+access_hr_employee_education_institution,access_surgi_hr_employee,model_education_institution,hr.group_hr_user,1,1,1,1
+access_hr_employee_edu_user,hr.employee.edu.user,model_hr_eg_education,hr.group_hr_user,1,1,0,0
+access_hr_employee_edu_manager,hr.employee.edu.manager,model_hr_eg_education,hr.group_hr_manager,1,1,1,1
+access_hr_employee_school_user,hr.employee.school.user,model_hr_eg_school,hr.group_hr_user,1,1,0,0
+access_hr_employee_school_manager,hr.employee.school.manager,model_hr_eg_school,hr.group_hr_manager,1,1,1,1

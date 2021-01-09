@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <!--<record id="add_user_fields_security_groups" model="ir.ui.view">-->
+            <!--<field name="name">user_fields_security_groups</field>-->
+            <!--<field name="model">res.users</field>-->
+            <!--<field name="inherit_id" ref="base.view_users_form"/>-->
+            <!--<field name="arch" type="xml">-->
+
+                <!--<xpath expr="//field[@name='sel_groups_30_33_34']" position="after">-->
+                    <!--&lt;!&ndash; Add your fields or attributes here &ndash;&gt;-->
+                    <!--<record id="only_show_data_groups_ar_team" model="res.groups">-->
+                        <!--<field name="name">AR Team</field>-->
+                        <!--&lt;!&ndash;<field name="category_id" ref=""/>&ndash;&gt;-->
+                        <!--<field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>-->
+                    <!--</record>-->
+
+                <!--</xpath>-->
+
+            <!--</field>-->
+        <!--</record>-->
+
+        <record id="only_show_data_groups_ar_team" model="res.groups">
+            <field name="name">AR Team</field>
+            <!--<field name="category_id" ref=""/>-->
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="only_show_data_teregaly_team" model="res.groups">
+            <field name="name">Teregaly Team</field>
+            <!--<field name="category_id" ref=""/>-->
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+    </data>
+</odoo>

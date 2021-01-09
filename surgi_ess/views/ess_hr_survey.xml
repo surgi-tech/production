@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record id="ess_hr_survey_tree" model="ir.ui.view">
+            <field name="name">Ess Hr Survey Tree</field>
+            <field name="model">ess.hr.survey</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="survey_link" widget="url"/>
+                </tree>
+            </field>
+        </record>
+        <record id="ess_hr_survey_action" model="ir.actions.act_window">
+            <field name="name">Ess Hr Survey Action</field>
+            <field name="res_model">ess.hr.survey</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="ess_hr_survey_menu"
+                  name="Survey"
+                  action="ess_hr_survey_action"
+                  parent="menu_root_ess_surgi"
+        />
+
+    </data>
+</odoo>

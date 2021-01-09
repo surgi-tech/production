@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_attendance_policy_view_form" model="ir.ui.view">
+            <field name="name">hr.attendance.policy.form</field>
+            <field name="model">hr.attendance.policy</field>
+            <field name="inherit_id"
+                   ref="rm_hr_attendance_sheet.hr_attendance_policy_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//sheet" position="inside">
+                    <group string="Miss Punch Rule">
+                        <field name="miss_rule_id" nolabel="1"/>
+                    </group>
+                    <group>
+                        <field name="shift_allowance_line_ids">
+                            <tree editable="bottom">
+                                <field name="time_from"/>
+                                <field name="time_to"/>
+                                <field name="amount"/>
+
+                            </tree>
+                        </field>
+                    </group>
+                </xpath>
+
+
+            </field>
+        </record>
+
+
+        <record id="hr_late_rule_view_form" model="ir.ui.view">
+            <field name="name">hr.late.rule.form</field>
+            <field name="model">hr.late.rule</field>
+            <field name="inherit_id"
+                   ref="rm_hr_attendance_sheet.hr_late_rule_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='amount']"
+                       position="after">
+                    <field name="first"/>
+                    <field name="second"/>
+                    <field name="third"/>
+                    <field name="fourth"/>
+                    <field name="fifth"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_diff_rule_view_form" model="ir.ui.view">
+            <field name="name">hr.diff.rule.form</field>
+            <field name="model">hr.diff.rule</field>
+            <field name="inherit_id"
+                   ref="rm_hr_attendance_sheet.hr_diff_rule_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='amount']"
+                       position="after">
+                    <field name="first"/>
+                    <field name="second"/>
+                    <field name="third"/>
+                    <field name="fourth"/>
+                    <field name="fifth"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="hr_miss_rule_form_view" model="ir.ui.view">
+            <field name="name">hr.miss.rule.form.view</field>
+            <field name="model">hr.miss.rule</field>
+            <field name="arch" type="xml">
+                <form string="Miss Punch Rules">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+
+                        </group>
+                        <group string="miss Times"/>
+                        <field name="line_ids">
+                            <tree editable="bottom">
+                                <field name="counter"/>
+                                <field name="amount" widget="float_time"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_miss_rule_tree_view" model="ir.ui.view">
+            <field name="name">hr.miss.rule.tree.view</field>
+            <field name="model">hr.miss.rule</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_hr_miss_rule" model="ir.actions.act_window">
+            <field name="name">Miss Punch Rules</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.miss.rule</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_hr_miss_rule" name="Miss Punch Rules"
+                  parent="rm_hr_attendance_sheet.menu_hr_attendance_rules"
+                  action="action_hr_miss_rule"
+                  sequence="50"/>
+
+
+    </data>
+</odoo>

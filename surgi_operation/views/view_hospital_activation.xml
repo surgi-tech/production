@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+
+
+    <!-- This Menu Item must have a parent and an action -->
+
+    <record id="operations_hospitals_activation_action" model="ir.actions.act_window">
+        <field name="name">Hospitals Activation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="search_view_id" ref="hospital_surgeon_search" />
+        <field name="domain">[('user_ids', '=', False),('customer', '=', True),('customer_kind','=','hospital')]</field>
+        <!--<field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>-->
+        <!--<field name="limit" type="int">500</field>-->
+        <!--<field name="domain">[('type','in',['out_invoice','out_refund'])]</field>-->
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+                    Click to create a new Operation.
+          </p>
+        </field>
+    </record>
+
+        <menuitem id="hospitals_activation" name="Hospitals Activation" parent="operations_operation_menuitem" action="operations_hospitals_activation_action" sequence="9" groups="operations_hospitals_activation"/>
+
+
+
+    <record id="operations_hospitals_activation_tree" model="ir.ui.view">
+        <field name="name">operations.hospitals.activation.tree</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+        <tree string="Contacts" create="false" delete="false" editable="bottom">
+                    <field name="ref" readonly="True"/>
+                    <field name="is_hospital" string="Activation"/>
+                    <field name="display_name" string="EN Name" readonly="True"/>
+                    <field name="arabic_name" string="AR Name" readonly="True"/>
+                    <field name="authority" readonly="True"/>
+                    <field name="team_id" readonly="True"/>
+                    <field name="user_id" readonly="True"/>
+                </tree>
+        </field>
+    </record>
+
+    <record id="operations_hospitals_activation_action_tree" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="operations_hospitals_activation_action"/>
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="operations_hospitals_activation_tree"/>
+    </record>
+
+</odoo>

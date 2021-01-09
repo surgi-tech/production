@@ -1,0 +1,257 @@
+<odoo>
+    <data>
+
+
+        <record id="surgi_ess_add_tree_views_kpi_kpi" model="ir.ui.view">
+            <field name="name">KPI Employee</field>
+            <field name="model">kpi.kpi</field>
+            <field name="arch" type="xml">
+                <tree string="KPI" create="false" edit="false" delete="false">
+                    <field name="kra_kpi"/>
+                    <field name="name"/>
+                    <field name="weight" widget="percentage"/>
+                    <field name="active_kpi"/>
+                    <field name="interval_employee"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="surgi_ess_form_views_page_kpi_employee" model="ir.ui.view">
+            <field name="name">KPI Employee</field>
+            <field name="model">kpi.kpi</field>
+            <field name="arch" type="xml">
+                <form string="" create="false" edit="false" delete="false">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="kra_kpi"/>
+                                <field name="name"/>
+                                <field name="active_kpi" readonly='1' forcesave='1'/>
+
+                            </group>
+                            <group>
+                                <field name="weight" widget="percentage"/>
+                                <field name="interval_employee" options="{'no_open': True}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="surgi_ess_kpi_employee_page_actions" model="ir.actions.act_window">
+            <field name="name">Self KPIs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">kpi.kpi</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('interval_employee.employee_ids.user_id', '=', uid)]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_surgi_ess_form_views_page_kpi_employee">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="surgi_ess_form_views_page_kpi_employee"/>
+            <field name="act_window_id" ref="surgi_ess_kpi_employee_page_actions"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_surgi_ess_add_tree_views_kpi_kpi">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="surgi_ess_add_tree_views_kpi_kpi"/>
+            <field name="act_window_id" ref="surgi_ess_kpi_employee_page_actions"/>
+        </record>
+
+
+        <!-- Direct Subordinate -->
+
+        <record id="surgi_ess_form_views_page_kpi_direct_subordinate" model="ir.ui.view">
+            <field name="name">Direct_Subordinate_form_view</field>
+            <field name="model">kpi.kpi</field>
+            <field name="arch" type="xml">
+                <form string="" create="false" edit="true" delete="false">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="rest_kpi" type="object" string="Rest to draft" attrs="{'invisible':['|',('state','=','draft')]}"/>
+                        <button name="submit_kpi" type="object" string="Submit KPI" class="oe_highlight" attrs="{'invisible':['|',('state','!=','draft'),('active_kpi','=',True)]}"/>
+                        <button name="review_kpi" type="object" string="Reviewing KPI" class="oe_highlight" attrs="{'invisible':[('state','!=','review')]}"/>
+                        <button name="activate_kpi" type="object" string="Activate KPI" class="oe_highlight" attrs="{'invisible':['|',('state','!=','waiting'),('active_kpi','=',True)]}" groups="hr_appraisal.group_hr_appraisal_manager"/>
+                        <button name="cancel_kpi" type="object" string="Cancel KPI" class="oe_highlight" attrs="{'invisible':[('state','!=','draft')]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="kra_kpi"/>
+                                <field name="name"/>
+                                <field name="active_kpi" readonly='1' forcesave='1'/>
+
+                            </group>
+                            <group>
+                                <field name="weight" widget="percentage"/>
+                                <field name="interval_employee" options="{'no_open': True}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="surgi_ess_kpi_direct_employee_page_actions" model="ir.actions.act_window">
+            <field name="name">Subordinate KPIs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">kpi.kpi</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('interval_employee.employee_ids.parent_id.user_id', '=', uid)]</field>
+            <field name="context">{'group_by': ['interval_employee']}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+
+                </p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_surgi_ess_direct_form_views_page_kpi_employee">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="surgi_ess_form_views_page_kpi_direct_subordinate"/>
+            <field name="act_window_id" ref="surgi_ess_kpi_direct_employee_page_actions"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_surgi_ess_direct_add_tree_views_kpi_kpi">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="surgi_ess_add_tree_views_kpi_kpi"/>
+            <field name="act_window_id" ref="surgi_ess_kpi_direct_employee_page_actions"/>
+        </record>
+
+        <!-- -->
+
+        <!-- Department Manager Page -->
+
+        <record id="surgi_ess_form_views_page_kpi_department_employee" model="ir.ui.view">
+            <field name="name">Department_Employee_form_view</field>
+            <field name="model">kpi.kpi</field>
+            <field name="arch" type="xml">
+                <form string="" create="false" edit="true" delete="false">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="rest_kpi" type="object" string="Rest to draft" attrs="{'invisible':['|',('state','=','draft')]}"/>
+                        <button name="submit_kpi" type="object" string="Submit KPI" class="oe_highlight" attrs="{'invisible':['|',('state','!=','draft'),('active_kpi','=',True)]}"/>
+                        <button name="review_kpi" type="object" string="Reviewing KPI" class="oe_highlight" attrs="{'invisible':[('state','!=','review')]}"/>
+                        <button name="activate_kpi" type="object" string="Activate KPI" class="oe_highlight" attrs="{'invisible':['|',('state','!=','waiting'),('active_kpi','=',True)]}" groups="hr_appraisal.group_hr_appraisal_manager"/>
+                        <button name="cancel_kpi" type="object" string="Cancel KPI" class="oe_highlight" attrs="{'invisible':[('state','!=','draft')]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="kra_kpi"/>
+                                <field name="name"/>
+                                <field name="active_kpi" readonly='1' forcesave='1'/>
+
+                            </group>
+                            <group>
+                                <field name="weight" widget="percentage"/>
+                                <field name="interval_employee" options="{'no_open': True}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="surgi_ess_kpi_department_employee_page_actions" model="ir.actions.act_window">
+            <field name="name">Department KPIs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">kpi.kpi</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('interval_employee.employee_ids.department_id.manager_id.user_id', '=', uid)]</field>
+            <field name="context">{'group_by': ['interval_employee']}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+
+                </p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_surgi_ess_department_form_views_page_kpi_employee">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="surgi_ess_form_views_page_kpi_department_employee"/>
+            <field name="act_window_id" ref="surgi_ess_kpi_department_employee_page_actions"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_surgi_ess_department_add_tree_views_kpi_kpi">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="surgi_ess_add_tree_views_kpi_kpi"/>
+            <field name="act_window_id" ref="surgi_ess_kpi_department_employee_page_actions"/>
+        </record>
+
+        <!-- -->
+
+        <!-- IN-Direct Subordinate -->
+        <record id="surgi_ess_kpi_indirect_employee_page_actions" model="ir.actions.act_window">
+            <field name="name">Indirect Subordinate KPIs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">kpi.kpi</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('interval_employee.employee_ids.in_direct_parent_id.user_id', '=', uid)]</field>
+            <field name="context">{'group_by': ['interval_employee']}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+
+                </p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_surgi_ess_indirect_form_views_page_kpi_employee">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="surgi_ess_form_views_page_kpi_employee"/>
+            <field name="act_window_id" ref="surgi_ess_kpi_indirect_employee_page_actions"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_surgi_ess_indirect_add_tree_views_kpi_kpi">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="surgi_ess_add_tree_views_kpi_kpi"/>
+            <field name="act_window_id" ref="surgi_ess_kpi_indirect_employee_page_actions"/>
+        </record>
+
+        <!-- -->
+
+
+        <!-- This Menu Item must have a parent and an action -->
+
+        <menuitem id="surgi_ess_menu_action_page_kpi" name="KPI" parent="menu_root_ess_surgi" sequence="7"/>
+
+        <menuitem id="surgi_ess_menu_action_page_my_kpi" name="My KPIs" parent="surgi_ess_menu_action_page_kpi"
+                  action="surgi_ess_kpi_employee_page_actions" sequence="1"/>
+
+        <menuitem id="surgi_ess_Subordinate_menu_action_page_kpi" name="Direct Subordinate KPIs" parent="surgi_ess_menu_action_page_kpi"
+                  action="surgi_ess_kpi_direct_employee_page_actions" sequence="2"/>
+
+        <menuitem id="surgi_ess_in_subordinate_menu_action_page_kpi" name="In-Direct Subordinate KPIs" parent="surgi_ess_menu_action_page_kpi"
+                  action="surgi_ess_kpi_indirect_employee_page_actions" sequence="3"/>
+        <menuitem id="surgi_ess_in_department_menu_action_page_kpi" name="Department KPIs" parent="surgi_ess_menu_action_page_kpi"
+                  action="surgi_ess_kpi_department_employee_page_actions" sequence="4"/>
+
+
+    </data>
+</odoo>

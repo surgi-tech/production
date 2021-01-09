@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="employee_send_email_button_view" model="ir.ui.view">
+			<field name="name">employee.send.email.button.view</field>
+			<field name="model">hr.payslip</field>
+			<field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//button[@name='action_payslip_done']" position="before">
+					<button name="action_payslip_send" type="object"  class="oe_highlight" string="Send By Email"  />
+
+				</xpath>
+			</field>
+			</record>
+
+    </data>
+</odoo>

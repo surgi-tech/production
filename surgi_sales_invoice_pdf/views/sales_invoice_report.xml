@@ -1,0 +1,214 @@
+<odoo>
+    <data>
+        <template id="custom_header_footer">
+            <t t-set="company" t-value="res_company" />
+            <div t-attf-class="header" t-att-style="report_header_style">
+<!--                <div class="row">-->
+<!--                    <div class="col-4">-->
+<!--                        <img t-if="company.left_logo" t-att-src="image_data_uri(company.left_logo)" style="max-height: 150px;" alt="Logo"/>-->
+<!--                    </div>-->
+<!--                    <div class="col-4">-->
+<!--                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 150px; position: absolute; left:50px;" alt="Logo"/>-->
+<!--                    </div>-->
+<!--                    <div class="col-4">-->
+<!--                        <img t-if="company.right_logo" t-att-src="image_data_uri(company.right_logo)" style="max-height: 150px; position: absolute; left:50px" alt="Logo"/>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout">
+                <t t-raw="0"/>
+            </div>
+
+             <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+<!--                 <div class="row" style="font-size: 13px; direction: rtl; text-align:center;">-->
+<!--                     <div class="col-3">توقيع رئيس قسم</div>-->
+<!--                     <div class="col-3">الأصل للعميل</div>-->
+<!--                     <div class="col-3"> الملف الضريبى<br/><span t-field="company.company_registry"/></div>-->
+<!--                     <div class="col-3"> ضريبة المبيعات<br/><span t-field="company.vat"/></div>-->
+<!--                 </div>-->
+<!--                 <div style="font-size: 10px; direction: rtl; text-align:center;">-->
+<!--                     <span>لا يعتمد بهذه الفاتورة الا فى حالة تقديم الاصل المختوم بخاتم الشركة الضريبى و الباركود الموجود أسفل رقم الفاتورة - لا يتم صرف - قيمة الفاتورة الا بموجب أصل تفويض رسمى من شركة سيرجى تك</span>-->
+<!--                     <br/><span>فى حالة رغبة العميل فى الاستسفار عن اى بيانات بالفاتورة يرجى الاتصال من الارقام التالية:</span>-->
+<!--                     <br/><span>01009888553 - 01007999445 - 37622092 - 37622093</span>-->
+<!--                     <br/><span t-field="company.street"/>-->
+<!--                 </div>-->
+             </div>
+
+        </template>
+
+        <template id="report_surgi_invoice">
+            <t t-call="web.html_container">
+                <t t-set="o" t-value="docs[0]" />
+                <t t-call="surgi_sales_invoice_pdf.custom_header_footer">
+                     <div class="row">
+                         <div class="col-12">
+                             <img t-if="o.qr_image" t-att-src="image_data_uri(o.qr_image)"
+                             style="max-height: 100px; position: absolute; left:800px;"  alt="QR"/>
+                         </div>
+                     </div>
+                    <div style="text-align: center;"><h1>فــــاتـــورة</h1></div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <div style="text-align: center;"><h1 t-field="o.name"/></div>
+
+                     <div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                    </div>
+
+
+                    <div>
+                        <div class="row">
+                            <div class="col-2">ORDER NO.</div>
+                            <div class="col-8" style="text-align: center;"><span t-field="o.related_operation"/></div>
+                            <div class="col-2">رقم الأمر</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">DATE</div>
+                            <div class="col-8" style="text-align: center;"><span t-field="o.invoice_date"/></div>
+                            <div class="col-2">التاريخ</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">CLIENT NAME</div>
+                            <div class="col-8" style="text-align: center;">
+                                <span t-field="o.partner_id.name"/>
+                                <span t-field="o.partner_arabic_name"/>
+                            </div>
+                            <div class="col-2">اسم العميل</div>
+                        </div>
+<!--                        <div class="row">-->
+<!--                            <div class="col-12">-->
+<!--                                <br/>-->
+<!--                                <b>Operation: <span t-field="o.related_operation"/></b>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                    </div>
+
+                    <table class="table" style="width:100%; margin-top: 80px;">
+                        <tr>
+                            <th><span>DESCRIPTION</span><br/><span>الصنف</span></th>
+                            <th><span>QTY</span><br/><span>الكمية</span></th>
+                            <th><span>PCS PRICE</span><br/><span>سعر الوحدة</span></th>
+                            <th><span>TOTAL</span><br/><span>الاجمالى</span></th>
+                        </tr>
+                        <t t-foreach="o.invoice_line_ids" t-as="line">
+<!--                            <t t-if="line.product_id">-->
+                                <tr>
+                                    <t t-if="line.display_type == 'line_section'">
+                                        <td><b><span t-field="line.name"/></b></td>
+                                    </t>
+                                    <t t-else="">
+                                        <td><span t-field="line.name"/></td>
+                                    </t>
+
+                                    <t t-if="line.product_id">
+                                        <td><span t-field="line.quantity"/></td>
+                                        <td><span t-field="line.price_unit"/></td>
+                                        <td><span t-field="line.price_subtotal"/></td>
+                                    </t>
+                                    <t t-else="">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </t>
+                                </tr>
+<!--                            </t>-->
+<!--                            <t t-elif="line.display_name == 'line_section'">-->
+<!--                                <tr>-->
+<!--                                    <td><b><span t-field="line.name"/></b></td>-->
+<!--                                    <td></td>-->
+<!--                                    <td></td>-->
+<!--                                    <td></td>-->
+<!--                                </tr>-->
+<!--                            </t>-->
+                        </t>
+                    </table>
+
+                   <div class="clearfix">
+                        <div id="total" class="row">
+                            <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                <table class="table table-sm" style="page-break-inside: avoid;">
+                                    <tr class="border-black o_subtotal" style="">
+                                        <td><strong>Subtotal</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_untaxed"/>
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                                        <tr style="">
+                                            <t t-if="len(o.line_ids.filtered(lambda line: line.tax_line_id)) in [0, 1] and o.amount_untaxed == amount_by_group[2]">
+                                                <td><span class="text-nowrap" t-esc="amount_by_group[0]"/></td>
+                                                <td class="text-right o_price_total">
+                                                    <span class="text-nowrap" t-esc="amount_by_group[3]" />
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td>
+                                                    <span t-esc="amount_by_group[0]"/>
+                                                    <span class="text-nowrap"> on
+                                                        <t t-esc="amount_by_group[4]"/>
+                                                    </span>
+                                                </td>
+                                                <td class="text-right o_price_total">
+                                                    <span class="text-nowrap" t-esc="amount_by_group[3]"/>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr class="border-black o_total">
+                                        <td><strong>Total</strong></td>
+                                        <td class="text-right">
+                                            <span class="text-nowrap" t-field="o.amount_total"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p style="direction:rtl; text-align:right;">
+                        الاجمالى : <span t-field="o.amount_total_words"/>جنيهاً
+                    </p>
+
+<!--                    <p t-if="o.type in ('out_invoice', 'in_refund')">-->
+<!--                        Please use the following communication for your payment : <b><span t-field="o.invoice_payment_ref"/></b>-->
+<!--                    </p>-->
+<!--                    <p t-if="o.narration" name="comment">-->
+<!--                        <span t-field="o.narration"/>-->
+<!--                    </p>-->
+<!--                    <p t-if="o.invoice_payment_term_id" name="payment_term">-->
+<!--                        <span t-field="o.invoice_payment_term_id.note"/>-->
+<!--                    </p>-->
+<!--                    <p t-if="o.fiscal_position_id.note" name="note">-->
+<!--                        <span t-field="o.fiscal_position_id.note"/>-->
+<!--                    </p>-->
+<!--                    <div id="qrcode" t-if="(o.company_id.qr_code) and (o.currency_id.name == 'EUR') and (o.invoice_partner_bank_id.acc_number != False)">-->
+<!--                        <p t-if="(o.invoice_partner_bank_id.qr_code_valid)">-->
+<!--                            <strong class="text-center">Scan me with your banking app.</strong><br /><br />-->
+<!--                            <img class="border border-dark rounded" t-att-src="o.invoice_partner_bank_id.build_qr_code_url(o.amount_residual, o.invoice_payment_ref or o.ref or o.name)"/>-->
+<!--                        </p>-->
+<!--                        <p t-if="(o.invoice_partner_bank_id.qr_code_valid == False)">-->
+<!--                            <strong class="text-center">The SEPA QR Code informations are not set correctly.</strong><br />-->
+<!--                        </p>-->
+<!--                    </div>-->
+                </t>
+            </t>
+        </template>
+
+        <report
+            id="surgi_sales_invoice"
+            model="account.move"
+            string="Surgi Invoices"
+            report_type="qweb-pdf"
+            name="surgi_sales_invoice_pdf.report_surgi_invoice"
+            file="surgi_sales_invoice_pdf.report_surgi_invoice"
+            groups="account.group_account_invoice"
+        />
+
+
+    </data>
+</odoo>

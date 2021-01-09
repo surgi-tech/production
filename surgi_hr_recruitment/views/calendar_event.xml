@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+
+        <record id="calendar_event_inherit_tree" model="ir.ui.view">
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="job_id"/>
+                    <field name="responsible_id"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.module.category" id="surgitech_tender_group_category">
+        <field name="name">Tender</field>
+        <field name="description">Tender Reservation</field>
+        <field name="sequence">11</field>
+         </record>
+
+    <record id="surgitech_tender_officer_group" model="res.groups">
+            <field name="name">Tender Officer</field>
+            <field name="category_id" ref="surgitech_tender_group_category"/>
+        </record>
+
+    <record id="surgitech_tender_manager_group" model="res.groups">
+            <field name="name">Tender Manager</field>
+            <field name="category_id" ref="surgitech_tender_group_category"/>
+        </record>
+
+    <record model="ir.module.category" id="tender_operations_group_category">
+        <field name="name">Tender Operations</field>
+        <field name="description">Operation Reservation</field>
+        <field name="sequence">10</field>
+         </record>
+
+    <record id="operations_tender_coordinator" model="res.groups">
+            <field name="name">Tender Operations Coordinator</field>
+            <field name="category_id" ref="tender_operations_group_category"/>
+        </record>
+
+    <record id="tender_operation_admin" model="res.groups">
+            <field name="name">Tender Operations Admin</field>
+            <field name="category_id" ref="tender_operations_group_category"/>
+        </record>
+</odoo>

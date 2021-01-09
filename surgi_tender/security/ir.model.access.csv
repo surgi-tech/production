@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_surgitech_tender_hospital_categories,hospital_categories,model_hospital_categories,,1,1,1,1
+access_surgitech_tender_hospital_sectors,hospital_sectors,model_hospital_sectors,,1,1,1,1
+access_surgitech_tender_product_operation_type_parent,product_operation_type_parent,model_product_operation_type_parent,,1,1,1,1
+operation_operation_tender_operation_admin,operation.operation.tender.operation.admin,surgi_operation.model_operation_operation,surgi_operation.tender_operation_admin,1,1,1,1

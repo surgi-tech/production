@@ -1,0 +1,23 @@
+.store-name {
+	margin: 5px;
+    margin-top: 25px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.gmap {
+	margin: 10px;
+    padding: 10px;
+    display: flex;
+}
+
+.store-image{
+	padding: 2px;
+    margin: 5px;
+}
+
+.search_emp_login {
+	padding: 2px;
+    margin: 5px;
+    margin-top: 15px;
+}
