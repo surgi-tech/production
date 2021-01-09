@@ -26,7 +26,7 @@
         <field name="res_model">operation.operation</field>
         <field name="view_mode">tree,form,pivot</field>
         <field name="search_view_id" ref="recon_operations_tanta_coordinator_search" />
-        <field name="domain">[('op_sales_area.id','=',42)]</field>
+        <field name="domain">[('op_sales_area.id','=',83)]</field>
         <!--<field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>-->
         <!--<field name="limit" type="int">500</field>-->
         <!--<field name="domain">[('type','in',['out_invoice','out_refund'])]</field>-->
