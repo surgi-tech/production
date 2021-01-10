@@ -52,6 +52,7 @@ class res_partner_inherit(models.Model):
                 'location_id':customer_location,
                 'usage': "view",
                 'partner_id': createdHospital.id,
+                'company_id': False,
             }
             print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
             res = self.env['stock.location'].create(values)
@@ -78,7 +79,8 @@ class res_partner_inherit(models.Model):
                 'usage': "customer",
                 'partner_id': createdHospital.id,
                 'sales_order_location': True,
-                'location_id': res.id
+                'location_id': res.id,
+                'company_id': False,
             }
             thirdLocation = self.env['stock.location'].create(thirdLocationVals)
             createdHospital.write({
