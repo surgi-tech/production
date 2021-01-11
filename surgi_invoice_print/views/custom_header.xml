@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+<data>
+<template id="monthly_report_header" inherit_id="surgi_invoice_print.external_layout_header">
+ <xpath expr="//div[@class='header']" position="replace">
+     <div class="header">
+         <div class="row">
+             <div class="col-xs-3">
+
+             </div>
+             <div class="col-xs-9 text-right" style="margin-top:20px;">
+              <h5>Custom Header</h5>
+             </div>
+         </div>
+         <div class="row zero_min_height">
+             <div class="col-xs-12">
+                 <div style="border-bottom: 1px solid black;"/>
+             </div>
+         </div>
+     </div>
+ </xpath>
+</template>
+</data>
+</odoo>

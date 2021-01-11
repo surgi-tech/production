@@ -1,0 +1,207 @@
+<odoo>
+
+<template id="view_move_form_print_view" inherit_id="account.view_move_form" >
+    <xpath expr="//field[@name='currency_id']" position="after">
+<field name="letteraltotal"/>
+
+    </xpath>
+<!--    <xpath expr="//page[@id='other_tab']" position="after">-->
+
+<!--        <page id="printinvoice" string="Print Invoice" >-->
+<!--            <field name="printinvoicetoline">-->
+<!--                <tree editable="bottom" string="Journal Items" >-->
+<!--                <field name="sequance"/>-->
+
+<!--                </tree>-->
+
+<!--            </field>-->
+
+<!--        </page>-->
+
+
+<!--    </xpath>    <xpath expr="//page[@id='other_tab']" position="after">-->
+
+<!--        <page id="printinvoice" string="Print Invoice" >-->
+<!--            <field name="printinvoicetoline">-->
+<!--                <tree editable="bottom" string="Journal Items" >-->
+<!--                <field name="sequance"/>-->
+
+<!--                </tree>-->
+
+<!--            </field>-->
+
+<!--        </page>-->
+
+
+<!--    </xpath>-->
+
+</template>
+
+
+
+    </odoo>
+    <!--    <template id="view_move_form_print_view" inherit_id="account.view_move_form" >-->
+<!--<xpath expr="//notebook/page[@id='invoice_tab']" position="after">-->
+<!--<page id="print_invoice_new" string="Print Invoice" name="print_invoice_new" >-->
+
+<!--</page>-->
+<!-- </xpath>-->
+<!--        <xpath expr="//[@name='ref']" position="after">-->
+<!--           <field name="letteraltotal"/>-->
+<!--        </xpath>-->
+<!--    </template>-->
+<!--    <template id="print_invoice_demo">-->
+<!-- <t t-call="web.html_container">-->
+<!--     <link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/thabit.css"/>-->
+<!--     <style>-->
+
+<!--         .invoice {-->
+<!--position:absolute;-->
+<!--         top:4cm;-->
+<!--         left:9cm;-->
+<!--         font-family:Thabit;-->
+<!--         font-size:35px;-->
+<!--           font-weight: bold;-->
+
+
+
+<!--         }-->
+<!--         .invoicename{-->
+<!--         position:absolute;-->
+<!--         top:5cm;-->
+<!-- left:9cm;-->
+<!--         font-size:20px;-->
+<!--         }-->
+
+<!--               .invoicedate{-->
+
+<!--         font-size:20px;-->
+<!--         position:absolute;-->
+<!--         top:7cm;-->
+<!--         left:9cm;-->
+<!--         }-->
+<!--         .partenername{-->
+<!--          position:absolute;-->
+<!--         top:9cm;-->
+<!--         left:9cm;-->
+<!--         font-size:20px;-->
+<!--         }-->
+
+
+<!--    .invtable{-->
+<!--         margin-left:1cm;-->
+<!--         margin-right:1cm;top:10cm;-->
+<!--         font-size:20px;-->
+<!--         }-->
+<!--     </style>-->
+<!--&lt;!&ndash;		<t t-call="web.external_layout">&ndash;&gt;-->
+<!--            <t t-foreach="docs" t-as="o">-->
+
+
+
+<!--                    <div class="col-xs-12 invoice" >-->
+<!--               <center><span  >فاتورة</span></center>-->
+<!--                    </div>-->
+<!--                    <div class="col-xs-12 invoicename" >-->
+<!--     <center> <p class="" t-field="o.name"/></center>-->
+<!--                    </div>-->
+<!--<div class="col-xs-12 invoicedate" style="padding-bottom:0.3cm">-->
+<!--                     <center>    <span   t-field="o.invoice_date"/></center>-->
+<!--</div>-->
+<!--                    <div class="col-xs-12 partenername" >-->
+<!--                 <center>    <span   t-field="o.partner_id.name"/></center>-->
+<!--                    </div>-->
+
+
+<!-- <t t-set="i" t-value="1"/>-->
+<!--<br/>-->
+
+
+<!--                <table name="invoice_line_table" class="invtable">-->
+
+<!--                        <tbody class="invoice_tbody">-->
+<!--                            <t t-set="current_subtotal" t-value="0"/>-->
+<!--                            <t t-set="lines" t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)"/>-->
+
+<!--                            <t t-foreach="lines" t-as="line">-->
+<!--                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>-->
+<!--                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>-->
+
+<!--                                <tr style="min-height:1cm;line-height:1cm;  padding-bottom: 2cm;">-->
+<!--                                    <td style="width:1.5cm"><span t-esc="i"/>-->
+<!--    <t t-set="i" t-value="i+1"/>-->
+
+<!--                                    </td>-->
+<!--                                    <t t-if="not line.display_type" name="account_invoice_line_accountable">-->
+<!--                                        <td name="account_invoice_line_name" style="width:10.5cm"><span t-field="line.name" t-options="{'widget': 'text'}"/>  </td>-->
+<!--                                        <td class="text-right" style="width:1.5cm">-->
+<!--                                            <span t-field="line.quantity"/>-->
+<!--                                            <span t-field="line.product_uom_id"  groups="uom.group_uom"/>-->
+<!--                                        </td>-->
+<!--                                        <td style="width:2.5cm" t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">-->
+<!--                                            <span class="text-nowrap" t-field="line.price_unit"/>-->
+<!--                                        </td>-->
+
+
+<!--                                        <td style="width:2.5cm" class="text-right o_price_total">-->
+<!--                                            <span class="text-nowrap" t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>-->
+<!--                                            <span class="text-nowrap" t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>-->
+<!--                                        </td>-->
+<!--                                    </t>-->
+<!--                                    <t t-if="line.display_type == 'line_section'">-->
+<!--                                        <td colspan="99">-->
+<!--                                            <span t-field="line.name" t-options="{'widget': 'text'}"/>-->
+<!--                                        </td>-->
+<!--                                        <t t-set="current_section" t-value="line"/>-->
+<!--                                        <t t-set="current_subtotal" t-value="0"/>-->
+<!--                                    </t>-->
+<!--                                    <t t-if="line.display_type == 'line_note'">-->
+<!--                                        <td colspan="99">-->
+<!--                                            <span t-field="line.name" t-options="{'widget': 'text'}"/>-->
+<!--                                        </td>-->
+<!--                                    </t>-->
+<!--                                </tr>-->
+
+<!--                                <t t-if="current_section and (line_last or lines[line_index+1].display_type == 'line_section')">-->
+<!--                                    <tr class="is-subtotal text-right">-->
+<!--                                        <td colspan="99">-->
+<!--                                            <strong class="mr16">Subtotal</strong>-->
+<!--                                            <span-->
+<!--                                                t-esc="current_subtotal"-->
+<!--                                                t-options='{"widget": "monetary", "display_currency": o.currency_id}'-->
+<!--                                            />-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                </t>-->
+<!--                            </t>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+
+
+<!--            </t>-->
+<!--&lt;!&ndash;        </t>&ndash;&gt;-->
+<!-- </t>-->
+<!--</template>-->
+<!--    <record id="invoice_pformat" model="report.paperformat">-->
+<!--    <field name="name">Invoice Format</field>-->
+<!--    <field name="default" eval="True"/>-->
+<!--    <field name="format">custom</field>-->
+<!--    <field name="page_height">2860</field>-->
+<!--    <field name="page_width">2020</field>-->
+
+<!--    <field name="orientation">Portrait</field>-->
+<!--    <field name="margin_top">0</field>-->
+
+<!--    <field name="header_spacing">0</field>-->
+<!--    <field name="dpi">90</field>-->
+<!--</record>-->
+<!--<report-->
+<!--    id="account_invoices"-->
+<!--    model="account.move"-->
+<!--    string="Print Invoice"-->
+<!--    report_type="qweb-pdf"-->
+<!--    name="surgi_invoice_print.print_invoice_demo"-->
+<!--    file="surgi_invoice_print.print_invoice_demo"-->
+<!--    paperformat="invoice_pformat"-->
+
+<!--/>-->

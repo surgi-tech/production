@@ -1,0 +1,335 @@
+<odoo>
+
+
+         <record model="ir.ui.view" id="invoice_move_print">
+            <field name="name">Category Test</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+               <xpath expr="//field[@name='currency_id']" position="after">
+            <field name="letteraltotal"/>
+            </xpath>
+
+                <xpath expr="//page[@id='other_tab']" position="after">
+
+        <page id="printinvoice" string="Print Invoice" >
+            <field name="printinvoicetoline">
+                <tree editable="bottom" string="Journal Items" limit="19" >
+                <field name="sequance"/>
+                    <field name="description"/>
+                    <field name="uquantity"/>
+                    <field name="uprice"/>
+                    <field name="total" sum="Totla" />
+
+                </tree>
+
+            </field>
+
+        </page>
+
+
+    </xpath>
+
+
+
+            </field>
+        </record>
+
+
+<record model="ir.ui.view" id="Quation_move_print">
+            <field name="name">Category Test</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//page[@name='other_information']" position="after">
+
+        <page id="printinvoice" string="Print Invoice" >
+            <field name="printquationtoline">
+                <tree editable="bottom" string="Journal Items" limit="19" >
+                <field name="sequance"/>
+                    <field name="description"/>
+                    <field name="uquantity"/>
+                    <field name="uprice"/>
+                    <field name="total" sum="Totla" />
+
+                </tree>
+
+            </field>
+
+        </page>
+
+
+    </xpath>
+
+
+
+            </field>
+        </record>
+
+
+
+
+
+
+
+
+
+
+
+
+    <template id="report_invoice_a" inherit_id="web.internal_layout">
+    <xpath expr="//div[@class='header']" position="replace">
+<style>
+    .fatora{
+    position:absolute;
+    text-align:center;
+    top:5cm;
+    left:9cm;
+    }
+</style>
+  </xpath>
+</template>
+
+
+        <template id="report_invoice_demo">
+
+
+
+
+
+        <t t-call="web.html_container">
+
+            <t t-foreach="docs" t-as="o">
+
+                 <t t-call="surgi_invoice_print.report_invoice_a">
+                        <div class="page">
+<!--                            <span style="position:absolute;left:18cm;top:0cm;"><img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', o.name, 50, 50)"/></span>-->
+<!--             <div class="row" style=""><span style="position:absolute;top:0cm;left:10.5cm;font-weight: bold;font-family: Arial, Helvetica, sans-serif;"><h2>فاتورة</h2></span></div>-->
+<!--&lt;!&ndash;              <div class="row" style="position:absolute; top:1.5cm;"><span style="position:absolute;left:11cm;font-weight: bold;font-family: Arial, Helvetica, sans-serif;"><h5><t t-esc="o.name"/> </h5></span></div>&ndash;&gt;-->
+
+<!--                            <div class="row" style="position:absolute; top:2.5cm;"><span style="position:absolute;left:3cm;font-weight: bold;font-family: Arial, Helvetica, sans-serif;width:17.5cm;text-align:right;font-weight: bold;"><h4 style="text-align:right"><t t-esc="o.name" /><span style="width:2.5cm"> : رقم ألامر</span></h4></span></div>-->
+<!--                            <div class="row" style="position:absolute; top:3.4cm;"><span style="position:absolute;left:3cm;font-weight: bold;font-family: Arial, Helvetica, sans-serif;width:17.5cm;text-align:right;font-weight: bold;"><h5><t t-esc="o.invoice_date"/><span style="width:2.5cm"> : التاريخ </span></h5></span></div>-->
+<!-- <div class="row" style="position:absolute; top:4cm;"><span  style="position:absolute;left:3cm;font-weight: bold;font-family: Arial, Helvetica, sans-serif;width:17.5cm;text-align:right;font-weight: bold;" ><h5><t t-esc="o.partner_id.name"/><span style="width:2.5cm"> أسم العميل -  : </span><t t-esc="o.partner_id.arabic_name"/></h5></span></div>-->
+
+                              <div class="row">
+<!--                         <div class="col-12">-->
+<!--                             <img t-if="o.qr_image" t-att-src="image_data_uri(o.qr_image)"-->
+<!--                             style="max-height: 100px; position: absolute; left:750px;"  alt="QR"/>-->
+<!--                         </div>-->
+                     </div>
+                    <div style="text-align: center;"><h1>فاتورة</h1></div>
+<!--                    <div style="text-align: center;"><h1 t-field="o.name"/></div>-->
+
+                     <div>
+                        <br/>
+                        <br/>
+
+                    </div>
+
+                            <div>
+<!--                     <div class="row"><img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', o.name, 100, 100)"/></div>-->
+                        <div class="row" >
+                            <div class="col-2">Invoice NO.</div>
+                            <div class="col-8" style="text-align: center;">
+<!--                                <span t-field="o.related_operation"/>-->
+                                 <span t-field="o.name"/>
+                            </div>
+                            <div class="col-2">رقم الفاتورة</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">DATE</div>
+                            <div class="col-8" style="text-align: center;"><span t-field="o.invoice_date"/></div>
+                            <div class="col-2">التاريخ</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">CLIENT NAME</div>
+                            <div class="col-8" style="text-align: center;">
+                                <span t-field="o.partner_id.name"/>
+                                <span t-field="o.partner_arabic_name"/>
+                            </div>
+                            <div class="col-2">اسم العميل</div>
+                        </div>
+<!--                        <div class="row">-->
+<!--                            <div class="col-12">-->
+<!--                                <br/>-->
+<!--                                <b>Operation: <span t-field="o.related_operation"/></b>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                    </div>
+<!--                            <div   style="position:absolute; top:6.5cm;left:.5cm;width:100%;">-->
+
+<!--                                  <t t-set="lines" t-value="o.printinvoicetoline"/>-->
+<!--                                 <div   style="height:1.06cm;display: table;width:98% ;border: 1px solid ; ">-->
+<!--                                                  <t t-set="x" t-value="3"/>-->
+<!--                                                  <span style="width:1cm;display: table-cell;">-->
+<!--&lt;!&ndash;                                                        مسلسل&ndash;&gt;-->
+<!--                                                  </span>-->
+
+<!--                                          <span style="width:10cm ;display: table-cell;text-align:center;padding-right:1.5cm;font-family: Arial, Helvetica, sans-serif;font-weight: bolder;font-size:20px;"  >الصنف</span>-->
+
+
+<!--                                          <span  style="width:1.8cm ;display: table-cell;font-family: Arial, Helvetica, sans-serif;font-weight: bolder;font-size:20px;" >الكمية</span>-->
+<!--                                          <span  style="width:3cm;display: table-cell;font-family: Arial, Helvetica, sans-serif;font-weight: bolder;font-size:20px;" >سعر الوحدة</span>-->
+<!--                                          <span   style="width:2.5cm;display: table-cell;font-family: Arial, Helvetica, sans-serif;font-weight: bolder;font-size:20px;" >الأجمالي</span>-->
+<!--                                              </div>-->
+                            <table class="table" style="width:100%; margin-top: 80px;">
+                        <tr>
+                            <th><span>DESCRIPTION</span><br/><span>الصنف</span></th>
+                            <th><span>QTY</span><br/><span>الكمية</span></th>
+                            <th><span>PCS PRICE</span><br/><span>سعر الوحدة</span></th>
+                            <th><span>TOTAL</span><br/><span>الاجمالى</span></th>
+                        </tr>
+<!--                                  <t t-foreach="[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]" t-as="i">-->
+<!--                                      -->
+<!--                                      <t t-set="x" t-value="2"/>-->
+
+<!--                                      <t t-foreach="o.printinvoicetoline" t-as="line">-->
+
+<!--                                          <t t-if="line.sequance!=''">-->
+<!--                                              <t t-if="line.sequance==i">-->
+<!--                                              <div   style="height:1.06cm;display: table;width:100%  ">-->
+<!--                                                  <t t-set="x" t-value="3"/>-->
+<!--                                                  <span style="width:1.5cm;display: table-cell;">-->
+<!--&lt;!&ndash;                                                     <t t-esc="i"/>&ndash;&gt;-->
+<!--                                                  </span>-->
+<!--                                                  <t t-if="line.uprice &gt; 0">-->
+<!--                                    <span style="width:10cm ;display: table-cell;text-align:center;padding-right:1.5cm;font-family: Arial, Helvetica, sans-serif;font-weight: bolder;font-size:20px;"  t-field="line.description"/>-->
+<!--                                                  </t>-->
+<!--                                                  <t t-if="line.uprice == 0" >-->
+<!--                                    <span style="width:10cm ;display: table-cell;text-align:center;padding-right:9cm;font-family: Arial, Helvetica, sans-serif;font-weight: bolder;font-size:20px;"  t-field="line.description"/>-->
+<!--                                                  </t>-->
+<!--                                                   <span t-if="line.uquantity>0" style="width:1.8cm ;display: table-cell;font-family: Arial, Helvetica, sans-serif;font-weight: bolder;font-size:20px;"  t-field="line.uquantity"/>-->
+<!--                                                    <span t-if="line.uprice>0" style="width:2.5cm;display: table-cell;font-family: Arial, Helvetica, sans-serif;font-weight: bolder;font-size:20px;" t-field="line.uprice"/>-->
+<!--                                                      <span t-if="line.total>0"  style="width:2.5cm;display: table-cell;font-family: Arial, Helvetica, sans-serif;font-weight: bolder;font-size:20px;" t-field="line.total"/>-->
+<!--                                              </div>-->
+<!--                                                  </t>-->
+<!--                                          </t>-->
+
+
+
+<!--                                      </t>-->
+<!--                                      <t t-if="x==2">-->
+<!--                                           <div   style="height:1.06cm;display: table;width:100%  ">-->
+<!--&lt;!&ndash;<t t-esc="i"/> &ndash;&gt;-->
+<!--                                               <span style="width:10.5cm ;display: table-cell;"></span>-->
+<!--                                              </div>-->
+<!--                                      </t>-->
+
+<!--                                  </t>-->
+                            <t t-foreach="o.printinvoicetoline" t-as="line">
+                            <tr>
+                                <td><span t-field="line.description"/></td>
+                                <td><span t-if="line.uquantity>0" t-field="line.uquantity"/></td>
+                                <td><span t-if="line.uprice>0" t-field="line.uprice"/></td>
+                                <td><span t-if="line.total>0" t-field="line.total"/></td>
+                            </tr>
+                        </t>
+                    </table>
+<!--                <div   style="height:1cm;display: table;width:100% ; ">-->
+<!--                      <span style="left:1cm;width:16cm;display: table-cell;text-align:center;font-family: Arial, Helvetica, sans-serif;font-weight: bolder;font-size:20px;padding-right:2cm" >  <t t-esc="o.letteraltotal"/> </span>-->
+
+<!--                    <span style="width:2.5cm;display: table-cell;font-family: Arial, Helvetica, sans-serif;font-weight: bolder;font-size:20px;" t-esc="sum([line.total for line in o.printinvoicetoline])"/>-->
+
+<!--                </div>-->
+<!--<div class="clearfix">-->
+<!--                        <div id="total" class="row">-->
+<!--                            <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">-->
+<!--                                <table class="table table-sm" style="page-break-inside: avoid;">-->
+<!--                                    <tr class="border-black o_subtotal" style="">-->
+<!--                                        <td><strong>Subtotal</strong></td>-->
+<!--                                        <td class="text-right">-->
+<!--                                            <span t-field="o.amount_untaxed"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+
+<!--                                    <tr class="border-black o_total">-->
+<!--                                        <td><strong>Total</strong></td>-->
+<!--                                        <td class="text-right">-->
+<!--                                            <span class="text-nowrap" t-field="o.amount_total"/>-->
+<!--&lt;!&ndash;                                            <span class="text-nowrap" t-esc="sum([line.total for line in o.printinvoicetoline])" />&ndash;&gt;-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                </table>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <p style="direction:rtl; text-align:right;">-->
+<!--                        الاجمالى : <span t-field="o.letteraltotal"/>جنيهاً-->
+<!--                    </p>-->
+<div class="clearfix">
+                        <div id="total" class="row">
+                            <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                <table class="table table-sm" style="page-break-inside: avoid;">
+                                    <tr class="border-black o_subtotal" style="">
+                                        <td><strong>Subtotal</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_untaxed"/>
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                                        <tr style="">
+                                            <t t-if="len(o.line_ids.filtered(lambda line: line.tax_line_id)) in [0, 1] and o.amount_untaxed == amount_by_group[2]">
+                                                <td><span class="text-nowrap" t-esc="amount_by_group[0]"/></td>
+                                                <td class="text-right o_price_total">
+                                                    <span class="text-nowrap" t-esc="amount_by_group[3]" />
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td>
+                                                    <span t-esc="amount_by_group[0]"/>
+                                                    <span class="text-nowrap"> on
+                                                        <t t-esc="amount_by_group[4]"/>
+                                                    </span>
+                                                </td>
+                                                <td class="text-right o_price_total">
+                                                    <span class="text-nowrap" t-esc="amount_by_group[3]"/>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr class="border-black o_total">
+                                        <td><strong>Total</strong></td>
+                                        <td class="text-right">
+                                            <span class="text-nowrap" t-field="o.amount_total"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p style="direction:rtl; text-align:right;">
+                        الاجمالى : <span t-field="o.amount_total_words"/>جنيهاً
+                    </p>
+                            </div>
+
+<!--                        </div>-->
+                 </t>
+
+            </t>
+        </t>
+    </template>
+<record id="invoice_pformat" model="report.paperformat">
+    <field name="name">Invoice Format</field>
+    <field name="default" eval="True"/>
+         <field name="orientation">Portrait</field>
+
+    <field name="margin_bottom">0</field>
+
+</record>
+ <report
+        id="account_invoices"
+        model="account.move"
+        string="Invoice Print Report"
+        name="surgi_invoice_print.report_invoice_demo"
+        file="surgi_invoice_print.report_invoice_demo"
+        report_type="qweb-pdf"
+        paperformat="invoice_pformat"
+    />
+
+
+
+
+</odoo>

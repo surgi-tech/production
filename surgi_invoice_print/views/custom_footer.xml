@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+<data>
+ <template id="monthly_report_footer" inherit_id="surgi_invoice_print.external_layout_footer">
+ <xpath expr="//div[@class='footer']" position="replace">
+    <div class="footer">
+        <div class="text-center" style="border-top: 1px solid black;">
+            <ul class="list-inline">
+                <li>Developed By: Hassan Enterprises</li>
+
+                <li>&amp;bull;</li>
+                <li>Phone: +92 321 1234567</li>
+
+                <li>&amp;bull;</li>
+                <li>Email: abc@gmail.com</li>
+
+
+            </ul>
+
+
+            <ul class="list-inline">
+                <li>Page:</li>
+                <li><span class="page"/></li>
+                <li>/</li>
+                <li><span class="topage"/></li>
+            </ul>
+        </div>
+    </div>
+ </xpath>
+</template>
+</data>
+</odoo>
