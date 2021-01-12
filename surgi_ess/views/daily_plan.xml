@@ -2,12 +2,12 @@
     <data>
 
 
-        <record model="ir.rule" id="daily_user_rule_plan">
-            <field name="name">User: see the individual Record</field>
-            <field name="model_id" ref="surgi_ess.model_surgi_outdoor_attendance"/>
-            <field name="domain_force">[('employee_name','=',user.id)]</field>
-            <field name="groups" eval="[(4,ref('base.group_user'))]"/>
-        </record>
+<!--        <record model="ir.rule" id="daily_user_rule_plan">-->
+<!--            <field name="name">User: see the individual Record</field>-->
+<!--            <field name="model_id" ref="surgi_ess.model_surgi_outdoor_attendance"/>-->
+<!--            <field name="domain_force">[('employee_name','=',user.id)]</field>-->
+<!--            <field name="groups" eval="[(4,ref('base.group_user'))]"/>-->
+<!--        </record>-->
 
 
         <record id="surgi_ess_outdoor_attendance_search" model="ir.ui.view">
@@ -165,14 +165,11 @@
             <field name="name">Daily Plan</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">surgi.outdoor.attendance</field>
-            <!--        <field name="view_type">form</field>-->
-<!--            <field name="domain">[('state_employee','=','operation')]</field>-->
             <field name="domain">['|',('op_start_date','>=',(context_today()).strftime('%Y-%m-%d') ),
                 ('op_start_today','=',(context_today()).strftime('%Y-%m-%d') )
                 ]</field>
 
             <field name="view_mode">kanban,tree,form</field>
-<!--            <field name="domain">[('op_start_today','=','sttoday_date')]</field>-->
             <field name="context">{}</field>
             <field name="search_view_id" ref="surgi_ess_outdoor_attendance_search"/>
         </record>

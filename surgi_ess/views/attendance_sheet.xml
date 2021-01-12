@@ -91,8 +91,8 @@
                                     <field name="diff_time" widget="float_time" optional="show" sum="Total"/>
                                     <field name="status"/>
                                     <field name="note"/>
-                                   
-                                
+
+
                                 </tree>
                             </field>
                         </page>
@@ -140,7 +140,7 @@
             <field name="model">attendance.sheet</field>
             <field name="arch" type="xml">
                 <tree string="Attednance Sheets">
-             
+
                       <field name="name"/>
                       <field name="employee_id"/>
                       <field name="date_from"/>
@@ -150,10 +150,10 @@
                       <field name="no_late"/>
                       <field name="no_absence"/>
                       <field name="no_difftime"/>
-                      
+
 
                 </tree>
-               
+
             </field>
         </record>
 

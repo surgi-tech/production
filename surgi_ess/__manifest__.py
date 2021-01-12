@@ -29,19 +29,19 @@
         'surgi_evaluation',
         'surgi_attendance_sheet',
         'attendance_sheet_extra',
+
         'hr_appraisal',
         'survey',
         'hr_payroll',
         'crm',
         'surgi_operation'
+        # 'hr_holidays',
     ],
-
 
 
 
     # always loaded
     'data': [
-        'security/ir.model.access.csv',
         'security/ess_security.xml',
         'security/ir.model.access.csv',
         'report/waiting_approval_report.xml',

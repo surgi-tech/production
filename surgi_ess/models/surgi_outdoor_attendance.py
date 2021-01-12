@@ -41,25 +41,20 @@ class surgi_outdoor_attendance(models.Model):
              for plan in self.env['surgi.outdoor.attendance'].search([]):
                  if plan.op_start_datetime:
                      op_start_datetime = datetime.strptime(str(plan.op_start_datetime).split(".")[0], '%Y-%m-%d %H:%M:%S').date()
-                     today = datetime.strptime(str(today_date).split(".")[0], '%Y-%m-%d %H:%M:%S').date()
-                     # print(op_start_datetime,today,'frrrrrrrrrrrr')
+                     today = datetime.strptime(str(today_date).split(".")[0], '%Y-%m-%d %H:%M:%S').date()+relativedelta(days=1)
                      if user.user_id==plan.employee_name and today==op_start_datetime:
 
-                         print(plan.employee_name.name,'plan.employee_nameplan.employee_nameplan.employee_name')
+                         print(plan.employee_name.name,'plan.iiiiiiiiiiiiiiiiiiiiiiiii.employee_nameplan.employee_name')
                          if plan.employee_name.id not in list_free:
-                            # print("11111111111111111111111111111")
                             list_free.append(user.user_id.id)
 
 
-             print(list_free,'list_freelist_free',today_date.time(),time2)
-             if today_date.time()< my_datetime.time():
-                 # print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
-                 if user.user_id.id not in list_free and list_free == []:
-                     # print("hhhhmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
+             print(list_free,'list_freelist_frooooooooooooooooooee',today_date.time(),time2)
+             if today_date.time() <= my_datetime.time():
+                 if user.user_id.id not in list_free or list_free == []:
                      self.env['surgi.outdoor.attendance'].sudo().create({'employee_name': user.user_id.id,
                                                                          'op_start_datetime': today_date+timedelta(days=1),
                                                                          'state_employee': 'free'})
-                     # self.is_set=True
 
 
 
