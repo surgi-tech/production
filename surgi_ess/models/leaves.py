@@ -20,19 +20,19 @@ class HRLeave(models.Model):
             self.request_unit_hours = False
 
 
-    @api.constrains('holiday_status_id','request_hour_from','request_hour_to')
-    def _compute_prevent_permission(self):
-
-        diff_hour=0.0
-        diff_permission_hour=0.0
-        if self.request_unit_hours:
-            diff_hour=float(str(self.request_hour_to))-float(str(self.request_hour_from))
-        if self.holiday_status_id.limited_hours==True:
-
-            if self.holiday_status_id.mini_hours<=diff_hour<=self.holiday_status_id.max_hours:
-                pass
-            else:
-                raise ValidationError(_('Not allowed hours'))
+    # @api.constrains('holiday_status_id','request_hour_from','request_hour_to')
+    # def compute_prevent_permission_con(self):
+    #
+    #     diff_hour=0.0
+    #     diff_permission_hour=0.0
+    #     if self.request_unit_hours:
+    #         diff_hour=float(str(self.request_hour_to))-float(str(self.request_hour_from))
+    #     if self.holiday_status_id.limited_hours==True:
+    #
+    #         if self.holiday_status_id.mini_hours<=diff_hour<=self.holiday_status_id.max_hours:
+    #             pass
+    #         else:
+    #             raise ValidationError(_('Not allowed hours'))
 
 
 
