@@ -3,7 +3,7 @@
 
 {
     'name': 'Analytic Account on Stock Picking with Analytic Tags in Odoo',
-    'version': '13.0.0.1',
+    'version': '14.0.0.1',
     'category': 'Warehouse',
     'summary': 'App Analytic Account on Picking Analytic Tags on stock picking Analytic Account on delivery Analytic Tag on picking analytic costing on picking analytic tag on delivery analytic costing on delivery order analytic tag on receipt analytic account on receipt',
     'description': """Adds an 
@@ -28,7 +28,7 @@
 
     """,
     'author': 'BrowseInfo',
-    'website': 'http://www.browseinfo.in',
+    'website': 'https://www.browseinfo.in',
     "price": 25,
     "currency": 'EUR',
     'depends': ['base','sale_management','stock','analytic',"stock_account",'purchase'],
