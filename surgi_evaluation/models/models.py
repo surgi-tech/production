@@ -10,11 +10,19 @@ class NewModule(models.Model):
 
     evaluation_method = fields.Selection(string="Evaluation Method", selection=[('dm', 'Direct Manager'), ('average', 'Average'),('pm','Parent Manager') ], required=False, )
 
+    # @api.model
+    # def name_search(self, name='', args=None, operator='ilike', limit=100):
+    #     args = args or []
+    #     domain_name = ['|', ('name', 'ilike', name), ('pin', 'ilike', name)]
+    #     recs = self.search(domain_name + args, limit=limit)
+    #     return recs.name_get()
+
 
 class NewModule(models.Model):
     _inherit = 'hr.job'
 
     kpi_ids = fields.One2many(comodel_name="kpi.kpi", inverse_name="interval_employee", )
+    state = fields.Selection(readonly=False)
 
     # @api.constrains('kpi_ids')
     # def get_hours_custom(self):
@@ -43,7 +51,7 @@ class KPIEMPLOYEE(models.Model):
         ('review','Reviewing'),
         ('waiting', 'Waiting Activation'),
         ('activated', 'Activated')], string='Status',
-        copy=False, default='draft', index=True,
+        copy=False, default='draft', index=True, readonly=False,
         help="* New: New KPI"
              "* Waiting Activation: KPI Waiting HR Activation"
              "* Activated: KPI Activated"
