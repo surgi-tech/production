@@ -187,15 +187,15 @@ class stock_picking_inherit(models.Model):
             # raise Warning(rec.location_dest_id.id)
             if rec.location_id.id == location.id:
                 for line in rec.move_lines:
-                    quant_line_delete = self.env['hanged.stock.quant'].search(
-                        [('location_id', '=', line.location_id.id), ('product_id', '=', line.product_id.id),
-                         ('quantity', '=', line.quantity_done), ])
-                    quant_line_delete.unlink()
-                    quant_line_update = self.env['hanged.stock.quant'].search(
-                        [('location_id', '=', line.location_id.id), ('product_id', '=', line.product_id.id)])
-                    quant_line_update.write({
-                        'quantity': quant_line_update.quantity - line.quantity_done
-                    })
+                    # quant_line_delete = self.env['hanged.stock.quant'].search(
+                    #     [('location_id', '=', line.location_id.id), ('product_id', '=', line.product_id.id),
+                    #      ('quantity', '=', line.quantity_done), ])
+                    # quant_line_delete.unlink()
+                    # quant_line_update = self.env['hanged.stock.quant'].search(
+                    #     [('location_id', '=', line.location_id.id), ('product_id', '=', line.product_id.id)])
+                    # quant_line_update.write({
+                    #     'quantity': quant_line_update.quantity - line.quantity_done
+                    # })
             elif rec.location_dest_id.id == location.id:
                 print("ff")
                 op = rec.operation_id.id
