@@ -185,18 +185,19 @@ class stock_picking_inherit(models.Model):
                 [('warehouse_id', '=', dist_warehouse.id), ('is_operation_location', '=', True),
                  ('usage', '=', 'internal')])
             # raise Warning(rec.location_dest_id.id)
-            if rec.location_id.id == location.id:
-                for line in rec.move_lines:
-                    # quant_line_delete = self.env['hanged.stock.quant'].search(
-                    #     [('location_id', '=', line.location_id.id), ('product_id', '=', line.product_id.id),
-                    #      ('quantity', '=', line.quantity_done), ])
-                    # quant_line_delete.unlink()
-                    # quant_line_update = self.env['hanged.stock.quant'].search(
-                    #     [('location_id', '=', line.location_id.id), ('product_id', '=', line.product_id.id)])
-                    # quant_line_update.write({
-                    #     'quantity': quant_line_update.quantity - line.quantity_done
-                    # })
-            elif rec.location_dest_id.id == location.id:
+            # if rec.location_id.id == location.id:
+            #     for line in rec.move_lines:
+            #         quant_line_delete = self.env['hanged.stock.quant'].search(
+            #             [('location_id', '=', line.location_id.id), ('product_id', '=', line.product_id.id),
+            #              ('quantity', '=', line.quantity_done), ])
+            #         quant_line_delete.unlink()
+            #         quant_line_update = self.env['hanged.stock.quant'].search(
+            #             [('location_id', '=', line.location_id.id), ('product_id', '=', line.product_id.id)])
+            #         quant_line_update.write({
+            #             'quantity': quant_line_update.quantity - line.quantity_done
+            #         })
+            if rec.location_dest_id.id == location.id:
+            # elif rec.location_dest_id.id == location.id:
                 print("ff")
                 op = rec.operation_id.id
                 for line in rec.move_line_ids_without_package:
