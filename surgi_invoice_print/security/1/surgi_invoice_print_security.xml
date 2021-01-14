@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<data>
+    <!-- Portal Access Rules -->
+    <record id="sale_order_rule_portal" model="ir.rule">
+        <field name="name">account / print invoice</field>
+        <field name="model_id" ref="surgi_invoice_print.model_account_move_printedinvoice_lines"/>
+
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="perm_unlink" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="True"/>
+    </record>
+
+</data>
+</odoo>

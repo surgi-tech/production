@@ -203,19 +203,38 @@ class PrintInvoice1(models.Model):
 class sale_advance_payment_inv1(models.TransientModel):
     _inherit = "sale.advance.payment.inv"
 
-    def create_invoice(self, order, so_line, amount):
+    def _create_invoice(self, order, so_line, amount):
         invoice = super(sale_advance_payment_inv1, self)._create_invoice(order, so_line, amount)
-        invoice.printinvoicetoline = order.printquationtoline
+        #invoice.printinvoicetoline = order.printquationtoline.id
         for invo in order.printquationtoline:
         #     print("----------------->")
         #     print(invo)
         #     print("################")
         #     print(invo.sequence)
-            orderinvoice = self.env['account.move.printedinvoice.lines'].search([('id', '=', invo.id)])
+            orderinvoice = self.env['account.move.printedinvoice.lines'].search([('linestoprintquation', '=', order.id)])
             orderinvoice.write({'linestoprintinvoice':invoice.id})
-            self.env['account.move.printedinvoice.lines'].create({'sequance':invo.sequence,'description':invo.description,'uquantity':invo.uquantity,'uprice':invo.uprice,'linestoprintinvoice':invoice.id,'linestoprintquation':invo.id});
-            self.env.cr.commit()
+            # self.env['account.move.printedinvoice.lines'].create({'sequance':invo.sequence,'description':invo.description,'uquantity':invo.uquantity,'uprice':invo.uprice,'linestoprintinvoice':invoice.id,'linestoprintquation':invo.id});
+            # self.env.cr.commit()
         #     pass
 
         return  invoice
+
+    def create_invoices(self):
+        #super(self).create_invoices(self)
+        invoices=super().create_invoices()
+        sale_orders = self.env['sale.order'].browse(self._context.get('active_ids', []))
+        print("")
+        #invoice.printinvoicetoline = order.printquationtoline.id
+        for invo in sale_orders.printquationtoline:
+        #     print("----------------->")
+        #     print(invo)
+        #     print("################")
+           # print(invo.sequence)
+            #orderinvoice = self.env['account.move.printedinvoice.lines'].search([('linestoprintquation', '=', sale_orders.id)])
+            invo.write({'linestoprintinvoice':sale_orders.invoice_ids.id})
+            # self.env['account.move.printedinvoice.lines'].create({'sequance':invo.sequence,'description':invo.description,'uquantity':invo.uquantity,'uprice':invo.uprice,'linestoprintinvoice':invoice.id,'linestoprintquation':invo.id});
+            # self.env.cr.commit()
+        #     pass
+
+        return invoices
     pass
