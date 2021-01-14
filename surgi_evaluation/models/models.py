@@ -242,15 +242,6 @@ class EvaluationEvaluation(models.Model):
         # values['is_evalualtion'] = True
         return super(EvaluationEvaluation, self).write(values)
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        res = super().create(vals_list)
-        print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",res)
-        res.get_lines_cor()
-        res.total_lines_employee_id()
-        # print(res.get_lines_cor)
-        return res
-
     @api.onchange('name')
     def get_lines_cor(self):
 
@@ -300,8 +291,8 @@ class EvaluationEvaluation(models.Model):
         # total3 = 0.0
         for rec in self.function_comp:
             total += rec.kpi_weight
-        # if total != 1:
-        #     raise UserError(_('KPI Function weight  % Must be in 100%'))
+        if total != 1:
+            raise UserError(_('KPI Function weight  % Must be in 100%'))
 
         # for rec in self.core_competencies:
         #     total2 += rec.kpi_weight
@@ -336,8 +327,8 @@ class EvaluationEvaluation(models.Model):
         # total3=0.0
         for rec in self.function_comp:
             total += rec.kpi_weight
-        # if total != 1:
-        #     raise UserError(_('KPI Function weight  % Must be in 100%'))
+        if total != 1:
+            raise UserError(_('KPI Function weight  % Must be in 100%'))
 
         # for rec in self.core_competencies:
         #     total2 += rec.kpi_weight
