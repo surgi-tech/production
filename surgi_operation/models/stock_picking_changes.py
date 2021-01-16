@@ -203,7 +203,8 @@ class stock_picking_inherit(models.Model):
                         elif quant_line_delete:
                             v = quant_line_delete.quantity - linex.qty_done
                             quant_line_delete.write({'quantity': quant_line_delete.quantity - linex.qty_done})
-            elif rec.location_dest_id.id == hangedlocation.id and rec.env.context['skip_backorder'] == False:
+            # elif rec.location_dest_id.id == hangedlocation.id and rec.env.context['skip_backorder'] == False:
+            elif rec.location_dest_id.id == hangedlocation.id:
                 print("entered into hanged and create")  # validation when moved to hanged
                 op = rec.operation_id.id
                 for line in rec.move_line_ids_without_package:
