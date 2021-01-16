@@ -178,42 +178,45 @@ class stock_picking_inherit(models.Model):
         return super(stock_picking_inherit, self).button_validate()
 
     def button_validate(self):
+        print("enter validate method")
         for rec in self:
-            # raise Warning(rec.move_line_ids_without_package)
-            dist_warehouse = self.env['stock.warehouse'].search([('is_hanged_warehouse', '=', True)])
-            location = self.env['stock.location'].search(
-                [('warehouse_id', '=', dist_warehouse.id), ('is_operation_location', '=', True),
+            # get hanged warehouse
+            hangedwarehouse = self.env['stock.warehouse'].search(
+                [('is_hanged_warehouse', '=', True), ("company_id", "=", rec.company_id.id)])
+            # get hanged location in hanged warehouse
+            hangedlocation = self.env['stock.location'].search(
+                [('warehouse_id', '=', hangedwarehouse.id), ('is_operation_location', '=', True),
                  ('usage', '=', 'internal')])
-            # raise Warning(rec.location_dest_id.id)
-            # if rec.location_id.id == location.id:
-            #     for line in rec.move_lines:
-            #         quant_line_delete = self.env['hanged.stock.quant'].search(
-            #             [('location_id', '=', line.location_id.id), ('product_id', '=', line.product_id.id),
-            #              ('quantity', '=', line.quantity_done), ])
-            #         quant_line_delete.unlink()
-            #         quant_line_update = self.env['hanged.stock.quant'].search(
-            #             [('location_id', '=', line.location_id.id), ('product_id', '=', line.product_id.id)])
-            #         quant_line_update.write({
-            #             'quantity': quant_line_update.quantity - line.quantity_done
-            #         })
-            if rec.location_dest_id.id == location.id:
-            # elif rec.location_dest_id.id == location.id:
-                print("ff")
+            x = self.__class__
+            if rec.location_id.id == hangedlocation.id:
+                print("entered move out of hanged")
+                for line in rec.move_lines:
+                    for linex in line.move_line_ids:
+                        x = linex
+                        quant_line_delete = self.env['hanged.stock.quant'].search(
+                            [('location_id', '=', linex.location_id.id), ('product_id', '=', linex.product_id.id),
+                             ('lot_id', "=", linex.lot_id.id),
+                             ('operation_id', "=", rec.operation_id.id)])
+                        if quant_line_delete and quant_line_delete.quantity == linex.qty_done:
+                            quant_line_delete.unlink()
+                            self._cr.execute("delete from hanged_stock_quant where id = %d" % int(quant_line_delete.id))
+                        elif quant_line_delete:
+                            v = quant_line_delete.quantity - linex.qty_done
+                            quant_line_delete.write({'quantity': quant_line_delete.quantity - linex.qty_done})
+            elif rec.location_dest_id.id == hangedlocation.id and rec.env.context['skip_backorder'] == False:
+                print("entered into hanged and create")  # validation when moved to hanged
                 op = rec.operation_id.id
                 for line in rec.move_line_ids_without_package:
-                    ##raise Warning(line.name)
-                    # lot=self.env['stock.production.lot'].search(['company_id','=',line.company_id.id,('product_id', '=', line.product_id.id),('name','=',line.lot_name)])
-                    # raise Warning(lot.id)
-                    # quant_line = self.env['stock.quant'].search([('location_id', '=', line.location_id.id), ('product_id', '=', line.product_id.id),('lot_id','=',line.move_line_ids.lot_id.id)])
                     quant_line = self.env['stock.quant'].search(
-                        [('location_id', '=', line.location_id.id), ('product_id', '=', line.product_id.id),
-                         ('lot_id', '=', line.lot_id.id)])
-                    # raise Exception(quant_line)
+                        [('location_id', '=', line.location_id.id),
+                         ('product_id', '=', line.product_id.id),
+                         ('lot_id', '=', line.lot_id.id)
+                         ])
                     if quant_line:
                         self.env['hanged.stock.quant'].create({
                             'quant_id': quant_line.id,
                             'product_id': quant_line.product_id.id,
-                            'location_id': location.id,
+                            'location_id': hangedlocation.id,
                             'operation_location_id': quant_line.location_id.id,
                             'is_wh_user': quant_line.is_wh_user,
                             'is_operation_related': quant_line.is_operation_related,
@@ -226,5 +229,11 @@ class stock_picking_inherit(models.Model):
                             'company_id': quant_line.company_id.id,
                             'operation_id': op
                         })
+
+
+            else:
+                print("not eneterd in hanged")  # the validation to move in operation quantities
+
         return super(stock_picking_inherit, self).button_validate()
+        pass
 
