@@ -8,7 +8,7 @@
             <field name="name">surgi.evaluation.employee.self.assessment.form.views</field>
             <field name="model">evaluation.evaluation</field>
             <field name="arch" type="xml">
-                <form string="Evaluation" edit="true" delete="false">
+                <form string="Evaluation" create="false" edit="true" delete="false">
                     <header>
                         <field name="state" widget="statusbar"/>
                         <button name="get_lines_cor" type="object" string="Reset Competencies" class="oe_highlight"
@@ -60,7 +60,7 @@
                                 <field name="core_competencies" attrs="{'readonly':[('check_read','=',True)]}">
                                     <!--domain="[('active_core', '=', True)]"-->
                                     <!--attrs="{'readonly':[('check_read','=',True)]}"-->
-                                    <tree editable="bottom">
+                                    <tree editable="bottom" create="false">
                                         <field name="name" force_save="1" readonly="1"/>
                                         <field name="employee_self_assessment" widget="percentage" force_save="1"/><!--mohamed-salah attrs="{'readonly':[('check_esa','=',True)]}"-->
                                         <field name="direct_manager" force_save="1" widget="percentage" readonly="1"/>
@@ -78,7 +78,7 @@
                             </page>
                             <page name="function_competencies" string="Function Competencies">
                                 <field name="function_comp" attrs="{'readonly':[('check_read','=',True)]}">
-                                    <tree editable="bottom">
+                                    <tree editable="bottom" create="false">
                                         <field name="name" force_save="1" readonly="1"/>
                                         <field name="employee_self_assessment" widget="percentage" force_save="1"/><!--mohamed-salah attrs="{'readonly':[('check_esa','=',True)]}"-->
                                         <field name="direct_manager" force_save="1" widget="percentage" readonly="1"/>
@@ -96,7 +96,7 @@
                             </page>
                             <page name="kpi_competencies" string="Employee KPI">
                                 <field name="employee_kpi" attrs="{'readonly':[('check_read','=',True)]}">
-                                    <tree editable="bottom">
+                                    <tree editable="bottom" create="false">
                                         <field name="kra_kpi" force_save="1" readonly="1"/>
                                         <field name="name" force_save="1" readonly="1"/>
                                         <field name="employee_self_assessment" widget="percentage" force_save="1"/><!--mohamed-salah attrs="{'readonly':[('check_esa','=',True)]}"-->

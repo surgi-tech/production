@@ -51,7 +51,7 @@ class KPIEMPLOYEE(models.Model):
         ('review','Reviewing'),
         ('waiting', 'Waiting Activation'),
         ('activated', 'Activated')], string='Status',
-        copy=False, default='draft', index=True, readonly=False,
+        copy=False, default='draft', index=True, readonly=True,
         help="* New: New KPI"
              "* Waiting Activation: KPI Waiting HR Activation"
              "* Activated: KPI Activated"
