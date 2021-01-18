@@ -128,6 +128,8 @@ class sale_order(models.Model):
     def _onchange_so_type(self):
         if self.so_type == 'supply_order':
             self.location_dest_id = self.partner_id.customers_sales_order_location_id
+        elif self.so_type == 'tender':
+            self.location_dest_id = self.partner_id.customers_sales_order_location_id_tender
         elif self.so_type == 'operation':
             self.location_dest_id = self.partner_id.property_stock_customer
         else:

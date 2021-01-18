@@ -19,6 +19,8 @@ class res_partner_inherit(models.Model):
 
     # hospital_stock_location_id = fields.Many2one('stock.location', string="Hospital Stock Location")
     customers_sales_order_location_id = fields.Many2one('stock.location', string="Customers Sales Order Location")
+    customers_sales_order_location_id_tender = fields.Many2one('stock.location', string="Customers Sales Order Location Tender")
+
 
 
     def get_default_stock_config(self):
@@ -80,7 +82,7 @@ class res_partner_inherit(models.Model):
                 'partner_id': createdHospital.id,
                 'sales_order_location': True,
                 'location_id': res.id,
-                'company_id': False,
+                # 'company_id': False,
             }
             thirdLocation = self.env['stock.location'].create(thirdLocationVals)
             createdHospital.write({
