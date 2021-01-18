@@ -55,7 +55,8 @@
                 <!--                </xpath>-->
 
                 <xpath expr="//field[@name='origin']" position="after">
-                    <field name="sale_id" string="Sales Order" readonly="1"/>
+                    <field name="sale_id" string="Sales Order" readonly="0" options="{'no_create': True, 'no_open': True}"
+                           attrs="{'invisible':[('picking_type_code', '!=', 'outgoing')]}"/><!-- 'required':[('picking_type_code', '=', 'outgoing')],-->
                     <field name="sales_order_id"
                            attrs="{'required':[('is_exchange','=',True)],'invisible':[('is_exchange','=',False)]}"/>
                     <field name="is_exchange" invisible="1"/>
