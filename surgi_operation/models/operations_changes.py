@@ -205,7 +205,7 @@ class operation_operation(models.Model):
             else:
                 rec.oper_loc_so=0
 
-    # Create sale order regarding to operation data
+    # Create sale order regarding to operation data in hanged
     def create_sales_order(self):
         quants = self.env['hanged.stock.quant'].search([('operation_location_id', '=', self.location_id.id)])
         if len(quants) > 0:
@@ -270,6 +270,74 @@ class operation_operation(models.Model):
             print ("Sale_order: " + str(sale_order))
         else:
             raise Warning('No Quants Available in Hanged Location!')
+
+    # Create sale order regarding to operation data not hanged
+    def create_delivery_sales_order(self):
+        quants = self.env['stock.quant'].search([('location_id', '=', self.location_id.id)])
+        if len(quants) > 0:
+            operation_location_id = quants[0].location_id.id
+            # Main fields
+            values = {
+                'name': self.sequence,
+                'pricelist_id':self.hospital_id.property_product_pricelist.id,
+                'partner_id': self.hospital_id.id,
+                #field updated by SURGI-TECH --- START--
+                'hospital_id': self.hospital_id.id,
+                'surgeon_id': self.surgeon_id.id,
+                'patient_name': self.patient_name,
+                'customer_printed_name': self.hospital_id.name,
+                'user_id': self.responsible.id,
+                'team_id': self.op_sales_area.id,
+                'sales_area_manager': self.op_area_manager,
+                # field updated by SURGI-TECH --- END--
+                'warehouse_id': self.warehouse_id.id,
+                'location_id':operation_location_id,
+                'location_dest_id':self.hospital_id.property_stock_customer.id,
+                'so_type': 'operation',
+                'operation_id': self.id,
+            }
+            order_lines = []
+            for quant in quants:
+                price = quant.product_id.lst_price
+                for item in self.hospital_id.property_product_pricelist.item_ids:
+                    if quant.product_id.id == item.product_id.id:
+                        price = item.fixed_price
+                line = [0, False, {
+                    'qty_delivered': 0,
+                    'product_id': quant.product_id.id,
+                    'product_uom': quant.product_id.uom_id.id,
+                    'sequence': quant.product_id.sequence,
+                    'price_unit': price,
+                    'product_uom_qty': quant.quantity,
+                    'state': 'draft',
+                    # 'qty_delivered_updateable': True,
+                    'invoice_status': 'no',
+                    'name': quant.product_id.name, }]
+                order_lines.append(line)
+
+            values['order_line'] = order_lines
+            print ("vals: " + str(values))
+            sale_order = self.env['sale.order'].create(values)
+            self.so_created = True
+            sale_order.action_confirm()
+            pickings = sale_order.mapped('picking_ids')
+            scan_product_ids_lst = []
+            for quant in quants:
+                if quant.product_id.tracking == 'lot' or quant.product_id.tracking == 'serial':
+                    line = [0, 0,
+                            {'product_id': quant.product_id.id,
+                             'product_uom_qty': quant.quantity,
+                             'lot_no': quant.lot_id.name,
+                             }]
+                    scan_product_ids_lst.append(line)
+            for picking in pickings:
+                picking.scan_products_ids = scan_product_ids_lst
+            print (sale_order)
+            print ("Sale_order: " + str(sale_order))
+        else:
+            raise Warning('No Quants Available in  Location!')
+
+
 
     # open tree view of operation quantities using location of operation
     def action_view_operation_quant(self):
