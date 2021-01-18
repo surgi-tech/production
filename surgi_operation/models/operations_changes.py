@@ -182,6 +182,24 @@ class operation_operation(models.Model):
             else:
                 rec.oper_loc_hanged_quant=0
                 rec.has_oper_loc_hanged_quant=0
+    def get_operation_location_quant(self):
+        for rec in self:
+            if rec.location_id:
+                operations = self.env['stock.quant'].search([('location_id', '=', rec.location_id.id)])
+                q=0
+                if operations:
+                    for l in operations:
+                        q+=l.available_quantity
+                    rec.oper_loc_quant = int(q)
+                    rec.has_oper_loc_quant = q > 0
+                else:
+                    rec.oper_loc_quant = 0
+                    rec.has_oper_loc_quant = 0
+
+
+            else:
+                rec.oper_loc_quant=0
+                rec.has_oper_loc_quant=0
 
 
     def get_operation_del(self):
@@ -675,6 +693,8 @@ class operation_operation(models.Model):
     oper_loc_quant = fields.Char("Operation Location Quant", compute='get_operation_location_quant')#, compute=get_operation_location_quant
     oper_loc_hanged_quant = fields.Char("Operation Hanged Quants", compute='get_operation_location_hanged_quant')#, compute=get_operation_location_hanged_quant
     has_oper_loc_hanged_quant = fields.Boolean(compute='get_operation_location_hanged_quant')#compute=get_operation_location_hanged_quant
+    has_oper_loc_quant = fields.Boolean(
+        compute='get_operation_location_quant')  # compute=get_operation_location_hanged_quant
     oper_loc_del = fields.Char("Operation Delivery Orders", compute='get_operation_del')#, compute=get_operation_del
     oper_loc_so = fields.Char("Operation Delivery Orders", compute='get_operation_so')#, compute=get_operation_so
     so_created=fields.Boolean(default=False)
