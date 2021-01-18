@@ -142,14 +142,10 @@
                         <separator string="Surgeon"/>
                         <group>
                             <group>
-                                <field name="hospital_id" required="1" domain="[('is_hospital','=',True),'|','|','|','|',('team_id','=',op_sales_area),('user_id','=',responsible),('direct_sales_users','=',responsible),('authority','=','open'),('authority','=','open_approval')]" attrs="{'readonly':[('state', 'not in', ['draft'])]}" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="authority" readonly="1" />
-                                <field name="hospital_sales_users" widget="many2many_tags" />
-                                <field name="hospital_sales_man" />
-                                <field name="recon_sales_channel" invisible="0"/>
+                                <field name="hospital_id" required="1" domain="[('is_hospital','=',True)]" attrs="{'readonly':[('state', 'not in', ['draft'])]}" options="{'no_create': True, 'no_open': True}"/>
                             </group>
                             <group>
-                                <field name="surgeon_id" required="1" attrs="{'invisible':[('hospital_id','=',False)], 'readonly': [('state','not in', ['draft'])]}" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="surgeon_id" required="1" domain="[('is_surgeon','=',True)]" attrs="{'invisible':[('hospital_id','=',False)], 'readonly': [('state','not in', ['draft'])]}" options="{'no_create': True, 'no_open': True}"/>
                                 <!--<field name="new_surgeon" attrs="{'invisible':[('surgeon_id','=?','__export__.res_partner_27507')], 'readonly': [('state','not in', ['draft'])]}" />-->
                                 <field name="payment_methods" required="1" attrs="{'readonly':[('state', 'not in', ['draft'])]}"/>
                                 <field name="operation_price" attrs="{'invisible':[('payment_methods','!=','cash')],'required':[('payment_methods','=','cash')],'readonly':[('state', 'not in', ['draft'])]}"/>
