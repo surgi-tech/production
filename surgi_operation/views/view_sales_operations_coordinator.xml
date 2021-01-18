@@ -75,13 +75,15 @@
              <form string="Sales Order">
                     <header>
                         <!--<button name="action_done_sales" string="Done" type="object" attrs="{'invisible': [('state','!=','confirm')]}"/>-->
-                        <!--<field name="so_created" invisible="1"/>-->
+                        <field name="so_created" invisible="1"/>
+                        <field name="has_oper_loc_hanged_quant" invisible="1"/>
                         <!--<button name="create_sales_order" string="Create SO" icon="fa-cart-plus" type="object" attrs="{'invisible': ['|','|',('has_oper_loc_hanged_quant','=',False ),('so_created','=',True),('state','=','draft')]}"/>-->
                         <!--<button name="action_confirm_sales" string="Confirm" type="object" attrs="{'invisible': [('state','!=','draft')]}"/>-->
                         <!--<<button name="open_wizard_cancel_operation" type="object" string="Cancel" icon="fa-pencil" class="oe_highlight" attrs="{'invisible': ['|',('so_created','=',True),('state', 'in', ['done', 'cancel'])]}"/>-->
                         <!--<field name="state" widget="statusbar" />--> <!-- attrs="{'invisible': [('state', 'not in', ['draft','done', 'cancel'])]}"/>-->
                         <!--<field name="stage_id" widget="statusbar" attrs="{'invisible': [('state', 'in', ['draft','done', 'cancel'])]}" clickable="False"/>-->
                         <!--<button name="action_done_sales" string="Done" type="object" attrs="{'invisible': ['|',('state','=','draft'),'|',('state','=','cancel'),('state','=','done')]}"/>-->
+                        <button name="create_sales_order" string="Create SO" icon="fa-cart-plus" type="object" attrs="{'invisible': ['|','|',('has_oper_loc_hanged_quant','=',False ),('so_created','=',True),('state','=','draft')]}"/>
                         <button name="action_check_operation" string="Check" icon="fa-cart-plus" type="object" attrs="{'invisible': [('state','!=','draft')]}"/>
                         <button name="action_confirm_sales" string="Confirm" type="object" attrs="{'invisible': [('state','!=','draft')]}"/>
                         <field name="state" widget="statusbar" attrs="{'invisible': [('state', 'not in', ['draft','done','cancel'])]}"/>
@@ -90,14 +92,17 @@
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button name="action_view_operation_quant" type="object" class="oe_stat_button" icon="fa-building-o">
-                                <field string="Operation Quant" name="oper_loc_quant" widget="statinfo" modifiers="{'readonly': true}"/>
+                                <field string="Operation Quants" name="oper_loc_quant" widget="statinfo" modifiers="{'readonly': true}"/>
+                            </button>
+                            <button name="action_view_operation_hanged_quant" type="object" class="oe_stat_button" icon="fa-building-o">
+                                <field string="Operation Hanged Quants" name="oper_loc_hanged_quant" widget="statinfo" modifiers="{'readonly': true}"/>
                             </button>
                             <button name="action_view_operation_del" type="object" class="oe_stat_button" icon="fa-building-o">
                                 <field string="Stock Pickings" name="oper_loc_del" widget="statinfo" modifiers="{'readonly': true}"/>
                             </button>
-<!--                            <button name="action_view_operation_SO" icon="fa-cart-plus" type="object" class="oe_stat_button" attrs="{'invisible': [('so_created','=',False )]}">-->
-<!--                                <field name="oper_loc_so" string="Sale Order" modifiers="{'readonly': true}" widget="statinfo"/>-->
-<!--                            </button>-->
+                            <button name="action_view_operation_SO" icon="fa-cart-plus" type="object" class="oe_stat_button" attrs="{'invisible': [('so_created','=',False )]}">
+                                <field name="oper_loc_so" string="Sale Order" modifiers="{'readonly': true}" widget="statinfo"/>
+                            </button>
                         </div>
                         <div class="oe_title">
                             <h1>
