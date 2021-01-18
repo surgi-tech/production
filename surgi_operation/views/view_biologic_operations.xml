@@ -110,7 +110,7 @@
                         <group>
                             <group>
                                 <field name="start_datetime" string="Date Start" required="True" attrs="{'readonly':[('state', 'not in', ['draft'])]}"/>
-                                <field name="operation_type" invisible="False" required="1" domain="[('operation_product_line','=ilike','biologic')]" attrs="{'readonly':[('state', 'not in', ['draft'])]}" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="operation_type" invisible="False" required="1" domain="[('operation_product_line','=','Biologics')]" attrs="{'readonly':[('state', 'not in', ['draft'])]}" options="{'no_create': True, 'no_open': True}"/>
 
 
                             </group>
