@@ -355,6 +355,36 @@ class operation_operation(models.Model):
         else:
             raise Warning('No Quants Available in  Location!')
 
+    # Create Draft sale order  before operation
+    def create_draft_sales_order(self):
+
+                operation_location_id = self.location_id.id
+                # Sales Order fields
+                values = {
+                    'name': self.sequence,
+                    'pricelist_id': self.hospital_id.property_product_pricelist.id,
+                    'partner_id': self.hospital_id.id,
+                    # field updated by SURGI-TECH --- START--
+                    'hospital_id': self.hospital_id.id,
+                    'surgeon_id': self.surgeon_id.id,
+                    'patient_name': self.patient_name,
+                    'customer_printed_name': self.hospital_id.name,
+                    'user_id': self.responsible.id,
+                    'team_id': self.op_sales_area.id,
+                    'sales_area_manager': self.op_area_manager,
+                    # field updated by SURGI-TECH --- END--
+                    'warehouse_id': self.warehouse_id.id,
+                    'location_id': operation_location_id,
+                    'location_dest_id': self.hospital_id.property_stock_customer.id,
+                    'so_type': 'operation',
+                    'operation_id': self.id,
+                }
+
+                self.so_created = True
+                values['order_line'] = []
+                print("vals: " + str(values))
+                sale_order = self.env['sale.order'].create(values)
+                # sale_order.action_confirm()
 
 
     # open tree view of operation quantities using location of operation

@@ -126,6 +126,7 @@
                         <field name="so_created" invisible="1"/>
                         <button name="create_sales_order" string="Create SO-HL" icon="fa-cart-plus" type="object" attrs="{'invisible': ['|','|',('has_oper_loc_hanged_quant','=',False ),('so_created','=',True),('state','=','draft')]}"/>
                         <button name="create_delivery_sales_order" type="object" string="Create SO-OL" icon="fa-cart-plus" attrs="{'invisible': ['|','|',('has_oper_loc_quant','=',False),('so_created','=',True),('state','=','draft')]}"/>
+                        <button name="create_draft_sales_order" string="Create Pre SO" icon="fa-cart-plus" type="object" attrs="{'invisible': ['|','|','|',('has_oper_loc_quant','=',True),('has_oper_loc_hanged_quant','=',True ),('so_created','=',True),('state','!=','confirm')]}"/>
                         <button name="action_confirm_sales" string="Confirm" type="object" attrs="{'invisible': [('state','!=','draft')]}"/>
                         <button name="open_wizard_cancel_operation" type="object" string="Cancel"
                                 icon="fa-pencil" class="oe_highlight" attrs="{'invisible': [('state', 'in', ['done', 'cancel'])]}"/>
