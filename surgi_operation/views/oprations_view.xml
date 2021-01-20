@@ -197,7 +197,9 @@
                                 <field name="authority" readonly="1"/>
                             </group>
                             <group>
-                                <field name="surgeon_id" />
+                                <field name="surgeon_id" domain="[('is_surgeon','=',True)]" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="payment_methods" attrs="{'readonly':[('state', 'not in', ['draft'])]}"/>
+                                <field name="operation_price" attrs="{'invisible':[('payment_methods','!=','cash')],'readonly':[('state', 'not in', ['draft'])]}"/>
                             </group>
                         </group>
 
