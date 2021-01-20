@@ -119,8 +119,10 @@
                             </group>
                             <group>
                                 <field name="op_type" invisible="1"/>
+                                <field name="delivery_type"/>
                                 <field name="tender_so" widget="selection" attrs="{'invisible': [('op_type', '!=', 'tender')]}"/>
-                                <field name="supply_so" widget="selection" attrs="{'invisible': [('op_type', '!=', 'supply_order')],'required': [('op_type', '=', 'supply_order')]}"/>
+                                <!--<field name="supply_so" widget="selection" attrs="{'invisible': [('op_type', '!=', 'supply_order')],'required': [('op_type', '=', 'supply_order')]}"/>-->
+                                <field name="supply_so" widget="selection" attrs="{'invisible': [('op_type', '!=', 'supply_order')]}"/>
                             </group>
                             <group>
                                 <field name="responsible" invisible="False" readonly="1" options="{'no_create': True, 'no_open': True}"/>
