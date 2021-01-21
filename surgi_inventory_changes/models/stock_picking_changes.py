@@ -9,7 +9,8 @@ class StockPickingInherit(models.Model):
 
     receipt_exchange = fields.Boolean(string="Receipt Exchange? ",related='picking_type_id.receipt_exchange',
                                       help="Used ot show if type is receipt exchange or not")
-    #
+    delivery_exchange = fields.Boolean(string="Delivery Exchange",
+                                       help="Used ot show if type is receipt exchange or not")  # related='picking_type_id.receipt_exchange',
     type_delivery_type = fields.Selection(string="Delivery Type ",related='picking_type_id.delivery_type',
                                      selection=[('gov', 'Government Form'), ('exchange', 'Exchange ')],
                                      help="Used ot show picking type delivery type")
@@ -24,11 +25,11 @@ class StockPickingInherit(models.Model):
     approval_lines=fields.One2many('approval.line','pick_id')
 
     total_cocs = fields.Float(string="Total Cocs",store=True,)#compute='_compute_total_cocs'
-    sales_order_id = fields.Many2one(comodel_name="sale.order", string="Sales Order", required=False, )
+    sales_order_id = fields.Many2one(comodel_name="sale.order", string="Original Sale Order", required=False, )
     # sales_person_id = fields.Many2one(comodel_name="res.users", string="SalesPerson",)
     is_exchange = fields.Boolean(string="",compute='_cumpute_is_exchange' )
 
-    sale_id = fields.Many2one(related="group_id.sale_id", string="Sales Order", store=True,
+    sale_id = fields.Many2one(related="group_id.sale_id", string="Direct Sale Order", store=True,
                               readonly=False, tracking=True)
 
     @api.depends('picking_type_id')
