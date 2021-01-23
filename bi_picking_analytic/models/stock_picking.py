@@ -23,11 +23,16 @@ class StockPicking(models.Model):
                     for tag_id in line.tag_ids:
                         tag_ids.append(tag_id.id)  
                     sale_analytic_dict.update({
-						'name': line.sale_line_id.product_id.name,
-						'amount': line.sale_line_id.price_unit,
-		                'product_id': line.sale_line_id.product_id.id,
-						'product_uom_id': line.sale_line_id.product_uom.id,
-						'date': line.date_deadline,
+						'name': line.product_id.name,
+                        # 'name': line.sale_line_id.product_id.name,
+                        'amount': line.product_id.lst_price * line.quantity_done ,
+                        #'amount': line.sale_line_id.price_unit,
+                        'product_id': line.product_id.id,
+                        # 'product_id': line.sale_line_id.product_id.id,
+                        'product_uom_id': line.product_uom.id,
+						# 'product_uom_id': line.sale_line_id.product_uom.id,
+						'date': datetime.now(),
+                        # 'date': line.date_deadline,
 						'account_id': line.analytic_account_id.id,
 						'unit_amount': line.quantity_done,
 						'general_account_id': self.partner_id.property_account_receivable_id.id,
