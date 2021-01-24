@@ -21,11 +21,6 @@
 <!--                            />-->
                 </xpath>
 
-
-                <field name="partner_id" position="replace">
-                    <field name="partner_id"/>
-                </field>
-
                 <field name="backorder_id" position="after">
                     <field name="ean13" invisible="0" groups="base.group_no_one"/>
                     <!--<field name="ean132"  invisible="0"/>-->

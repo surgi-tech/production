@@ -54,11 +54,45 @@
                 <!--&lt;!&ndash;                    <attribute name="readonly">1</attribute>&ndash;&gt;-->
                 <!--                </xpath>-->
 
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="required">1</attribute>
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="options">{"no_open": True}</attribute>
+                    <!--<attribute name="domain">[]</attribute>-->
+                    <!--<attribute name="groups">stock.group_stock_multi_locations</attribute>-->
+                </xpath>
+                <xpath expr="//field[@name='picking_type_id']" position="attributes">
+                    <attribute name="required">1</attribute>
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="options">{"no_open": True}</attribute>
+                    <!--<attribute name="domain">[]</attribute>-->
+                    <!--<attribute name="groups">stock.group_stock_multi_locations</attribute>-->
+                </xpath>
+                <xpath expr="//field[@name='location_id']" position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="attrs">{'invisible': [('picking_type_code', '=', False)]}</attribute>
+                    <attribute name="domain">[('usage', '!=', 'view')]</attribute>
+                    <attribute name="options">{"no_open": True}</attribute>
+                    <!--<attribute name="groups">stock.group_stock_multi_locations</attribute>-->
+                </xpath>
+
+                <xpath expr="//field[@name='location_dest_id']" position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="attrs">{'invisible': [('picking_type_code', '=', False)]}</attribute>
+                    <attribute name="domain">[('usage', '!=', 'view')]</attribute>
+                    <attribute name="options">{"no_open": True}</attribute>
+                    <!--<attribute name="groups">stock.group_stock_multi_locations</attribute>-->
+                </xpath>
+
                 <xpath expr="//field[@name='origin']" position="after">
                     <field name="sale_id" string="Sales Order" readonly="0" options="{'no_create': True, 'no_open': True}"
                            attrs="{'invisible':[('picking_type_code', '!=', 'outgoing')]}"/><!-- 'required':[('picking_type_code', '=', 'outgoing')],-->
                     <field name="sales_order_id"
-                           attrs="{'required':[('is_exchange','=',True)],'invisible':[('is_exchange','=',False)]}"/>
+                           attrs="{'invisible':[('is_exchange','=',False)]}"/><!--'required':[('is_exchange','=',True)],-->
                     <field name="is_exchange" invisible="1"/>
                 </xpath>
 
@@ -66,9 +100,6 @@
                 <xpath expr="//field[@name='priority']" position="replace">
                 </xpath>
 
-                <!--<xpath expr="//field[@name='partner_id']" position="before">
-                    <field name="picking_type_id"/>
-                </xpath>-->
                 <xpath expr="//field[@name='location_dest_id']" position="after">
                     <field name="priority"/>
                     <!--                    <div style="Float:left;text-align:left;width:50%">-->
