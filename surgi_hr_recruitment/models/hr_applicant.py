@@ -33,7 +33,7 @@ class HrApplicant(models.Model):
         else:
             response = self.interviewer_1_response_id
         # grab the token of the response and start surveying
-        return self.interviewer_1_survey.with_context(survey_token=response.token).action_start_survey()
+        return self.interviewer_1_survey.with_context(survey_token=response.access_token).action_start_survey(response)
 
     def action_print_interviewer_1_survey(self):
         """ If response is available then print this response otherwise print survey form (print template of the survey) """
@@ -42,7 +42,7 @@ class HrApplicant(models.Model):
             return self.interviewer_1_survey.action_print_survey()
         else:
             response = self.interviewer_1_response_id
-            return self.interviewer_1_survey.with_context(survey_token=response.token).action_print_survey()
+            return self.interviewer_1_survey.with_context(survey_token=response.access_token).action_print_survey(response)
 
     def action_start_interviewer_2_survey(self):
         self.ensure_one()
@@ -55,7 +55,7 @@ class HrApplicant(models.Model):
         else:
             response = self.interviewer_2_response_id
         # grab the token of the response and start surveying
-        return self.interviewer_2_survey.with_context(survey_token=response.token).action_start_survey()
+        return self.interviewer_2_survey.with_context(survey_token=response.access_token).action_start_survey(response)
 
     def action_print_interviewer_2_survey(self):
         """ If response is available then print this response otherwise print survey form (print template of the survey) """
@@ -64,7 +64,7 @@ class HrApplicant(models.Model):
             return self.interviewer_2_survey.action_print_survey()
         else:
             response = self.interviewer_2_response_id
-            return self.interviewer_2_survey.with_context(survey_token=response.token).action_print_survey()
+            return self.interviewer_2_survey.with_context(survey_token=response.access_token).action_print_survey(response)
 
 
     def action_start_interviewer_3_survey(self):
@@ -78,7 +78,7 @@ class HrApplicant(models.Model):
         else:
             response = self.interviewer_3_response_id
         # grab the token of the response and start surveying
-        return self.interviewer_3_survey.with_context(survey_token=response.token).action_start_survey()
+        return self.interviewer_3_survey.with_context(survey_token=response.access_token).action_start_survey(response)
 
     def action_print_interviewer_3_survey(self):
         """ If response is available then print this response otherwise print survey form (print template of the survey) """
@@ -87,7 +87,7 @@ class HrApplicant(models.Model):
             return self.interviewer_3_survey.action_print_survey()
         else:
             response = self.interviewer_3_response_id
-            return self.interviewer_3_survey.with_context(survey_token=response.token).action_print_survey()
+            return self.interviewer_3_survey.with_context(survey_token=response.access_token).action_print_survey(response)
 
     @api.constrains('stage_id')
     def send_updates_to_applicant(self):
