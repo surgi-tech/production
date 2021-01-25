@@ -197,7 +197,7 @@ class stock_picking_inherit(models.Model):
                             [('location_id', '=', linex.location_id.id), ('product_id', '=', linex.product_id.id),
                              ('lot_id', "=", linex.lot_id.id),
                              ('operation_id', "=", rec.operation_id.id),('quantity', "=", linex.product_qty)])
-                        if quant_line_delete and quant_line_delete.quantity == linex.qty_done:
+                        if quant_line_delete and quant_line_delete.quantity == linex.product_uom_qty:
                             quant_line_delete.unlink()
                             self._cr.execute("delete from hanged_stock_quant where id = %d" % int(quant_line_delete.id))
                         elif quant_line_delete:
