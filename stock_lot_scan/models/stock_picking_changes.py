@@ -87,116 +87,123 @@ class stock_picking_inherit(models.Model):
 
         pass  # end function
 
-    # synchronize Function
-    def synchronize_scan(self):
+    # synchronize Function with reserve synchronized items
+    def synchronize_scan_with_reservation(self):
         for rec in self:
             rec.do_unreserve()
-            finalArray = {}
+            finalArray={}
             for line in rec.scan_products_ids:
                 if line.product_id.id in finalArray.keys():
                     finalArray[line.product_id.id].append({
-                        'product_id': line.product_id.id,
-                        'product_uom_qty': line.product_uom_qty,
-                        'lot_name': line.lot_no,
+                         'product_id': line.product_id.id,
+                         'product_uom_qty': line.product_uom_qty,
+                         'lot_name': line.lot_no,
                     })
                 else:
-                    finalArray[line.product_id.id] = [{
-                        'product_id': line.product_id.id,
-                        'product_uom_qty': line.product_uom_qty,
-                        'lot_name': line.lot_no,
-                    }]
+                        finalArray[line.product_id.id] = [{
+                             'product_id': line.product_id.id,
+                             'product_uom_qty': line.product_uom_qty,
+                             'lot_name': line.lot_no,
+                         }]
 
             move_lines = rec.mapped('move_lines').filtered(lambda move: move.state not in ('cancel', 'done'))
             move_lines_product_ids = {}
             for line in move_lines:
                 move_lines_product_ids[line.product_id.id] = {
-                    'product_id': line.product_id.id,
-                    'move_id': line.id,
-                }
+                'product_id': line.product_id.id,
+                'move_id': line.id,
+                         }
+
 
             for product_id, lots in finalArray.items():
-                if product_id in move_lines_product_ids.keys():
-                    move_id = move_lines_product_ids[product_id]['move_id']
-                    line = rec.mapped('move_lines').filtered(lambda move: move.id == move_id)
-                    move_line_ids = line.mapped('move_line_ids').filtered(
-                        lambda move_line_id: move_line_id.state not in ('cancel', 'done'))
-                    for lot in lots:
-                        lot_id = rec.env['stock.production.lot'].search(
-                            [('name', '=', lot['lot_name']), ('product_id', '=', product_id)])
-                        if len(move_line_ids) > 0 and lot_id:
-                            move_line_ids.write({
-                                'qty_done': lot['product_uom_qty'],
-                                'lot_id': lot_id.id,
-                                'lot_name': lot_id.name,
-                                # 'product_uom_qty': lot['product_uom_qty'],
-                            })
-                        elif lot_id:
-                            vals = {
-                                'qty_done': lot['product_uom_qty'],
-                                'lot_id': lot_id.id,
-                                'lot_name': lot_id.name,
-                                'product_id': line.product_id.id,
-                                # 'product_uom_qty': lot['product_uom_qty'],
-                                'product_uom_id': line.product_uom.id,
-                                'move_id': line.id,
-                                'location_dest_id': rec.location_dest_id.id,
-                                'location_id': rec.location_id.id,
-                                'picking_id': rec.id,
-                            }
-                            self.env['stock.move.line'].sudo().create(vals)
-                else:
-                    for lot in lots:
-                        lot_id = rec.env['stock.production.lot'].search(
-                            [('name', '=', lot['lot_name']), ('product_id', '=', product_id)])
-                        if lot_id:
-                            product = self.env['product.product'].search([('id', '=', product_id)])
-                            mov_id_var = {
-                                'name': product.name,
-                                'location_id': rec.location_id.id,
-                                'picking_id': rec.id,
-                                'location_dest_id': rec.location_dest_id.id,
-                                'product_id': product_id,
-                                'product_uom': product.uom_id.id,
-                                'product_uom_qty': 0,
-                                # 'ordered_qty': 0,
-                            }
-                            print("xxx")
-                            move_id = rec.env['stock.move'].create({
-                                'name': product.name,
-                                'location_id': rec.location_id.id,
-                                'picking_id': rec.id,
-                                'location_dest_id': rec.location_dest_id.id,
-                                'product_id': product_id,
-                                'product_uom': product.uom_id.id,
-                                'product_uom_qty': 0,
-                                # 'ordered_qty': 0,
-                            })
-                            stock_move_var = {
-                                'picking_id': rec.id,
-                                'move_id': move_id.id,
-                                'qty_done': lot['product_uom_qty'],
-                                'lot_id': lot_id.id,
-                                'lot_name': lot_id.name,
-                                'location_dest_id': rec.location_dest_id.id,
-                                'location_id': rec.location_id.id,
-                                'product_id': product_id,
-                                'product_uom_id': move_id.product_uom.id,
-                                # 'product_uom_qty': 0,
-                            }
-                            print("vv")
-                            rec.env['stock.move.line'].create({
-                                'picking_id': rec.id,
-                                'move_id': move_id.id,
-                                'qty_done': lot['product_uom_qty'],
-                                'lot_id': lot_id.id,
-                                'lot_name': lot_id.name,
-                                'location_dest_id': rec.location_dest_id.id,
-                                'location_id': rec.location_id.id,
-                                'product_id': product_id,
-                                'product_uom_id': move_id.product_uom.id,
-                                # 'product_uom_qty': 0,
-                            })
+            #for finalarrayline in finalArray.items():
+                        print("testx")
 
+                #for product_id, lot_name in finalarrayline.items():
+                #for product_id, lot_name in finalarrayline:
+                        if product_id in move_lines.product_id.ids:
+                            move_id = move_lines_product_ids[product_id]['move_id']
+                            line = rec.mapped('move_lines').filtered(lambda move: move.id == move_id)
+                            move_line_ids = line.mapped('move_line_ids').filtered(
+                                lambda move_line_id: move_line_id.state not in ('cancel', 'done'))
+                            for lot in lots:
+                                lot_id = rec.env['stock.production.lot'].search(
+                                    [('name', '=', lot['lot_name']), ('product_id', '=', product_id)])
+                                if lot_id.id in rec.move_line_ids_without_package.lot_id.ids:
+                                #if len(move_line_ids) > 0 and lot_id:
+                                    move_line_ids.write({
+                                        'qty_done': lot['product_uom_qty'],
+                                        'lot_id': lot_id.id,
+                                        'lot_name': lot_id.name,
+                                        'product_uom_qty': lot['product_uom_qty'],
+                                    })
+                                elif lot_id:
+                                    vals = {
+                                        'qty_done': lot['product_uom_qty'],
+                                        'lot_id': lot_id.id,
+                                        'lot_name': lot_id.name,
+                                        'product_id': line.product_id.id,
+                                        'product_uom_qty': lot['product_uom_qty'],
+                                        'product_uom_id': line.product_uom.id,
+                                        'move_id': line.id,
+                                        'location_dest_id': rec.location_dest_id.id,
+                                        'location_id': rec.location_id.id,
+                                        'picking_id': rec.id,
+                                    }
+                                    print("test")
+                                    self.env['stock.move.line'].sudo().create(vals)
+                        else:
+                            for lot in lots:
+                                lot_id = rec.env['stock.production.lot'].search(
+                                    [('name', '=', lot['lot_name']), ('product_id', '=', product_id)])
+                                if lot_id:
+                                    product = self.env['product.product'].search([('id', '=', product_id)])
+                                    mov_id_var = {
+                                        'name': product.name,
+                                        'location_id': rec.location_id.id,
+                                        'picking_id': rec.id,
+                                        'location_dest_id': rec.location_dest_id.id,
+                                        'product_id': product_id,
+                                        'product_uom': product.uom_id.id,
+                                        'product_uom_qty': lot['product_uom_qty'],
+                                        # 'ordered_qty': 0,
+                                    }
+                                    print("test2")
+                                    move_id = rec.env['stock.move'].create({
+                                                             'name': product.name,
+                                                             'location_id': rec.location_id.id,
+                                                             'picking_id': rec.id,
+                                                             'location_dest_id': rec.location_dest_id.id,
+                                                             'product_id': product_id,
+                                                             'product_uom': product.uom_id.id,
+                                                             'product_uom_qty': lot['product_uom_qty'],
+                                                             # 'ordered_qty': 0,
+                                                         })
+                                    stock_move_var = {
+                                                             'picking_id': rec.id,
+                                                             'move_id': move_id.id,
+                                                             'qty_done': lot['product_uom_qty'],
+                                                             'lot_id': lot_id.id,
+                                                             'lot_name': lot_id.name,
+                                                           'location_dest_id': rec.location_dest_id.id,
+                                                             'location_id': rec.location_id.id,
+                                                             'product_id': product_id,
+                                                             'product_uom_id': move_id.product_uom.id,
+                                                             'product_uom_qty': 0,
+                                                         }
+                                    print("test3")
+                                    rec.env['stock.move.line'].create({
+                                                             'picking_id': rec.id,
+                                                             'move_id': move_id.id,
+                                                             'qty_done': lot['product_uom_qty'],
+                                                             'lot_id': lot_id.id,
+                                                             'lot_name': lot_id.name,
+                                                             'location_dest_id': rec.location_dest_id.id,
+                                                             'location_id': rec.location_id.id,
+                                                             'product_id': product_id,
+                                                             'product_uom_id': move_id.product_uom.id,
+                                                             'product_uom_qty': lot['product_uom_qty'],
+                                                         })
             if rec.state == 'draft':
                 print('+++++++++++++++++++++++++++++++++++++++++++++++++')
                 rec.action_confirm()
@@ -212,8 +219,155 @@ class stock_picking_inherit(models.Model):
                     z = move.product_uom_qty
                 if move.state == 'assigned':
                     move.state = 'confirmed'
-            moves._action_assign()
+                    print("s")
+                move.state  = 'assigned'
+            #moves._action_assign()
+
             return True
+
+
+    # synchronize Function without reserve synchronized items
+    def synchronize_scan(self):
+        if len(self.env.companies.ids) >1:
+            raise Warning("Please choose one company to synchronize from !")
+        for rec in self:
+           # if len(rec.company_id.ids) >1:
+            #    raise Warning("Plz Choose one company to Syncronize from !")
+            rec.do_unreserve()
+            finalArray={}
+            for line in rec.scan_products_ids:
+                if line.product_id.id in finalArray.keys():
+                    finalArray[line.product_id.id].append({
+                         'product_id': line.product_id.id,
+                         'product_uom_qty': line.product_uom_qty,
+                         'lot_name': line.lot_no,
+                    })
+                else:
+                        finalArray[line.product_id.id] = [{
+                             'product_id': line.product_id.id,
+                             'product_uom_qty': line.product_uom_qty,
+                             'lot_name': line.lot_no,
+                         }]
+
+            move_lines = rec.mapped('move_lines').filtered(lambda move: move.state not in ('cancel', 'done'))
+            move_lines_product_ids = {}
+            for line in move_lines:
+                move_lines_product_ids[line.product_id.id] = {
+                'product_id': line.product_id.id,
+                'move_id': line.id,
+                         }
+
+
+            for product_id, lots in finalArray.items():
+            #for finalarrayline in finalArray.items():
+                        print("testx")
+
+                #for product_id, lot_name in finalarrayline.items():
+                #for product_id, lot_name in finalarrayline:
+                        if product_id in move_lines.product_id.ids:
+                            move_id = move_lines_product_ids[product_id]['move_id']
+                            line = rec.mapped('move_lines').filtered(lambda move: move.id == move_id)
+                            move_line_ids = line.mapped('move_line_ids').filtered(
+                                lambda move_line_id: move_line_id.state not in ('cancel', 'done'))
+                            for lot in lots:
+                                lot_id = rec.env['stock.production.lot'].search(
+                                    [('name', '=', lot['lot_name']), ('product_id', '=', product_id)])
+                                if lot_id.id in rec.move_line_ids_without_package.lot_id.ids:
+                                #if len(move_line_ids) > 0 and lot_id:
+                                    move_line_ids.write({
+                                        'qty_done': lot['product_uom_qty'],
+                                        'lot_id': lot_id.id,
+                                        'lot_name': lot_id.name,
+                                    #    'product_uom_qty': lot['product_uom_qty'],
+                                    })
+                                elif lot_id:
+                                    vals = {
+                                        'qty_done': lot['product_uom_qty'],
+                                        'lot_id': lot_id.id,
+                                        'lot_name': lot_id.name,
+                                        'product_id': line.product_id.id,
+                                      #  'product_uom_qty': lot['product_uom_qty'],
+                                        'product_uom_id': line.product_uom.id,
+                                        'move_id': line.id,
+                                        'location_dest_id': rec.location_dest_id.id,
+                                        'location_id': rec.location_id.id,
+                                        'picking_id': rec.id,
+                                    }
+                                    print("test")
+                                    self.env['stock.move.line'].sudo().create(vals)
+                        else:
+                            for lot in lots:
+                                lot_id = rec.env['stock.production.lot'].search(
+                                    [('name', '=', lot['lot_name']), ('product_id', '=', product_id)])
+                                if lot_id:
+                                    product = self.env['product.product'].search([('id', '=', product_id)])
+                                    mov_id_var = {
+                                        'name': product.name,
+                                        'location_id': rec.location_id.id,
+                                        'picking_id': rec.id,
+                                        'location_dest_id': rec.location_dest_id.id,
+                                        'product_id': product_id,
+                                        'product_uom': product.uom_id.id,
+                                        'product_uom_qty': 0,
+                                        # 'ordered_qty': 0,
+                                    }
+                                    print("test2")
+                                    move_id = rec.env['stock.move'].create({
+                                                             'name': product.name,
+                                                             'location_id': rec.location_id.id,
+                                                             'picking_id': rec.id,
+                                                             'location_dest_id': rec.location_dest_id.id,
+                                                             'product_id': product_id,
+                                                             'product_uom': product.uom_id.id,
+                                                             'product_uom_qty':0,
+                                                             # 'ordered_qty': 0,
+                                                         })
+                                    stock_move_var = {
+                                                             'picking_id': rec.id,
+                                                             'move_id': move_id.id,
+                                                             'qty_done': lot['product_uom_qty'],
+                                                             'lot_id': lot_id.id,
+                                                             'lot_name': lot_id.name,
+                                                           'location_dest_id': rec.location_dest_id.id,
+                                                             'location_id': rec.location_id.id,
+                                                             'product_id': product_id,
+                                                             'product_uom_id': move_id.product_uom.id,
+                                                             'product_uom_qty': 0,
+                                                         }
+                                    print("test3")
+                                    rec.env['stock.move.line'].create({
+                                                             'picking_id': rec.id,
+                                                             'move_id': move_id.id,
+                                                             'qty_done': lot['product_uom_qty'],
+                                                             'lot_id': lot_id.id,
+                                                             'lot_name': lot_id.name,
+                                                             'location_dest_id': rec.location_dest_id.id,
+                                                             'location_id': rec.location_id.id,
+                                                             'product_id': product_id,
+                                                             'product_uom_id': move_id.product_uom.id,
+                                                             'product_uom_qty': 0,
+                                                         })
+            if rec.state == 'draft':
+                print('+++++++++++++++++++++++++++++++++++++++++++++++++')
+                rec.action_confirm()
+
+            print('*********************************************************', move_lines)
+            moves = self.mapped('move_lines').filtered(lambda move: move.state not in ('draft', 'cancel', 'done'))
+            if not moves:
+                raise UserError(_('Nothing to check the availability for.'))
+            for move in moves:
+                if move.product_tmpl_id.tracking == 'none':
+                    move.quantity_done = move.product_uom_qty
+                    v = move.quantity_done
+                    z = move.product_uom_qty
+                if move.state == 'assigned':
+                    move.state = 'confirmed'
+                    print("s")
+                move.state  = 'assigned'
+            #moves._action_assign()
+
+            return True
+
 
     @api.model
     def get_stock_lot_scan_data(self, active_id, cids=""):
