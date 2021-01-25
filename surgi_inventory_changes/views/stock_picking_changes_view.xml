@@ -55,7 +55,7 @@
                 <!--                </xpath>-->
 
                 <xpath expr="//field[@name='partner_id']" position="attributes">
-                    <attribute name="required">1</attribute>
+                    <attribute name="attrs">{'invisible':[('picking_type_code','=','internal')],'required': [('picking_type_code', 'in', ['incoming', 'outgoing'])]}</attribute>
                     <attribute name="create">false</attribute>
                     <attribute name="edit">false</attribute>
                     <attribute name="options">{"no_open": True}</attribute>
