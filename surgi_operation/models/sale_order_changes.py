@@ -26,12 +26,12 @@ class sale_order(models.Model):
                                 ('tender', 'Tender'),
                                 ('supply_order', 'Supply Order'),
                                 ], string='Sale Order Type', default="normal")
-    delivery_type = fields.Selection(string="Delivery Type ",
-                                     selection=[('normal', 'Normal'),('loading','Loading')
-                                                ,('exchange','Exchange ')
-                                                ,('gov','Government Form')],help="Used ot show delivery type")
-    loading_sale_invoice = fields.Char(string="Loading Sale Invoice")
-    gov_form = fields.Binary(string="Government Form Attachment")
+    # delivery_type = fields.Selection(string="Delivery Type ",
+    #                                  selection=[('normal', 'Normal'),('loading','Loading')
+    #                                             ,('exchange','Exchange ')
+    #                                             ,('gov','Government Form')],help="Used ot show delivery type")
+    # loading_sale_invoice = fields.Char(string="Loading Sale Invoice")
+    # gov_form = fields.Binary(string="Government Form Attachment")
     message_error = fields.Char(readonly=True)
     flag = fields.Boolean()
     oper_count = fields.Char("Operation Location Quant", compute='get_operation_count')

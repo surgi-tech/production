@@ -9,14 +9,17 @@ class StockPickingInherit(models.Model):
 
     receipt_exchange = fields.Boolean(string="Receipt Exchange? ",related='picking_type_id.receipt_exchange',
                                       help="Used ot show if type is receipt exchange or not")
-    #
-    type_delivery_type = fields.Selection(string="Delivery Type ",related='picking_type_id.delivery_type',
-                                     selection=[('gov', 'Government Form'), ('exchange', 'Exchange ')],
+    # delivery_exchange = fields.Boolean(string="Delivery Exchange",tracking=True,
+    #                                   help="Used ot show if type is receipt exchange or not")
+    so_delivery_type = fields.Selection(string="Delivery Type ",related='sale_id.delivery_type',
+                                     selection=[('normal', 'Normal'),('loading','Loading')
+                                                ,('exchange','Exchange ')
+                                                ,('gov','Government Form')],
                                      help="Used ot show picking type delivery type")
-    tender_order_id = fields.Many2one(comodel_name='stock.picking',string="Tender Delivery Order",
+    delivery_exchange_order_id = fields.Many2one(comodel_name='stock.picking',string="Exchange Delivery Order",
                              help="used to set Tender Delivery Order",
-                                      domain=[('type_delivery_type','=','exchange')])
-    exchange_order_id = fields.Many2one(comodel_name='stock.picking', string="Exchange Receipt Order",
+                                      domain=[('so_delivery_type','=','exchange')])
+    receipt_exchange_order_id = fields.Many2one(comodel_name='stock.picking', string="Exchange Receipt Order",
                                       help="used to set Exchange Receipt Order",
                                       domain=[('receipt_exchange', '=', True)])
     gov_form_url = fields.Char(string="Gov Form URL",help="used to add Gov Form URL")
@@ -31,13 +34,13 @@ class StockPickingInherit(models.Model):
     sale_id = fields.Many2one(related="group_id.sale_id", string="Sales Order", store=True,
                               readonly=False, tracking=True)
 
-    @api.depends('picking_type_id')
+    @api.depends('so_delivery_type')
     def _cumpute_is_exchange(self):
         for rec in self:
-            if rec.picking_type_id.delivery_type=='exchange' or rec.picking_type_id.receipt_exchange==True:
-                rec.is_exchange=True
+            if rec.so_delivery_type == 'exchange':
+                rec.is_exchange = True
             else:
-                rec.is_exchange=False
+                rec.is_exchange = False
 #      Nassar
 #     @api.onchange('sales_order_id')
 #     def _change_sales_person(self):
@@ -99,15 +102,15 @@ class StockPickingInherit(models.Model):
         self.save_descrip_action()
         if self.receipt_exchange:
             ## in case of recipt exchange order add it's id on tendre order
-            if self.tender_order_id:
-                self.tender_order_id.write({'exchange_order_id' : self.id})
-        elif self.type_delivery_type == 'exchange':
+            if self.delivery_exchange_order_id:
+                self.delivery_exchange_order_id.write({'receipt_exchange_order_id': self.id})
+        elif self.is_exchange:
             ## in case of exchange order add it's id on exhchange  order
-            if self.exchange_order_id:
-                self.exchange_order_id.write({'tender_order_id' : self.id})
+            if self.receipt_exchange_order_id:
+                self.receipt_exchange_order_id.write({'delivery_exchange_order_id': self.id})
             ## If there is no exchange order raise warning
             else:
-                raise Warning ("Please Set Exchange Receipt Order to be able to validate")
+                raise Warning("Please Set Exchange Receipt Order to be able to validate")
         ## 1- is internal transfer
         ## 2- it's location has required_approval checkbox checked
         ## 3- it's location has warehouse, and warehouse have manager

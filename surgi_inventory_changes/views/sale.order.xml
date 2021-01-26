@@ -8,6 +8,11 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="delivery_type"/>
+                    <field name="loading_sale_invoice" attrs="{'invisible': [('delivery_type', '!=', 'loading')]}"/>
+                    <field name="gov_form"  attrs="{'invisible': [('delivery_type', '!=', 'gov')]}"/>
+                </field>
 
                 <xpath expr="//page[@name='customer_signature']" position="after">
                     <!-- Add your fields or attributes here -->

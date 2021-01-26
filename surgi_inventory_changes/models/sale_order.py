@@ -3,6 +3,12 @@ from odoo import models, fields, api,_
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    delivery_type = fields.Selection(string="Delivery Type ", tracking=True,
+                                     selection=[('normal', 'Normal'), ('loading', 'Loading')
+                                         , ('exchange', 'Exchange ')
+                                         , ('gov', 'Government Form')], help="Used ot show delivery type")
+    loading_sale_invoice = fields.Char(string="Loading Sale Invoice")
+    gov_form = fields.Binary(string="Government Form Attachment")
     total_cocs= fields.Float(string="Total Cocs",)
     cocs_ids = fields.One2many(comodel_name="cocs.cocs", inverse_name="order_id",)
 

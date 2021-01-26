@@ -89,10 +89,10 @@
                 </xpath>
 
                 <xpath expr="//field[@name='origin']" position="after">
-                    <field name="sale_id" string="Sales Order" readonly="0" options="{'no_create': True, 'no_open': True}"
+                    <field name="sale_id" string="Operation Sales Order" readonly="0" options="{'no_create': True, 'no_open': True}"
                            attrs="{'invisible':[('picking_type_code', '!=', 'outgoing')]}"/><!-- 'required':[('picking_type_code', '=', 'outgoing')],-->
-                    <field name="sales_order_id"
-                           attrs="{'invisible':[('is_exchange','=',False)]}"/><!--'required':[('is_exchange','=',True)],-->
+                    <field name="sales_order_id" string="Original Sale Order"
+                           attrs="{'invisible':[('picking_type_code','=','internal')]}"/><!--'required':[('is_exchange','=',True)],-->
                     <field name="is_exchange" invisible="1"/>
                 </xpath>
 
@@ -131,11 +131,12 @@
 
                 <xpath expr="//field[@name='priority']" position="after">
                     <field name="receipt_exchange" invisible="1"/>
-                    <field name="type_delivery_type" invisible="1"/>
+<!--                    <field name="delivery_exchange" invisible="0" attrs="{'invisible':[('picking_type_code', '!=', 'outgoing')]}"/>-->
+                    <field name="so_delivery_type" invisible="0" attrs="{'invisible':[('picking_type_code', '!=', 'outgoing')]}"/>
                     <field name="gov_form_url" placeholder="https://" widget="url"
-                           attrs="{'invisible':[('type_delivery_type','!=','gov')]}"/>
-                    <field name="tender_order_id" attrs="{'invisible':[('receipt_exchange','!=',True)]}"/>
-                    <field name="exchange_order_id" attrs="{'invisible':[('type_delivery_type','!=','exchange')]}"/>
+                           attrs="{'invisible':[('so_delivery_type','!=','gov')]}"/>
+                    <field name="delivery_exchange_order_id" readonly="1" attrs="{'invisible':[('receipt_exchange','!=',True)]}"/>
+                    <field name="receipt_exchange_order_id" attrs="{'invisible':[('so_delivery_type','!=','exchange')]}"/>
                 </xpath>
 
                 <xpath expr="//notebook" position="inside">
