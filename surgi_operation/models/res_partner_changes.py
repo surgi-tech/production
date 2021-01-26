@@ -85,12 +85,23 @@ class res_partner_inherit(models.Model):
                 # 'company_id': False,
             }
             thirdLocation = self.env['stock.location'].create(thirdLocationVals)
+            ## Forth location: internal location with hospital name + /customers as location name and created hospital as owner ##
+            forthLocationVals = {
+                'name': 'S-O-T',
+                'usage': "customer",
+                'partner_id': createdHospital.id,
+                'sales_order_location': True,
+                'location_id': res.id,
+                'company_id': 19,
+            }
+            forthLocation = self.env['stock.location'].create(forthLocationVals)
             createdHospital.write({
-                                  'operations_location': res.id,
-                                  #'hospital_stock_location_id': secondLocation.id,
-                                  'property_stock_customer': secondLocation.id,
-                                  'customers_sales_order_location_id': thirdLocation.id,
-                                  })
+                'operations_location': res.id,
+                # 'hospital_stock_location_id': secondLocation.id,
+                'property_stock_customer': secondLocation.id,
+                'customers_sales_order_location_id': thirdLocation.id,
+                'customers_sales_order_location_id_tender': forthLocation.id,
+            })
         return createdHospital
 
     def unlink(self):
