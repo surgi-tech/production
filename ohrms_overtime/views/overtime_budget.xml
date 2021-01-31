@@ -1,0 +1,89 @@
+<odoo>
+    <data>
+
+        <record id="overtime_budget_tree" model="ir.ui.view">
+            <field name="name">Overtime budget tree</field>
+            <field name="model">overtime.budget</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="overtime_budget_form" model="ir.ui.view">
+            <field name="name">Overtime budget</field>
+            <field name="model">overtime.budget</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="status" widget="statusbar" clickable="1"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" attrs="{'readonly':[('status', '!=', 'draft')]}"/>
+                            <field name="date_from" attrs="{'readonly':[('status', '!=', 'draft')]}"/>
+                            <field name="date_to" attrs="{'readonly':[('status', '!=', 'draft')]}"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="company_budget" attrs="{'readonly':[('status', '!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="consumed_budget" readonly="True"/>
+                            </group>
+                        </group>
+                        <hr/>
+                        <button name="auto_fill_department_budget"
+                                    type="object" class="btn-primary"
+                                    attrs="{'invisible':[('status', '!=', 'draft')]}"
+                                    string="Departments Auto Fill"/>
+                        <field name="departments_budget" attrs="{'readonly':[('status', '!=', 'draft')]}">
+                            <tree editable="bottom">
+                                <field name="department_id"/>
+                                <field name="amount"/>
+                                <field name="consumed_amount" readonly="True"/>
+                            </tree>
+                        </field>
+                        <hr/>
+                        <button name="auto_fill_employee_budget"
+                                type="object" class="btn-primary"
+                                attrs="{'invisible':[('status', '!=', 'draft')]}"
+                                string="Employees Auto Fill"/>
+                        <field name="employees_budget" attrs="{'readonly':[('status', '!=', 'draft')]}">
+                            <tree editable="bottom">
+                                <field name="employee_id"/>
+                                <field name="department_id"/>
+                                <field name="amount"/>
+                                <field name="consumed_amount" readonly="True"/>
+                            </tree>
+                        </field>
+                        <hr/>
+                        <field name="request_ids" readonly="True">
+                            <tree>
+                                <field name="employee_id"/>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                                <field name="cash_hrs_amount"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="overtime_budget_action" model="ir.actions.act_window">
+            <field name="name">Overtime Budget</field>
+            <field name="res_model">overtime.budget</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- MenuItems -->
+        <menuitem id="overtime_budget_menu" name="Overtime Budget"
+                  parent="overtime_submenu"
+                  action="overtime_budget_action"/>
+
+    </data>
+</odoo>

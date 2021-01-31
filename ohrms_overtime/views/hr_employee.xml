@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+        <record id="hr_employee_overtime_budget" model="ir.ui.view">
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Overtime Budget">
+                        <group>
+                            <field name="overtime_budget"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

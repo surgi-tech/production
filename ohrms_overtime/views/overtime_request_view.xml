@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <record id="hr_over_time_manager" model="res.groups">
-        <field name="name">HR Manager</field>
-        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-    </record>
-
     <data noupdate="1">
         <record id="seq_overtime_req" model="ir.sequence">
             <field name="name">Overtime Sequencer</field>
@@ -26,7 +20,7 @@
                 <form string="Overtime Request">
                     <header>
                         <field name="state" widget="statusbar"
-                               statusbar_visible="f_approve,approved,hr_approved,done"/>
+                               statusbar_visible="f_approve,approved,done"/>
                         <button name="submit_to_f" string="Submit To Finance"
                                 type="object" class="btn-primary"
                                 attrs="{'invisible': [('state', '!=', 'draft')]}"/>
@@ -34,14 +28,6 @@
                                 class="btn-primary"
                                 attrs="{'invisible': [('state', '!=', 'f_approve')]}"
                                 groups="hr_holidays.group_hr_holidays_user"/>
-
-                        <button name="hr_approve" string="HR Approve" type="object"
-                                class="btn-primary"
-                                attrs="{'invisible': [('state', '!=', 'approved')]}"
-                                groups="ohrms_overtime.hr_over_time_manager"/>
-
-
-
                         <button name="reject" string="Refuse" type="object"
                                 class="btn-primary"
                                 attrs="{'invisible': ['|',('state', 'not in', ['f_approve']),('current_user_boolean', '=', True)]}"/>
@@ -73,6 +59,8 @@
                                 <field name='type'  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name='overtime_type_id' groups="hr.group_hr_user"  attrs="{'readonly': [('state', '!=', 'f_approve')],
                                  'invisible': [('state', '=', 'draft')], 'required': [('state', '=', 'f_approve')]}"/>
+                                <field name='budget_id' groups="hr.group_hr_user"  attrs="{'readonly': [('state', '!=', 'f_approve')],
+                                 'invisible': ['|', ('state', '=', 'draft'), ('type', '!=', 'cash')], 'required': [('state', '=', 'f_approve'), ('type', '=', 'cash')]}"/>
                                 <field name="cash_hrs_amount" force_save="1" attrs="{'invisible': ['|','|',('state', '=', 'draft'),('type','!=', 'cash'),('duration_type','!=','hours')]}"/>
                                 <field name="cash_day_amount" force_save="1" attrs="{'invisible': ['|','|',('state', '=', 'draft'),('type','!=', 'cash'),('duration_type','!=','days')]}"/>
                                 <field name="attchd_copy_name" invisible="1"/>
@@ -88,18 +76,21 @@
                                 <field name="date_to" required="1"
                                        class="oe_inline"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                <field name="days_no_tmp" string="Hours" attrs="{'invisible': [('duration_type', '=', 'days')]}"/>
-                                <field name="days_no_tmp" string="Days" attrs="{'invisible': [('duration_type', '=', 'hours')]}"/>
-                                <field name="payslip_paid"  readonly="1" attrs="{'invisible': [('type','!=', 'cash')]}" widget="toggle_button" groups="hr.group_hr_manager"/>
-                                <field name="days_no" readonly="1"
-                                       invisible="1"/>
                             </group>
                             <group>
-                                <div>
-                                    <separator string="Public Holiday"/>
-                                    <field name="public_holiday"
-                                           force_save="1"/>
-                                </div>
+                                <field name="days_no_tmp" widget="float_time" string="Hours" attrs="{'invisible': [('duration_type', '=', 'days')]}"/>
+                                <field name="days_no_tmp" string="Days" attrs="{'invisible': [('duration_type', '=', 'hours')]}"/>
+                                <field name="total_morning_hours" widget="float_time" readonly="True" attrs="{'invisible':[('total_morning_hours','=',0)]}"/>
+                                <field name="total_night_hours" widget="float_time" readonly="True" attrs="{'invisible':[('total_night_hours','=',0)]}"/>
+                            </group>
+                            <group>
+                                <field name="days_no" readonly="1"
+                                       invisible="1"/>
+                                <field name="payslip_paid"  readonly="1" attrs="{'invisible': [('type','!=', 'cash')]}" widget="toggle_button" groups="hr.group_hr_manager"/>
+                            </group>
+                            <group>
+                                <field name="public_holiday" string="Is Public Holiday"/>
+                                <field name="is_weekend" string="Is Weekend"/>
                             </group>
                         </group>
                         <notebook>
@@ -124,6 +115,11 @@
                             </page>
                             <page string="Global Leaves">
                                 <field name="global_leaves"/>
+                            </page>
+                            <page string="Task">
+                                <group>
+                                <field name="task_id" required="True"/>
+                                </group>
                             </page>
                         </notebook>
 
@@ -166,6 +162,7 @@
             <field name="name">Overtime Request</field>
             <field name="res_model">hr.overtime</field>
             <field name="view_mode">tree,form</field>
+            <field name="domain">['|', ('employee_id.user_id', '=', uid), ('manager_id', '=', uid)]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     Click to create new Pre Approval Overtime Request.

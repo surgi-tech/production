@@ -14,7 +14,7 @@
 
                 <xpath expr="//group" position="after">
                     <notebook>
-                        <page string="Interviewer 1">
+                        <page string="Interviewer">
                             <group>
                                 <field name="interviewer_1_survey" string="Survey"/>
                                 <field name="interviewer_1_user_id" string="Interviewer" required="1"/>
@@ -29,8 +29,7 @@
                                         class="btn-primary"
                                         attrs="{'invisible':['|', ('interviewer_1_survey','=',False), ('interviewer_1_user_id','=',False)]}"/>
                             </group>
-                        </page>
-                        <page string="Interviewer 2">
+                            <hr/>
                             <group>
                                 <field name="interviewer_2_survey" string="Survey"/>
                                 <field name="interviewer_2_user_id" string="Interviewer" required="1"/>
@@ -45,8 +44,7 @@
                                         class="btn-primary"
                                         attrs="{'invisible':['|', ('interviewer_2_survey','=',False), ('interviewer_2_user_id','=',False)]}"/>
                             </group>
-                        </page>
-                        <page string="Interviewer 3">
+                            <hr/>
                             <group>
                                 <field name="interviewer_3_survey" string="Survey"/>
                                 <field name="interviewer_3_user_id" string="Interviewer" required="1"/>
@@ -102,7 +100,7 @@
                         <field name="job_id" readonly="1" options="{'no_open': True}"/>
                     </group>
                     <notebook>
-                        <page string="Interviewer 1">
+                        <page string="Interviewer">
                             <group>
                                 <field name="interviewer_1_survey" string="Survey" options="{'no_open': True}"/>
                                 <field name="interviewer_1_user_id" string="Interviewer" readonly="1" options="{'no_open': True}"/>
@@ -117,8 +115,7 @@
                                         class="btn-primary"
                                         attrs="{'invisible':['|', ('interviewer_1_survey','=',False), ('interviewer_1_user_id','=',False)]}"/>
                             </group>
-                        </page>
-                        <page string="Interviewer 2">
+                            <hr/>
                             <group>
                                 <field name="interviewer_2_survey" string="Survey" options="{'no_open': True}"/>
                                 <field name="interviewer_2_user_id" string="Interviewer" readonly="1" options="{'no_open': True}"/>
@@ -133,8 +130,7 @@
                                         class="btn-primary"
                                         attrs="{'invisible':['|', ('interviewer_2_survey','=',False), ('interviewer_2_user_id','=',False)]}"/>
                             </group>
-                        </page>
-                        <page string="Interviewer 3">
+                            <hr/>
                             <group>
                                 <field name="interviewer_3_survey" string="Survey" options="{'no_open': True}"/>
                                 <field name="interviewer_3_user_id" string="Interviewer" readonly="1" options="{'no_open': True}"/>

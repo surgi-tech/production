@@ -31,9 +31,9 @@
                             <page string="Rules" name="cash_rules">
                                 <field name="rule_line_ids">
                                     <tree string="Rules" editable="bottom">
-                                        <field name="name"/>
-                                        <field name="from_hrs"/>
-                                        <field name="to_hrs"/>
+                                        <field name="name" required="True"/>
+                                        <field name="from_hrs" widget='float_time'/>
+                                        <field name="to_hrs" widget='float_time'/>
                                         <field name="hrs_amount"/>
                                     </tree>
                                 </field>
