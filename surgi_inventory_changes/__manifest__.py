@@ -6,7 +6,7 @@
 Warehouse modifications
 ==========================
     """,
-    'depends': ['stock','surgi_product_template','sale'],
+    'depends': ['stock','stock_account','surgi_product_template','sale'],
     'data': [
         'views/stock_picking_changes_view.xml',
         'views/stock_picking_type_changes_view.xml',

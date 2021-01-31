@@ -2,19 +2,93 @@
 <odoo>
     <data>
 
-        <!-- Inherit Form View to Modify it -->
-        <record id="stock_quant_tree_inherit_2" model="ir.ui.view">
+        <record model="ir.ui.view" id="stock_quant_tree_inherit_main">
+            <field name="name">stock.quant.tree.inherit</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="replace">
+                    <tree decoration-danger="inventory_quantity &lt; 0" editable="bottom" create="0" edit="0" import="0" js_class="singleton_list">
+                        <field name="id" invisible="1"/>
+                        <field name="tracking" invisible="1"/>
+                        <field name="product_id" attrs="{'readonly': [('id', '!=', False)]}" invisible="context.get('single_product', False)" readonly="context.get('single_product', False)" force_save="1" options="{'no_create': True}"/>
+                        <field name="product_group" invisible="0" optional="hide"/>
+                        <field name="product_categ_id" invisible="0" optional="hide"/>
+                        <field name="location_id" attrs="{'readonly': [('id', '!=', False)]}" invisible="context.get('hide_location', False)" options="{'no_create': True}"/>
+                        <field name="lot_id" groups="stock.group_production_lot" attrs="{'readonly': ['|', ('id', '!=', False), ('tracking', 'not in', ['serial', 'lot'])],'required': [('tracking', '!=', 'none')]}" invisible="context.get('hide_lot', False)" context="{'default_product_id': product_id, 'default_company_id': company_id}"/>
+                        <field name="package_id" groups="stock.group_tracking_lot" attrs="{'readonly': [('id', '!=', False)]}"/>
+                        <field name="owner_id" groups="stock.group_tracking_owner" attrs="{'readonly': [('id', '!=', False)]}" options="{'no_create': True}"/>
+                        <field name="quantity" string="On Hand Quantity" invisible="1"/>
+                        <field name="inventory_quantity" string="On Hand Quantity" readonly="0" optional="hide"/>
+                        <field name="reserved_quantity" optional="hide"/>
+                        <field name="available_quantity"/>
+                        <field name="product_uom_id" groups="uom.group_uom"/>
+                        <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                    </tree>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="stock_quant_tree_editable_inherit_main" model="ir.ui.view">
             <field name="name">stock.quant.tree.inherit</field>
             <field name="model">stock.quant</field>
             <field name="inherit_id" ref="stock.view_stock_quant_tree_editable"/>
             <field name="arch" type="xml">
+                <xpath expr="//tree" position="replace">
+                    <tree decoration-danger="inventory_quantity &lt; 0" editable="bottom" create="0" edit="0" import="0" js_class="singleton_list">
+                        <field name="id" invisible="1"/>
+                        <field name="tracking" invisible="1"/>
+                        <field name="product_id" attrs="{'readonly': [('id', '!=', False)]}" invisible="context.get('single_product', False)" readonly="context.get('single_product', False)" force_save="1" options="{'no_create': True}"/>
+                        <field name="product_group" invisible="0" optional="hide"/>
+                        <field name="product_categ_id" invisible="0" optional="hide"/>
+                        <field name="location_id" attrs="{'readonly': [('id', '!=', False)]}" invisible="context.get('hide_location', False)" options="{'no_create': True}"/>
+                        <field name="lot_id" groups="stock.group_production_lot" attrs="{'readonly': ['|', ('id', '!=', False), ('tracking', 'not in', ['serial', 'lot'])],'required': [('tracking', '!=', 'none')]}" invisible="context.get('hide_lot', False)" context="{'default_product_id': product_id, 'default_company_id': company_id}"/>
+                        <field name="package_id" groups="stock.group_tracking_lot" attrs="{'readonly': [('id', '!=', False)]}"/>
+                        <field name="owner_id" groups="stock.group_tracking_owner" attrs="{'readonly': [('id', '!=', False)]}" options="{'no_create': True}"/>
+                        <field name="quantity" string="On Hand Quantity" invisible="1"/>
+                        <field name="inventory_quantity" string="On Hand Quantity" readonly="0" optional="hide"/>
+                        <field name="reserved_quantity" optional="hide"/>
+                        <field name="available_quantity"/>
+                        <field name="product_uom_id" groups="uom.group_uom"/>
+                        <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                    </tree>
+                </xpath>
+            </field>
+        </record>
 
-                <field name="location_id" position="before">
-                    <field name="product_group" invisible="0"/>
+        <record model="ir.ui.view" id="stock_quant_tree_inherit_main_accounting_value">
+            <field name="name">stock.quant.tree.inherit</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock_account.view_stock_quant_tree_inherit"></field>
+            <field name="arch" type="xml">
+                <field name="currency_id" position="attributes">
+                    <attribute name="groups">surgi_inventory_changes.inventory_value_group</attribute>
+                </field>
+                <field name="value" position="attributes">
+                    <attribute name="groups">surgi_inventory_changes.inventory_value_group</attribute>
                 </field>
 
             </field>
         </record>
+
+        <record id="stock_quant_tree_editable_inherit_main_accounting_value" model="ir.ui.view">
+            <field name="name">stock.quant.tree.inherit</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock_account.view_stock_quant_tree_editable_inherit"/>
+            <field name="arch" type="xml">
+                <field name="currency_id" position="attributes">
+                    <attribute name="groups">surgi_inventory_changes.inventory_value_group</attribute>
+                </field>
+                <field name="value" position="attributes">
+                    <attribute name="groups">surgi_inventory_changes.inventory_value_group</attribute>
+                </field>
+
+            </field>
+        </record>
+
+
+
+
 
     </data>
 </odoo>

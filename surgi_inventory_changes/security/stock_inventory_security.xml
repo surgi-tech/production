@@ -25,5 +25,10 @@
             <field eval="False" name="global"/>
             <field name="groups" eval="[(4,ref('stock.group_stock_manager'))]"/>
         </record>
+
+        <record id="inventory_value_group" model="res.groups">
+            <field name="name">Inventory Value</field>
+<!--            <field name="category_id" ref="surgi_operations_group_category"/>-->
+        </record>
     </data>
 </odoo>
