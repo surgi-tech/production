@@ -27,7 +27,7 @@
         'hr_holidays',
         'project',
         'surgi_evaluation',
-        # 'surgi_attendance_sheet',
+        'surgi_attendance_sheet',
         # 'attendance_sheet_extra',
 
         'hr_appraisal',
@@ -56,7 +56,7 @@
         'views/manager.xml',
         'views/my_tasks.xml',
         'views/menu.xml',
-        # 'views/attendance_sheet.xml',
+        'views/attendance_sheet.xml',
         'views/evaluation.xml',
         'views/kra-kpi.xml',
         'views/ess_hr_survey.xml',

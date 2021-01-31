@@ -29,12 +29,11 @@ class surgi_outdoor_attendance(models.Model):
          return self.env.user.id
 
      def cron_daily_plan(self):
-         # print("JHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
-         # today_date = datetime.now()
          today_date = fields.Datetime().now()
+         print("4$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+
          time2 = "22:00:00"
          my_datetime = datetime.strptime(time2, "%H:%M:%S")
-         user_list=[]
          for user in self.env['hr.employee'].search([('set_daily_plan','=',True)]):
              list_free = []
 
@@ -44,12 +43,10 @@ class surgi_outdoor_attendance(models.Model):
                      today = datetime.strptime(str(today_date).split(".")[0], '%Y-%m-%d %H:%M:%S').date()+relativedelta(days=1)
                      if user.user_id==plan.employee_name and today==op_start_datetime:
 
-                         print(plan.employee_name.name,'plan.iiiiiiiiiiiiiiiiiiiiiiiii.employee_nameplan.employee_name')
                          if plan.employee_name.id not in list_free:
                             list_free.append(user.user_id.id)
 
 
-             print(list_free,'list_freelist_frooooooooooooooooooee',today_date.time(),time2)
              if today_date.time() <= my_datetime.time():
                  if user.user_id.id not in list_free or list_free == []:
                      self.env['surgi.outdoor.attendance'].sudo().create({'employee_name': user.user_id.id,
@@ -90,7 +87,7 @@ class surgi_outdoor_attendance(models.Model):
 
          for rec in self:
              if rec.op_start_datetime:
-                op_start_date=datetime.strptime(str(rec.op_start_datetime), '%Y-%m-%d %H:%M:%S').date()
+                op_start_date=datetime.strptime(str(rec.op_start_datetime).split(".")[0], '%Y-%m-%d %H:%M:%S').date()
                 rec.op_start_date=op_start_date
                 rec.op_start_today = op_start_date - relativedelta(days=1)
                 print(op_start_date,rec.op_start_date,rec.op_start_today,'KKKKKKKKKKKKK')
@@ -109,7 +106,7 @@ class surgi_outdoor_attendance(models.Model):
         time2 = "22:00:00"
         my_datetime = datetime.strptime(time2, "%H:%M:%S")
 
-        today = datetime.strptime(str(today_date), '%Y-%m-%d %H:%M:%S.%f').date()
+        today = datetime.strptime(str(today_date).split(".")[0], '%Y-%m-%d %H:%M:%S').date()
         if today_date.time() > my_datetime.time():
             print("XXXXXXXXXXXXXXXXXXXXX")
             self.is_set = True
