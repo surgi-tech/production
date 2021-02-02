@@ -67,10 +67,6 @@
                         <field name="increase_2016"/>
                         <field name="increase_2017"/>
                         <field name="increase_2018"/>
-                        <field name="extra_hour"/>
-                        <field name="increase_2020"/>
-                        <field name="ac_baha"/>
-                        <field name="variable_incentive"/>
                         <field name="increase_total"/>
                         <field name="total_salary_without_incentive"/>
                     </group>

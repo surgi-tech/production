@@ -154,8 +154,3 @@ class HrContract(models.Model):
     housing = fields.Float('Housing Allowance',track_visibility='onchange',digits=dp.get_precision('Payroll'))
     nature = fields.Float('Nature Of Work',track_visibility='onchange',digits=dp.get_precision('Payroll'))
     increment_contract = fields.One2many('increment.contract', 'increment_id', string='Increment Emp Contract')
-
-    extra_hour = fields.Float(string="Extra Hour", required=False, )
-    increase_2020 = fields.Float(string="Increase 2020", required=False, )
-    ac_baha = fields.Float(string="A/C Dr. Baha", required=False, )
-    variable_incentive = fields.Float(string="Variable Incentive 2020", required=False, )
