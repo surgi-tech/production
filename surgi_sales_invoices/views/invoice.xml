@@ -1,0 +1,50 @@
+<odoo>
+    <data>
+
+        <record id="form_view_account_move_inherit" model="ir.ui.view">
+            <field name="name">name.account.move.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='payment_reference']" position="after">
+                    <field name="hospital_id"/>
+                    <field name="surgeon_id"/>
+                    <field name="patient_name"/>
+                    <field name="sales_area_manager"/>
+                    <field name="collection_rep"/>
+                    <field name="so_type"/>
+                    <field name="suregon_code"/>
+                    <field name="authority"/>
+                    <field name="customer_category"/>
+                    <field name="suregon_code_hospital"/>
+                    <field name="authority_hospital"/>
+                    <field name="customer_category_hospital"/>
+                    <field name="ref"/>
+                    <field name="sale_name"/>
+                    <field name="delivery_name"/>
+                    <field name="customer_country"/>
+                    <field name="customer_city"/>
+                    <field name="sales_person_id"/>
+                    <field name="team_id"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="form_view_sale_order_inherits" model="ir.ui.view">
+            <field name="name">name.sale.order.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="op_type"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

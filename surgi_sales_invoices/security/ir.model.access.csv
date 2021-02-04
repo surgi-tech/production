@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_surgi_sales_invoices_surgi_sales_invoices,surgi_sales_invoices.surgi_sales_invoices,model_surgi_sales_invoices_surgi_sales_invoices,base.group_user,1,1,1,1
