@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="form_view_approval_request_inherit" model="ir.ui.view">
+            <field name="name">name.approval.request.inherit</field>
+            <field name="model">approval.request</field>
+            <field name="inherit_id" ref="approvals.approval_request_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='amount']" position="after">
+                    <field name="department_id"/>
+                    <field name="job_title"/>
+                    <field name="registration_number"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
