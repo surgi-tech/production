@@ -82,6 +82,24 @@ class surgi_outdoor_attendance(models.Model):
      op_start_date = fields.Date(string="",compute='calculate_op_start_date',store=True )
      op_start_today = fields.Date(string="",compute='calculate_op_start_date',store=True)
 
+     section_id = fields.Many2one(comodel_name="hr.department", string="Section",compute='compute_section_manager',store=True)
+     parent_id = fields.Many2one(comodel_name="hr.employee", string="Manager",compute='compute_section_manager',store=True)
+
+     @api.depends('employee_name')
+     def compute_section_manager(self):
+         self.section_id=False
+         self.parent_id=False
+
+         for rec in self:
+             if self.employee_name:
+                 for emp in self.env['hr.employee'].search([('user_id','=',rec.employee_name.id)]):
+                     rec.section_id=emp.section_id.id
+                     rec.parent_id=emp.parent_id.id
+
+
+
+
+
      @api.depends('op_start_datetime')
      def calculate_op_start_date(self):
 

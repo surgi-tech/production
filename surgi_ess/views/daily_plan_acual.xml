@@ -89,6 +89,8 @@
                     <field name="surgeon"/>
                     <field name="op_start_datetime"/>
                     <field name="state_employee"/>
+                    <field name="section_id"/>
+                    <field name="parent_id"/>
                 </tree>
             </field>
         </record>
@@ -123,6 +125,8 @@
                             <field name="hospital" readonly="1"/>
                             <field name="surgeon" readonly="1"/>
                             <field name="op_start_datetime" force_save="1"/>
+                            <field name="section_id"/>
+                            <field name="parent_id"/>
                         </group>
                         <label for="mission_description" string="Mission"
                                attrs="{'invisible':[('state_employee','!=','mission')]}"/>
