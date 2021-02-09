@@ -21,6 +21,15 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
 
     is_check = fields.Boolean(string="Check",  )
+    # state = fields.Selection(selection_add=[('printed', 'Printed')])
+    state = fields.Selection(selection=[
+        ('draft', 'Draft'),
+        ('posted', 'Posted'),
+        ('cancel', 'Cancelled'),('printed', 'Printed'),
+    ], string='Status', required=True, readonly=True, copy=False, tracking=True,
+        default='draft')
+
+    printed_num = fields.Integer(string="Report Number", required=False, )
 
     # @api.onchange('is_check')
     def compute_analytic_account(self):
@@ -44,6 +53,25 @@ class AccountMove(models.Model):
                 if part==False:
                     line.analytic_account_id = False
 
+
+
+
+class ReportAccountHashIntegrity(models.AbstractModel):
+    _name = 'report.account.report_invoice_with_payments'
+    _description = 'Get hash integrity result as PDF.'
+
+    @api.model
+    def _get_report_values(self, docids, data=None):
+
+        docs = self.env['account.move'].browse(docids)
+        print(docs,'JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ',docs.state)
+        docs.state='printed'
+        docs.printed_num+=1
+        return {
+            'doc_ids': docids,
+            'doc_model': 'account.move',
+            'docs': docs,
+        }
 
 
 class StockPicking(models.Model):
