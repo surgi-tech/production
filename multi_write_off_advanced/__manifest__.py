@@ -4,7 +4,7 @@
 
 {
     'name': 'Multiple Write Off Lines in Register Payments(Advanced) - Writeoff',
-    'version': '13.0.0.4',
+    'version': '14.0.0.0',
     'category': 'Accounting',
     'sequence': 1,
     'summary': 'Multiple Write Off Lines in Register Payments',
