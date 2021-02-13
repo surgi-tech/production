@@ -139,6 +139,7 @@ class Tafneta():
 class PrintInvoice(models.Model):
     #_name="acount.move.printinvoice"
     _inherit="account.move"
+    nassar_state = fields.Char(string="nassar status")
     letteraltotal = fields.Text(string="Total Quantity in Letters",compute='_total2word')
     printinvoicetoline = fields.One2many('account.move.printedinvoice.lines', 'linestoprintinvoice')
 
