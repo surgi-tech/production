@@ -23,7 +23,6 @@ This application allows you to add multiple write off into single/batch customer
     'license': 'Other proprietary',
     'data': [
         'views/account_payment_view.xml',
-        'views/account_payment.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [],

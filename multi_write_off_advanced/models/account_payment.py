@@ -18,13 +18,9 @@ class payment_register(models.TransientModel):
                                      string='Post Difference In To')
     writeoff_multi_acc_ids = fields.One2many('writeoff.multi', 'register_id', string='Write Off Accounts')
 
-    salh_amount_total_ids = fields.One2many('amount.amount', 'xeeinterval_id')
-
     @api.model
     def default_get(self, fields):
         rec = super(payment_register, self).default_get(fields)
-        lines=[]
-        c=0.0
         amount_pay_total = 0
         context = self._context
         if context.get('active_ids'):
