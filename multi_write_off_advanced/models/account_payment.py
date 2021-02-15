@@ -69,7 +69,11 @@ class payment_register(models.TransientModel):
 
     def _create_payment_vals_from_wizard(self):
         res =super(payment_register, self)._create_payment_vals_from_wizard()
-        if not self.currency_id.is_zero(self.payment_difference) and self.post_diff_acc == 'multi':
+        write_off_vals_lines = []
+
+        print("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
+        if not self.currency_id.is_zero(self.payment_difference) and (self.post_diff_acc == 'multi' or self.post_diff_acc == 'single'):
+            # print("11111111111111111")
             write_off_vals = []
             for woff_payment in self.writeoff_multi_acc_ids:
                 write_off_vals.append({
@@ -78,8 +82,86 @@ class payment_register(models.TransientModel):
                     'account_id': woff_payment.writeoff_account_id.id,
                     'is_multi_write_off': True
                 })
+                # write_off_vals_lines.append((0, 0, {
+                #     'name': woff_payment.name,
+                #     'amount': woff_payment.amount_payment or 0.0,
+                #     'writeoff_account_id': woff_payment.writeoff_account_id.id,
+                #     'currency_id': woff_payment.currency_id.id
+                # }))
+
+
             res['multi_write_off_line_vals'] = write_off_vals
+            # res['writeoff_multi_acc_ids'] = write_off_vals
+
+
+        if self.post_diff_acc == 'single' or self.post_diff_acc == 'multi':
+            print("11111111111111111KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+
+            for woff in self.writeoff_multi_acc_ids:
+                write_off_vals_lines.append((0, 0, {
+                        'name': woff.name,
+                        'amount': woff.amount_payment or 0.0,
+                        'writeoff_account_id': woff.writeoff_account_id.id,
+                        'currency_id': woff.currency_id.id
+                    }))
+
+
+            # res['writeoff_multi_acc_ids'] = write_off_vals_lines
+            res.update({'writeoff_multi_acc_ids':write_off_vals_lines})
+            print(res['writeoff_multi_acc_ids'],'HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH')
         return res
+    def _create_payments(self):
+        self.ensure_one()
+        batches = self._get_batches()
+        # print("111111111111111111111111111111111111111111111111")
+        self._create_payment_vals_from_wizard()
+        to_reconcile = []
+        if self.can_edit_wizard and (len(batches[0]['lines']) == 1 or self.group_payment):
+            payment_vals = self._create_payment_vals_from_wizard()
+            payment_vals_list = [payment_vals]
+            to_reconcile.append(batches[0]['lines'])
+        else:
+            # print("222222222222222222222222222222222222")
+            # self._create_payment_vals_from_wizard()
+
+            # Don't group payments: Create one batch per move.
+            if not self.group_payment:
+                new_batches = []
+                for batch_result in batches:
+                    for line in batch_result['lines']:
+                        new_batches.append({
+                            **batch_result,
+                            'lines': line,
+                        })
+                batches = new_batches
+
+            payment_vals_list = []
+            for batch_result in batches:
+                payment_vals_list.append(self._create_payment_vals_from_batch(batch_result))
+                to_reconcile.append(batch_result['lines'])
+
+        payments = self.env['account.payment'].create(payment_vals_list)
+        for pay in payments:
+            pay.check_number = self.check_number
+            pay.date_due = self.date_due
+            pay.collection_receipt_number = self.collection_receipt_number
+            pay.collection_rep = self.collection_rep
+            pay.collection_rep_name = self.collection_rep_name
+
+            print(pay.check_number, self.check_number, '888888888888888888888888888888888888888')
+        payments.action_post()
+
+        domain = [('account_internal_type', 'in', ('receivable', 'payable')), ('reconciled', '=', False)]
+        for payment, lines in zip(payments, to_reconcile):
+            payment_lines = payment.line_ids.filtered_domain(domain)
+            for account in payment_lines.account_id:
+                (payment_lines + lines)\
+                    .filtered_domain([('account_id', '=', account.id), ('reconciled', '=', False)])\
+                    .reconcile()
+
+        return payments
+
+
 
 
 class account_payment(models.Model):
@@ -169,7 +251,6 @@ class account_payment(models.Model):
             move.write(move._cleanup_write_orm_values(move, move_vals_to_write))
             pay.write(move._cleanup_write_orm_values(pay, payment_vals_to_write))
 
-
     @api.onchange('payment_option')
     def onchange_payment_option(self):
         if self.payment_option == 'full':
@@ -213,6 +294,7 @@ class account_payment(models.Model):
         return super(account_payment, self).post()
 
     def _prepare_move_line_default_vals(self, write_off_line_vals=None):
+        print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
         self.ensure_one()
         write_off_line_vals = write_off_line_vals or {}
 

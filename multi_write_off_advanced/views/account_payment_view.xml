@@ -41,6 +41,29 @@
             	</xpath>
             </field>
         </record>
+
+
+		<record id="form_view_account_payment_inherit" model="ir.ui.view">
+		    <field name="name">name.account.payment.form.inherit</field>
+		    <field name="model">account.payment</field>
+		    <field name="inherit_id" ref="account.view_account_payment_form"/>
+		    <field name="arch" type="xml">
+
+		        <xpath expr="//sheet" position="inside">
+		            <field name="writeoff_multi_acc_ids" force_save="1">
+						<tree editable="bottom" force_save="1">
+							<field name="writeoff_account_id" force_save="1"/>
+							<field name="name" force_save="1"/>
+							<field name="amt_percent" force_save="1"/>
+							<field name="amount" force_save="1"/>
+							<field name="currency_id" force_save="1"/>
+
+						</tree>
+					</field>
+		        </xpath>
+
+		    </field>
+		</record>
         
         <!-- inherit register payment form -->
 <!--        <record id="view_account_payment_from_invoices_tis_inherit" model="ir.ui.view">-->
