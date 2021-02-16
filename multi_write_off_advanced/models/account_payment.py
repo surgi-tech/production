@@ -96,18 +96,50 @@ class payment_register(models.TransientModel):
 
         if self.post_diff_acc == 'single' or self.post_diff_acc == 'multi':
             print("11111111111111111KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+            diff_amount=0.0
+            account_move_record = self.env['account.move'].browse(self._context.get('active_ids', []))
+            for rec in account_move_record:
+                print(rec.amount_total,'**********************************',self.amount_pay_total,self.amount)
+                for line in self.writeoff_multi_acc_ids:
+                    if line.distribute_by_weight == True:
+                        print((rec.amount_total / float(self.amount_pay_total)) * line.amount_payment,'hhhfff')
 
-            for woff in self.writeoff_multi_acc_ids:
-                write_off_vals_lines.append((0, 0, {
-                        'name': woff.name,
-                        'amount': woff.amount_payment or 0.0,
-                        'writeoff_account_id': woff.writeoff_account_id.id,
-                        'currency_id': woff.currency_id.id
-                    }))
+                        write_off_vals_lines.append((0, 0, {'writeoff_account_id': line.writeoff_account_id.id,
+                                                      'name': line.name or '',
+                                                      'amt_percent': line.amt_percent or '',
+                                                      'amount': (rec.amount_total / float(
+                                                          self.amount_pay_total)) * line.amount_payment or '',
+                                                      'currency_id': line.currency_id and line.currency_id.id or ''}))
 
+                        diff_amount += (rec.amount_total / float(self.amount_pay_total) * line.amount_payment)
+
+            amount = self.amount
+            if amount > diff_amount:
+                amount = self.amount - diff_amount
+                        # write_off_vals_lines.append((0, 0, {
+                        #         'name': woff.name,
+                        #         'amount': woff.amount_payment or 0.0,
+                        #         'writeoff_account_id': woff.writeoff_account_id.id,
+                        #         'currency_id': woff.currency_id.id
+                        #     }))
+            for line in self.writeoff_multi_acc_ids:
+                if not line.distribute_by_weight:
+                    write_off_vals_lines.append((0, 0, {
+                            'name': line.name,
+                            'amount': line.amount_payment or 0.0,
+                            'writeoff_account_id': line.writeoff_account_id.id,
+                            'currency_id': line.currency_id.id
+                        }))
 
             # res['writeoff_multi_acc_ids'] = write_off_vals_lines
-            res.update({'writeoff_multi_acc_ids':write_off_vals_lines})
+            res.update({'writeoff_multi_acc_ids':write_off_vals_lines,
+                        'amount':amount,
+                        'check_number':self.check_number,
+                        'date_due':self.date_due,
+                        'collection_receipt_number':self.collection_receipt_number,
+                        'collection_rep':self.collection_rep.id,
+                        'collection_rep_name':self.collection_rep_name,
+                        })
             print(res['writeoff_multi_acc_ids'],'HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH')
         return res
     def _create_payments(self):
@@ -141,23 +173,16 @@ class payment_register(models.TransientModel):
                 to_reconcile.append(batch_result['lines'])
 
         payments = self.env['account.payment'].create(payment_vals_list)
-        for pay in payments:
-            pay.check_number = self.check_number
-            pay.date_due = self.date_due
-            pay.collection_receipt_number = self.collection_receipt_number
-            pay.collection_rep = self.collection_rep
-            pay.collection_rep_name = self.collection_rep_name
+        payments.state='draft'
+        # payments.action_post()
 
-            print(pay.check_number, self.check_number, '888888888888888888888888888888888888888')
-        payments.action_post()
-
-        domain = [('account_internal_type', 'in', ('receivable', 'payable')), ('reconciled', '=', False)]
-        for payment, lines in zip(payments, to_reconcile):
-            payment_lines = payment.line_ids.filtered_domain(domain)
-            for account in payment_lines.account_id:
-                (payment_lines + lines)\
-                    .filtered_domain([('account_id', '=', account.id), ('reconciled', '=', False)])\
-                    .reconcile()
+        # domain = [('account_internal_type', 'in', ('receivable', 'payable')), ('reconciled', '=', False)]
+        # for payment, lines in zip(payments, to_reconcile):
+        #     payment_lines = payment.line_ids.filtered_domain(domain)
+        #     for account in payment_lines.account_id:
+        #         (payment_lines + lines)\
+        #             .filtered_domain([('account_id', '=', account.id), ('reconciled', '=', False)])\
+        #             .reconcile()
 
         return payments
 
@@ -397,6 +422,7 @@ class account_payment(models.Model):
         return line_vals_list
 
     # def _prepare_payment_moves(self):
+    #     print("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
     #     if not self.post_diff_acc == 'multi':
     #         return super(account_payment, self)._prepare_payment_moves()
     #     all_move_vals = []
@@ -586,6 +612,7 @@ class RegisterWriteoffMulti(models.TransientModel):
     currency_id = fields.Many2one('res.currency', string='Currency', required=True,
                                   default=lambda self: self.env.user.company_id.currency_id)
     register_id = fields.Many2one('account.payment.register', string='Register Record')
+    distribute_by_weight = fields.Boolean(string="Distribute",  )
 
     @api.onchange('amt_percent')
     def _onchange_amt_percent(self):

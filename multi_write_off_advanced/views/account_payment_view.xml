@@ -33,6 +33,8 @@
             					<field name="writeoff_account_id"/>
             					<field name="name" required="1"/>
              					<field name="amt_percent" sum="Total %"/>
+								<field name="distribute_by_weight" force_save="1"/>
+
             					<field name="amount_payment" sum="Total Amount" force_save="1"/>
             					<field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency"/>
             				</tree>
