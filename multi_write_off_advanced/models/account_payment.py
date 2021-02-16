@@ -114,6 +114,7 @@ class payment_register(models.TransientModel):
                         diff_amount += (rec.amount_total / float(self.amount_pay_total) * line.amount_payment)
 
             amount = self.amount
+            print("HHHHHHHHHHHHHHHHHHh",amount,diff_amount)
             if amount > diff_amount:
                 amount = self.amount - diff_amount
                         # write_off_vals_lines.append((0, 0, {
@@ -133,7 +134,7 @@ class payment_register(models.TransientModel):
 
             # res['writeoff_multi_acc_ids'] = write_off_vals_lines
             res.update({'writeoff_multi_acc_ids':write_off_vals_lines,
-                        'amount':amount,
+                        # 'amount':amount,
                         'check_number':self.check_number,
                         'date_due':self.date_due,
                         'collection_receipt_number':self.collection_receipt_number,
