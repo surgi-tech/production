@@ -33,6 +33,16 @@ class HRExpenseInherit(models.Model):
     seq_name = fields.Char(string="Exp Ref No.",default='NEW')
     expense_reconciliation_id = fields.Many2one(comodel_name="hr.expense", string="Expense Reconciliation", )
 
+    @api.depends('seq_quotion')
+    def name_get(self):
+        res = []
+        for rec in self:
+            name = ""
+            if rec.seq_name:
+                name += "%s" % (rec.seq_name)
+            res += [(rec.id, name)]
+        return res
+
     @api.onchange('expense_type')
     def filter_expense_reconciliation_id(self):
         lines=[]
@@ -54,8 +64,8 @@ class HRExpenseInherit(models.Model):
                 if val['expense_type']=='trust':
                     val['seq_name'] = self.env['ir.sequence'].next_by_code('trust.expense.sequence') or _('New')
 
-                if val['expense_type']=='trust_recon':
-                    val['seq_name'] = self.env['ir.sequence'].next_by_code('reconciliation.trust.expense.sequence') or _('New')
+                # if val['expense_type']=='trust_recon':
+                #     val['seq_name'] = self.env['ir.sequence'].next_by_code('reconciliation.trust.expense.sequence') or _('New')
 
 
 
