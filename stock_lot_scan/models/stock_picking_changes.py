@@ -231,6 +231,7 @@ class stock_picking_inherit(models.Model):
         if len(self.env.companies.ids) >1:
             raise Warning("Please choose one company to synchronize from !")
         for rec in self:
+            self.env.cr.execute("delete from stock_move_line where picking_id =%d" % rec.id)
            # if len(rec.company_id.ids) >1:
             #    raise Warning("Plz Choose one company to Syncronize from !")
             rec.do_unreserve()
