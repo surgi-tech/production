@@ -48,22 +48,18 @@
         </record>
 
 
-
-
         <record id="add_default_search_groups" model="ir.ui.view">
-           <field name="name">Evaluation Evaluation</field>
-           <field name="model">evaluation.evaluation</field>
+            <field name="name">Evaluation Evaluation</field>
+            <field name="model">evaluation.evaluation</field>
             <field name="arch" type="xml">
                 <search string="Evaluation">
-              <filter name="group_department_id" string="Employee Department" context="{'group_by':'department_id'}"/>
-              <filter name="group_employee_parent_id" string="Employee Job Position" context="{'group_by':'employee_parent_id'}"/>
-            </search>
-           </field>
+                    <filter name="group_department_id" string="Employee Department"
+                            context="{'group_by':'department_id'}"/>
+                    <filter name="group_employee_parent_id" string="Employee Job Position"
+                            context="{'group_by':'employee_parent_id'}"/>
+                </search>
+            </field>
         </record>
-
-
-
-
 
 
         <!-- Inherit Form View to Modify it
@@ -120,13 +116,16 @@
                                 <field name="core_competencies" attrs="{'readonly':[('check_read','=',True)]}">
                                     <!--domain="[('active_core', '=', True)]"-->
                                     <!--attrs="{'readonly':[('check_read','=',True)]}"-->
-                                    <tree editable="bottom" create="false">
+                                    <tree>
                                         <field name="name" force_save="1" readonly="1"/>
-                                        <field name="employee_self_assessment" widget="percentage" force_save="1" readonly="1"/>
+                                        <field name="employee_self_assessment" widget="percentage" force_save="1"
+                                               readonly="1"/>
                                         <field name="direct_manager" widget="percentage"/>
-                                        <field name="in_direct_manager" widget="percentage"/><!--attrs="{'readonly':[('parent.evaluate_by_parent_indirect','=',False)]}"-->
+                                        <field name="in_direct_manager"
+                                               widget="percentage"/><!--attrs="{'readonly':[('parent.evaluate_by_parent_indirect','=',False)]}"-->
                                         <field name="percentage" widget="percentage" force_save="1"/>
-                                        <field name="kpi_weight" sum="kpi_weight" widget="percentage" force_save="1" readonly="1"/>
+                                        <field name="kpi_weight" sum="kpi_weight" widget="percentage" force_save="1"
+                                               readonly="1"/>
                                         <field name="state_result" force_save="1" readonly="1"/>
                                         <field name="active_core" force_save="1" readonly="1"/>
                                         <field name="score" sum="score" force_save="1"/>
@@ -137,12 +136,14 @@
                             </page>
                             <page name="function_competencies" string="Function Competencies">
                                 <field name="function_comp" attrs="{'readonly':[('check_read','=',True)]}">
-                                    <tree editable="bottom" create="false">
+                                    <tree editable="bottom">
                                         <field name="name" force_save="1" readonly="1"/>
-                                        <field name="employee_self_assessment" widget="percentage" force_save="1" readonly="1"/>
+                                        <field name="employee_self_assessment" widget="percentage" force_save="1"
+                                               readonly="1"/>
                                         <field name="direct_manager" force_save="1" widget="percentage"/>
-                                        <field name="in_direct_manager" force_save="1" widget="percentage"/><!--attrs="{'readonly':[('parent.evaluate_by_parent_indirect','=',False)]}"-->
-                                        <field name="percentage" widget="percentage" force_save="1" />
+                                        <field name="in_direct_manager" force_save="1"
+                                               widget="percentage"/><!--attrs="{'readonly':[('parent.evaluate_by_parent_indirect','=',False)]}"-->
+                                        <field name="percentage" widget="percentage" force_save="1"/>
                                         <field name="kpi_weight" sum="kpi_weight" widget="percentage" force_save="1"/>
                                         <field name="state_result" force_save="1" readonly="1"/>
                                         <field name="score" sum="score" force_save="1"/>
@@ -154,14 +155,17 @@
                             </page>
                             <page name="kpi_competencies" string="Employee KPI">
                                 <field name="employee_kpi" attrs="{'readonly':[('check_read','=',True)]}">
-                                    <tree editable="bottom" create="false">
+                                    <tree editable="bottom">
                                         <field name="kra_kpi" force_save="1" readonly="1"/>
                                         <field name="name" force_save="1" readonly="1"/>
-                                        <field name="employee_self_assessment" widget="percentage" force_save="1" readonly="1"/>
+                                        <field name="employee_self_assessment" widget="percentage" force_save="1"
+                                               readonly="1"/>
                                         <field name="direct_manager" widget="percentage"/>
-                                        <field name="in_direct_manager" widget="percentage"/><!--attrs="{'readonly':[('parent.evaluate_by_parent_indirect','=',False)]}"-->
+                                        <field name="in_direct_manager"
+                                               widget="percentage"/><!--attrs="{'readonly':[('parent.evaluate_by_parent_indirect','=',False)]}"-->
                                         <field name="percentage" force_save="1" widget="percentage"/>
-                                        <field name="kpi_weight" force_save="1" sum="kpi_weight" widget="percentage" readonly="1"/>
+                                        <field name="kpi_weight" force_save="1" sum="kpi_weight" widget="percentage"
+                                               readonly="1"/>
                                         <field name="state_result" force_save="1" readonly="1"/>
                                         <field name="score" force_save="1" sum="score"/>
                                     </tree>
@@ -174,6 +178,26 @@
                                 <field name="total_totals"/>
 
                             </page>
+
+                            <page string="Evaluation" attrs="{'invisible':[('is_department_man','=',False)]}">
+                                <field name="is_department_man" invisible="1"/>
+                                <field name="employee_evaluation_ids">
+                                    <tree editable="bottom">
+                                        <field name="employee_id"/>
+                                        <field name="job_title"/>
+                                        <field name="department_id"/>
+                                        <field name="section_id"/>
+                                        <field name="registration_number"/>
+                                        <field name="performance"/>
+                                        <field name="pip_type" attrs="{'invisible':[('performance','!=','PIP')]}"/>
+                                        <field name="course_name" attrs="{'invisible':['|',('pip_type','not in',['pip_soft','pip_technical']),('performance','!=','PIP')]}"/>
+                                        <field name="replacement" attrs="{'invisible':[('performance','!=','PAP')]}" />
+                                        <field name="termination_date" attrs="{'invisible':[('performance','!=','PAP')]}" />
+                                    </tree>
+                                </field>
+                            </page>
+
+
                         </notebook>
                     </sheet>
                 </form>
@@ -193,7 +217,7 @@
             </field>
         </record>
 
-         <record model="ir.actions.act_window.view" id="surgi_employee_evaluation_action_tree_views">
+        <record model="ir.actions.act_window.view" id="surgi_employee_evaluation_action_tree_views">
             <field name="sequence" eval="1"/>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="surgi_evaluation_tree_views"/>
@@ -207,8 +231,6 @@
             <field name="view_id" ref="surgi_evaluation_form_views"/>
             <field name="act_window_id" ref="action_surgi_evaluation"/>
         </record>
-
-
 
 
         <menuitem
@@ -236,31 +258,31 @@
 
 
         <!--<record id="kpi_manageraction_surgi_evaluation" model="ir.actions.act_window">-->
-            <!--<field name="name">KPI Evaluation</field>-->
-            <!--<field name="type">ir.actions.act_window</field>-->
-            <!--<field name="res_model">evaluation.evaluation</field>-->
-            <!--<field name="view_mode">kanban,tree,form,calendar,graph</field>-->
-            <!--<field name="domain">[('active_evaluation', '=', True)]</field>-->
+        <!--<field name="name">KPI Evaluation</field>-->
+        <!--<field name="type">ir.actions.act_window</field>-->
+        <!--<field name="res_model">evaluation.evaluation</field>-->
+        <!--<field name="view_mode">kanban,tree,form,calendar,graph</field>-->
+        <!--<field name="domain">[('active_evaluation', '=', True)]</field>-->
 
-            <!--<field name="help" type="html">-->
-                <!--<p class="oe_view_nocontent_create">-->
-                    <!--Click to create a new Evaluation.-->
-                <!--</p>-->
-            <!--</field>-->
+        <!--<field name="help" type="html">-->
+        <!--<p class="oe_view_nocontent_create">-->
+        <!--Click to create a new Evaluation.-->
+        <!--</p>-->
+        <!--</field>-->
         <!--</record>-->
 
 
         <!--<menuitem-->
-                <!--id="surgi_evaluation_evaluation_menuitem_kpi_manager"-->
-                <!--name="KPI Evaluation"-->
-                <!--action="kpi_manageraction_surgi_evaluation"-->
-                <!--parent="surgi_evaluation_menuitem"-->
-                <!--sequence="2"-->
-                <!--groups="surgi_evaluation.kpi_manger_groups_employee"-->
+        <!--id="surgi_evaluation_evaluation_menuitem_kpi_manager"-->
+        <!--name="KPI Evaluation"-->
+        <!--action="kpi_manageraction_surgi_evaluation"-->
+        <!--parent="surgi_evaluation_menuitem"-->
+        <!--sequence="2"-->
+        <!--groups="surgi_evaluation.kpi_manger_groups_employee"-->
         <!--/>-->
 
 
-         <record id="hr_payroll_view_hr_payslip_form_views" model="ir.ui.view">
+        <record id="hr_payroll_view_hr_payslip_form_views" model="ir.ui.view">
             <field name="name">view_hr_payslip_form_views_hr</field>
             <field name="model">hr.payslip</field>
             <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
@@ -271,12 +293,11 @@
                     <field name="total_evaluation"/>
                 </xpath>
                 <!--<xpath expr="//button[@name='action_payslip_done']" position="after">-->
-                    <!--<button string="Get Evaluation" name="_compute_total_evaluation"-->
-                            <!--type="object" attrs="{'invisible':[('state','!=','draft')]}"/>-->
+                <!--<button string="Get Evaluation" name="_compute_total_evaluation"-->
+                <!--type="object" attrs="{'invisible':[('state','!=','draft')]}"/>-->
                 <!--</xpath>-->
             </field>
         </record>
-
 
 
     </data>

@@ -51,7 +51,7 @@ class KPIEMPLOYEE(models.Model):
         ('review','Reviewing'),
         ('waiting', 'Waiting Activation'),
         ('activated', 'Activated')], string='Status',
-        copy=False, default='draft', index=True, readonly=True,
+        copy=False, default='draft', index=True, readonly=False,
         help="* New: New KPI"
              "* Waiting Activation: KPI Waiting HR Activation"
              "* Activated: KPI Activated"
@@ -204,6 +204,23 @@ class EvaluationEvaluation(models.Model):
 
     evaluation_method = fields.Selection(string="Evaluation Method", selection=[('dm', 'Direct Manager'), ('average', 'Average'),('pm','Parent Manager') ], required=False, )
 
+    employee_evaluation_ids = fields.One2many(comodel_name="hr.manager.evaluation", inverse_name="employee_relation_id",
+                                              string="", required=False, )
+    is_department_man = fields.Boolean(string="", compute='check_if_department_manager')
+
+    @api.depends('is_department_man', 'employee_id')
+    def check_if_department_manager(self):
+        self.is_department_man = False
+        # print("GGGGGGGGGGGGGGGGGGGGGGGGGGG")
+        for rec in self:
+            if self.env.user.id == rec.employee_id.parent_id.user_id.id:
+                rec.is_department_man = True
+
+            else:
+                rec.is_department_man = False
+
+
+
     @api.onchange('employee_id')
     def _compute_evaluation_method(self):
         self.evaluation_method=self.employee_id.evaluation_method
@@ -221,10 +238,10 @@ class EvaluationEvaluation(models.Model):
 
     @api.onchange('date_start')
     def _compute_month_quarter(self):
-        print("111111111111111111111")
+        # print("111111111111111111111")
         if self.date_start:
             month_name = str(datetime.strptime(str(self.date_start), '%Y-%m-%d').date().strftime('%B'))
-            print('222222222222222222', month_name)
+            # print('222222222222222222', month_name)
             self.month = month_name
             if month_name in ['January', 'February', 'March']:
                 self.state_quarter = 'q1'
@@ -241,6 +258,15 @@ class EvaluationEvaluation(models.Model):
 
         # values['is_evalualtion'] = True
         return super(EvaluationEvaluation, self).write(values)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        res = super().create(vals_list)
+        # print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",res)
+        res.get_lines_cor()
+        res.total_lines_employee_id()
+        # print(res.get_lines_cor)
+        return res
 
     @api.onchange('name')
     def get_lines_cor(self):
@@ -259,16 +285,16 @@ class EvaluationEvaluation(models.Model):
                 }))
 
         for rec in self.env['function.competencies'].search([]):
-            print('YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY')
+            # print('YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY')
             if rec.active_function == True:
-                print('WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW')
+                # print('WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW')
                 lines2.append((0, 0, {
                     'name': rec.name,
                     'kpi_weight': rec.kpi_weight,
                     'state_result': rec.state_result,
                     # 'state_result': "expectation",
                 }))
-        print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<', lines2)
+        # print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<', lines2)
         self.update({'core_competencies': lines, 'function_comp': lines2})
         # self.update({'function_comp': lines2})
 
@@ -291,8 +317,8 @@ class EvaluationEvaluation(models.Model):
         # total3 = 0.0
         for rec in self.function_comp:
             total += rec.kpi_weight
-        if total != 1:
-            raise UserError(_('KPI Function weight  % Must be in 100%'))
+        # if total != 1:
+        #     raise UserError(_('KPI Function weight  % Must be in 100%'))
 
         # for rec in self.core_competencies:
         #     total2 += rec.kpi_weight
@@ -327,8 +353,8 @@ class EvaluationEvaluation(models.Model):
         # total3=0.0
         for rec in self.function_comp:
             total += rec.kpi_weight
-        if total != 1:
-            raise UserError(_('KPI Function weight  % Must be in 100%'))
+        # if total != 1:
+        #     raise UserError(_('KPI Function weight  % Must be in 100%'))
 
         # for rec in self.core_competencies:
         #     total2 += rec.kpi_weight
@@ -348,13 +374,15 @@ class EvaluationEvaluation(models.Model):
 
         for emp in employee_rec:
             if emp.parent_id.user_id == self.env.user:
-                print('1111111111111111111111111111111111111111111111111')
+                # print('1111111111111111111111111111111111111111111111111')
 
                 categ_ids.append(emp.id)
-        print('+++++++++++++++++', categ_ids)
+        # print('+++++++++++++++++', categ_ids)
         return {
             'domain': {'employee_id': [('id', 'in', categ_ids)]}
         }
+
+
 
     #######################################################
     @api.onchange('date_start', 'date_end')
@@ -363,7 +391,7 @@ class EvaluationEvaluation(models.Model):
         if self.date_start and self.date_end:
             date_start = datetime.strptime(str(self.date_start), "%Y-%m-%d").date()
             date_end = datetime.strptime(str(self.date_end), "%Y-%m-%d").date()
-            print(date_start, date_end, '+++++++++++++++')
+            # print(date_start, date_end, '+++++++++++++++')
             self.duration = float(str((date_end - date_start).days))
 
     def _compute_duration(self):
@@ -375,11 +403,11 @@ class EvaluationEvaluation(models.Model):
             if rec.date_end:
                 date_end = datetime.strptime(str(rec.date_end), "%Y-%m-%d").date()
                 today_date = datetime.strptime(str(today_dat), "%Y-%m-%d").date()
-                print('+++++++++++++++++++++++++++++', date_end)
-                print('+++++++++++++++++++++++++++++', today_date)
+                # print('+++++++++++++++++++++++++++++', date_end)
+                # print('+++++++++++++++++++++++++++++', today_date)
 
             if today_date > date_end:
-                print('+++++++++++++++++++++++++++++')
+                # print('+++++++++++++++++++++++++++++')
                 rec.check_read = True
 
     @api.depends('total_competencies', 'total_function_comp', 'total_employee_kpi', 'total_totals', 'total_totals')
@@ -428,7 +456,7 @@ class EvaluationEvaluation(models.Model):
 
     @api.onchange('employee_id', 'jop_ids')
     def total_lines_employee_id(self):
-        print('111111111111111111111111111')
+        # print('111111111111111111111111111')
         lines = [(5, 0, 0), ]
         if self.jop_ids.kpi_ids:
             for rec in self.jop_ids.kpi_ids:
@@ -440,7 +468,7 @@ class EvaluationEvaluation(models.Model):
                         'kra_kpi': rec.kra_kpi,
                         # 'state_result': "expectation",
                     }))
-            print('------------------------------------', lines)
+            # print('------------------------------------', lines)
         else:
             lines = [(5, 0, 0), ]
         self.update({'employee_kpi': lines})
@@ -616,7 +644,7 @@ class NewModule(models.Model):
 
     @api.onchange('direct_manager','in_direct_manager','interval_core')
     def get_final_total(self):
-        print("ddddddddddddddddddddddddd",self.interval_core._origin)
+        # print("ddddddddddddddddddddddddd",self.interval_core._origin)
         if self.interval_core.evaluation_method=='dm':
             self.percentage=self.direct_manager
         if self.interval_core.evaluation_method == 'average':
@@ -738,3 +766,45 @@ class NewModule(models.Model):
     def get_score(self):
         for rec in self:
             rec.score = (rec.percentage * rec.kpi_weight)
+class HRManagerEvaluation(models.Model):
+    _name = 'hr.manager.evaluation'
+    _rec_name = 'employee_id'
+    _description = 'New Description'
+    employee_relation_id = fields.Many2one(comodel_name="evaluation.evaluation", string="Employee", required=False, )
+
+    employee_id = fields.Many2one(comodel_name="hr.employee", string="Employee", required=False, )
+    performance= fields.Selection(string="Performance",
+                                  selection=[('Exceed', 'Exceed'),
+                                             ('Meet', 'Meet'),
+                                             ('PIP', 'PIP'),
+                                             ('PAP', 'PAP'),
+
+                                             ],
+                                  required=False, )
+
+    pip_type = fields.Selection(string="Performance PIP", selection=[('pip_soft', 'PIP(Soft Skills)'),
+                                             ('pip_technical', 'PIP(Technical)'),], required=False, )
+    course_name = fields.Char(string="Course Name", required=False, )
+    replacement = fields.Boolean(string="Replacement",  )
+    termination_date = fields.Date(string="Termination Date", required=False, )
+
+    job_title = fields.Char(string="Job Title",related='employee_id.job_title' )
+    department_id = fields.Many2one(comodel_name="hr.department", string="Department",related='employee_id.department_id' )
+    section_id = fields.Many2one(comodel_name="hr.department", string="Section",related='employee_id.section_id'  )
+    registration_number = fields.Char(string="Registration Number of the Employee",
+                                      related='employee_id.registration_number')
+
+    @api.onchange('employee_relation_id','employee_id')
+    def filters_employee_manager(self):
+        categ_ids = []
+        employee_rec = self.env['hr.employee'].search([])
+        print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        for emp in employee_rec:
+            if emp.parent_id.user_id == self.env.user:
+                print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+
+                categ_ids.append(emp.id)
+        print(categ_ids, '-------------')
+        return {
+            'domain': {'employee_id': [('id', 'in', categ_ids)]}
+        }

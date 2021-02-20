@@ -5,7 +5,7 @@
             <field name="name">surgi.evaluation.manager.form.views</field>
             <field name="model">evaluation.evaluation</field>
             <field name="arch" type="xml">
-                <form string="Evaluation" create="false" edit="true" delete="false">
+                <form string="Evaluation" edit="true" delete="false">
                     <header>
                         <field name="state" widget="statusbar"/>
                         <button name="get_lines_cor" type="object" string="Reset Competencies" class="oe_highlight"
@@ -55,7 +55,7 @@
                                 <field name="core_competencies" attrs="{'readonly':[('check_read','=',True)]}">
                                     <!--domain="[('active_core', '=', True)]"-->
                                     <!--attrs="{'readonly':[('check_read','=',True)]}"-->
-                                    <tree editable="bottom" create="false">
+                                    <tree editable="bottom">
                                         <field name="name" force_save="1" readonly="1"/>
                                         <field name="employee_self_assessment" widget="percentage" force_save="1"
                                                readonly="1"/>
@@ -73,7 +73,7 @@
                             </page>
                             <page name="function_competencies" string="Function Competencies">
                                 <field name="function_comp" attrs="{'readonly':[('check_read','=',True)]}">
-                                    <tree editable="bottom" create="false">
+                                    <tree editable="bottom">
                                         <field name="name" force_save="1" readonly="1"/>
                                         <field name="employee_self_assessment" widget="percentage" force_save="1"
                                                readonly="1"/>
@@ -90,7 +90,7 @@
                             </page>
                             <page name="kpi_competencies" string="Employee KPI">
                                 <field name="employee_kpi" attrs="{'readonly':[('check_read','=',True)]}">
-                                    <tree editable="bottom" create="false">
+                                    <tree editable="bottom">
                                         <field name="kra_kpi" force_save="1" readonly="1"/>
                                         <field name="name" force_save="1" readonly="1"/>
                                         <field name="employee_self_assessment" widget="percentage" force_save="1"
