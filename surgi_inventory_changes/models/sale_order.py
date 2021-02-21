@@ -4,8 +4,12 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     delivery_type = fields.Selection(string="Delivery Type ", tracking=True,
-                                     selection=[('normal', 'Normal'), ('loading', 'Loading')
+                                     selection=[('delivery2customer', 'Delivery To Customer')
+                                         , ('delivery2tender', 'Delivery To Tender')
+                                         , ('deliveryorder', 'Delivery Order')
+                                         , ('loading', 'Loading')
                                          , ('exchange', 'Exchange ')
+                                         , ('purchasereturn', 'Purchase Return')
                                          , ('gov', 'Government Form')], help="Used ot show delivery type")
     loading_sale_invoice = fields.Char(string="Loading Sale Invoice")
     gov_form = fields.Binary(string="Government Form Attachment")

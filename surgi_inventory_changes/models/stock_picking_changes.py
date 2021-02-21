@@ -12,9 +12,13 @@ class StockPickingInherit(models.Model):
     # delivery_exchange = fields.Boolean(string="Delivery Exchange",tracking=True,
     #                                   help="Used ot show if type is receipt exchange or not")
     so_delivery_type = fields.Selection(string="Delivery Type ",related='sale_id.delivery_type',
-                                     selection=[('normal', 'Normal'),('loading','Loading')
-                                                ,('exchange','Exchange ')
-                                                ,('gov','Government Form')],
+                                     selection=[('delivery2customer', 'Delivery To Customer')
+                                         , ('delivery2tender', 'Delivery To Tender')
+                                         , ('deliveryorder', 'Delivery Order')
+                                         , ('loading', 'Loading')
+                                         , ('exchange', 'Exchange ')
+                                         , ('purchasereturn', 'Purchase Return')
+                                         , ('gov', 'Government Form')],
                                      help="Used ot show picking type delivery type")
     delivery_exchange_order_id = fields.Many2one(comodel_name='stock.picking',string="Exchange Delivery Order",
                              help="used to set Tender Delivery Order",
