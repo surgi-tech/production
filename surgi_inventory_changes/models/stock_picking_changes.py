@@ -11,17 +11,24 @@ class StockPickingInherit(models.Model):
                                       help="Used ot show if type is receipt exchange or not")
     # delivery_exchange = fields.Boolean(string="Delivery Exchange",tracking=True,
     #                                   help="Used ot show if type is receipt exchange or not")
-    so_delivery_type = fields.Selection(string="Delivery Type ",related='sale_id.delivery_type',
-                                     selection=[('normal', 'Normal')
-                                         , ('delivery2customer', 'Delivery To Customer')
-                                         , ('delivery2tender', 'Delivery To Tender')
-                                         , ('deliveryorder', 'Delivery Order')
-                                         , ('loading', 'Loading')
-                                         , ('exchange', 'Exchange')
-                                         , ('replacement', 'Replacement')
-                                         , ('purchasereturn', 'Purchase Return')
-                                         , ('gov', 'Government Form')],
-                                     help="Used ot show picking type delivery type")
+    so_delivery_type = fields.Selection(string="Delivery Type ", related='sale_id.delivery_type',
+                                        selection=[('normal', 'Normal')
+                                            , ('delivery2customer', 'Delivery To Customer')
+                                            , ('delivery2tender', 'Delivery To Tender')
+                                            , ('deliveryorder', 'Delivery Order')
+                                            , ('loading', 'Loading')
+                                            , ('deliveryexchange', 'Delivery Exchange')
+                                            , ('deliveryreplacement', 'Delivery Replacement')
+                                            , ('purchasereturn', 'Purchase Return')
+                                            , ('gov', 'Government Form')],
+                                        help="Used ot show picking type delivery type")
+    inv_receipt_type = fields.Selection(string="Receipt Type ",
+                                        selection=[('receipt4vendor', 'Receipt From Vendor')
+                                            , ('receipt4tender', 'Receipt From Tender')
+                                            , ('receiptexchange', 'Receipt Exchange')
+                                            , ('saletreturn', 'Sales Return')
+                                            , ('receiptreplacement', 'Delivery Replacement')],
+                                        help="Used ot show picking type Receipt type")
     delivery_exchange_order_id = fields.Many2one(comodel_name='stock.picking',string="Exchange Delivery Order",
                              help="used to set Tender Delivery Order",
                                       domain=[('so_delivery_type','=','exchange')])
