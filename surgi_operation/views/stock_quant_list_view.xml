@@ -11,6 +11,7 @@
 
                 <field name="location_id" position="after">
                     <field name="is_operation_related" invisible="1"/>
+                    <field name="is_operation_freeze" invisible="1"/>
                 </field>
                 <field name="location_id" position="after">
                     <field name="is_wh_user" invisible="1"/>
@@ -28,6 +29,7 @@
 
                 <field name="location_id" position="after">
                     <field name="is_operation_related" invisible="0"/>
+                    <field name="is_operation_freeze" invisible="0"/>
                 </field>
                 <field name="location_id" position="after">
                     <field name="is_wh_user" invisible="0"/>

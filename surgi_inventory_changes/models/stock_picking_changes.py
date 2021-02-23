@@ -12,9 +12,15 @@ class StockPickingInherit(models.Model):
     # delivery_exchange = fields.Boolean(string="Delivery Exchange",tracking=True,
     #                                   help="Used ot show if type is receipt exchange or not")
     so_delivery_type = fields.Selection(string="Delivery Type ",related='sale_id.delivery_type',
-                                     selection=[('normal', 'Normal'),('loading','Loading')
-                                                ,('exchange','Exchange ')
-                                                ,('gov','Government Form')],
+                                     selection=[('normal', 'Normal')
+                                         , ('delivery2customer', 'Delivery To Customer')
+                                         , ('delivery2tender', 'Delivery To Tender')
+                                         , ('deliveryorder', 'Delivery Order')
+                                         , ('loading', 'Loading')
+                                         , ('exchange', 'Exchange')
+                                         , ('replacement', 'Replacement')
+                                         , ('purchasereturn', 'Purchase Return')
+                                         , ('gov', 'Government Form')],
                                      help="Used ot show picking type delivery type")
     delivery_exchange_order_id = fields.Many2one(comodel_name='stock.picking',string="Exchange Delivery Order",
                              help="used to set Tender Delivery Order",
@@ -27,12 +33,14 @@ class StockPickingInherit(models.Model):
     approval_lines=fields.One2many('approval.line','pick_id')
 
     total_cocs = fields.Float(string="Total Cocs",store=True,)#compute='_compute_total_cocs'
-    sales_order_id = fields.Many2one(comodel_name="sale.order", string="Sales Order", required=False, )
-    # sales_person_id = fields.Many2one(comodel_name="res.users", string="SalesPerson",)
+    sales_order_id = fields.Many2one(comodel_name="sale.order", string="Original Sale Order", required=False, )
+    # sales_person_id = fields.Many2one(comodel_name="res.users", string="SalesPerson",), required=False, readonly="1"
     is_exchange = fields.Boolean(string="",compute='_cumpute_is_exchange' )
 
     sale_id = fields.Many2one(related="group_id.sale_id", string="Sales Order", store=True,
                               readonly=False, tracking=True)
+    user_sales_id = fields.Many2one(comodel_name="res.users",related="sale_id.user_id",  string="Salesperson")
+
 
     @api.depends('so_delivery_type')
     def _cumpute_is_exchange(self):

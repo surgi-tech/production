@@ -27,6 +27,8 @@ class stock_quant_inherit_wizard(models.Model):
 
     is_operation_related = fields.Boolean(related="location_id.is_operation_location",
                                           string="Is Operation Location",store=True)
+    is_operation_freeze = fields.Boolean(related="location_id.operation_location_freeze",
+                                          string="Is Operation Location Freeze",store=True)
 
     def open_wizard_stock(self):
         action = self.env.ref('stock_quant.action_wizard_stock_quant')

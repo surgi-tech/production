@@ -51,6 +51,8 @@
                 <xpath expr="//field[@name='origin']" position="after">
                     <field name="sale_id" string="Operation Sales Order" readonly="0" options="{'no_create': True, 'no_open': True}"
                            attrs="{'invisible':[('picking_type_code', '!=', 'outgoing')]}"/><!-- 'required':[('picking_type_code', '=', 'outgoing')],-->
+                    <field name="user_sales_id" string="Salesperson"
+                           attrs="{'invisible':[('picking_type_code', '!=', 'outgoing')]}" options="{'no_open': True}"/>
                     <field name="sales_order_id" string="Original Sale Order"
                            attrs="{'invisible':[('picking_type_code','=','internal')]}"/><!--'required':[('is_exchange','=',True)],-->
                     <field name="is_exchange" invisible="1"/>

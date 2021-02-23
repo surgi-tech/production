@@ -78,7 +78,7 @@ class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
     # name = fields.Char
-    user_sales_id = fields.Many2one(comodel_name="res.users", string="Salesperson", required=False, )
+    # user_sales_id = fields.Many2one(comodel_name="res.users",related="location_id.is_operation_location",  string="Salesperson", required=False, )
 
     is_check = fields.Boolean(string="Check", )
 

@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account','crm','account_accountant','sale','account_budget','bi_picking_analytic'],
+    'depends': ['base','account','crm','account_accountant','sale','account_budget','bi_picking_analytic','surgi_inventory_changes'],
 
     # always loaded
     'data': [

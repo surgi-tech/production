@@ -312,6 +312,7 @@ class operation_operation(models.Model):
                 'location_id':operation_location_id,
                 'location_dest_id':self.hospital_id.property_stock_customer.id,
                 'so_type': 'operation',
+                'delivery_type': self.operation_delivery_type,
                 'operation_id': self.id,
             }
             order_lines = []
@@ -527,6 +528,8 @@ class operation_operation(models.Model):
                                  default=lambda self: self.env['crm.team'].search(['|', ('user_id', '=', self.env.uid), ('member_ids', '=', self.env.uid)],limit=1))
     op_area_manager = fields.Many2one(comodel_name='res.users', string="Area Manager", related='op_sales_area.user_id',readonly=True)
     location_id = fields.Many2one(comodel_name='stock.location', string='Location')
+    is_operation_freeze = fields.Boolean(related="location_id.operation_location_freeze",
+                                         string="Is Operation Location Freeze", store=True)
     product_lines=fields.One2many('product.operation.line','operation_id',string="products")
     #component_ids = fields.Many2many('product.product', string="Components", track_visibility='onchange')
     tags_ids = fields.Many2many('operation.tag', string="Tags")
@@ -552,7 +555,18 @@ class operation_operation(models.Model):
     #returner_responsible = fields.Many2one(comodel_name='res.users', string="Returner", default=_get_currunt_loged_user,track_visibility='onchange')
     qunat = fields.One2many('hanged.stock.quant', 'operation_id', 'Quants')
 
-    delivery_type = fields.Selection(string="Delivery Type", selection=[('delivery_exchange', 'Delivery Exchange'), ('sale_delivery', 'Sales Delivery'),('load_delivery','Loaded Delivery') ], required=False, )
+    # delivery_type = fields.Selection(string="Delivery Type", selection=[('delivery_exchange', 'Delivery Exchange'), ('sale_delivery', 'Sales Delivery'),('load_delivery','Loaded Delivery') ], required=False, )
+    operation_delivery_type = fields.Selection(string="Delivery Type ", tracking=True,
+                                        selection=[('normal', 'Normal')
+                                            , ('delivery2customer', 'Delivery To Customer')
+                                            , ('delivery2tender', 'Delivery To Tender')
+                                            , ('deliveryorder', 'Delivery Order')
+                                            , ('loading', 'Loading')
+                                            , ('exchange', 'Exchange ')
+                                            , ('replacement', 'Replacement')
+                                            , ('purchasereturn', 'Purchase Return')
+                                            , ('gov', 'Government Form')],
+                                        help="Used ot show picking type delivery type")
 
 
     def create_operation_invoice(self):
