@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+
+
+<!--            <template id="print_employee_badge_update" inherit_id="hr_attendance.print_employee_badge">-->
+
+
+
+    </data>
+</odoo>
