@@ -22,6 +22,10 @@ class SaleOrder(models.Model):
     net_profit = fields.Float(string="Net Profit",  required=False, )
     # is_sum_cocs = fields.Boolean(string="",)
 
+    check_exchange_so = fields.Boolean(string="Exchange Status",readonly=1)
+
+
+
     # @api.depends('name')
     def compute_total_cocs(self):
         # for rec in self:

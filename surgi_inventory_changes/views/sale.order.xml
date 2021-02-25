@@ -10,6 +10,7 @@
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
                     <field name="delivery_type"/>
+                    <field name="check_exchange_so" attrs="{'invisible': [('delivery_type', '!=', 'exchange')]}"/>
                     <field name="loading_sale_invoice" attrs="{'invisible': [('delivery_type', '!=', 'loading')]}"/>
                     <field name="gov_form"  attrs="{'invisible': [('delivery_type', '!=', 'gov')]}"/>
                 </field>

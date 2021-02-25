@@ -48,6 +48,20 @@ class StockPickingInherit(models.Model):
                               readonly=False, tracking=True)
     user_sales_id = fields.Many2one(comodel_name="res.users",related="sale_id.user_id",  string="Salesperson")
 
+    check_exchange = fields.Boolean(string="Exchange Status",compute='check_is_exchange')
+
+    @api.depends('so_delivery_type','sale_id','receipt_exchange_order_id')
+    def check_is_exchange(self):
+        self.check_exchange = False
+        for rec in self:
+            if rec.so_delivery_type == 'exchange' and rec.receipt_exchange_order_id:
+                rec.check_exchange = True
+                rec.sale_id.is_exchange=True
+            else:
+                rec.check_exchange = False
+                rec.sale_id.is_exchange = False
+
+
 
     @api.depends('so_delivery_type')
     def _cumpute_is_exchange(self):
