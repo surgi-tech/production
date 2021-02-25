@@ -56,10 +56,10 @@ class StockPickingInherit(models.Model):
         for rec in self:
             if rec.so_delivery_type == 'exchange' and rec.receipt_exchange_order_id:
                 rec.check_exchange = True
-                rec.sale_id.is_exchange=True
+                rec.sale_id.check_exchange_so = True
             else:
                 rec.check_exchange = False
-                rec.sale_id.is_exchange = False
+                rec.sale_id.check_exchange_so = False
 
 
 
@@ -67,9 +67,9 @@ class StockPickingInherit(models.Model):
     def _cumpute_is_exchange(self):
         for rec in self:
             if rec.so_delivery_type == 'exchange':
-                rec.is_exchange = True
+                rec.check_exchange = True
             else:
-                rec.is_exchange = False
+                rec.check_exchange = False
 #      Nassar
 #     @api.onchange('sales_order_id')
 #     def _change_sales_person(self):
