@@ -67,9 +67,9 @@ class StockPickingInherit(models.Model):
     def _cumpute_is_exchange(self):
         for rec in self:
             if rec.so_delivery_type == 'exchange':
-                rec.check_exchange = True
+                rec.is_exchange = True
             else:
-                rec.check_exchange = False
+                rec.is_exchange = False
 #      Nassar
 #     @api.onchange('sales_order_id')
 #     def _change_sales_person(self):
