@@ -24,7 +24,6 @@
 
     # always loaded
     'data': [
-        'security/ir.model.access.csv',
         'security/evaluation_groups.xml',
         'views/views.xml',
         'views/templates.xml',
@@ -37,6 +36,9 @@
         'views/evaluation_wizard.xml',
         'demo/demo.xml',
         'views/eval_dep.xml',
+        'views/hr_manager.xml',
+        'views/courses.xml',
+        'security/ir.model.access.csv',
 
     ],
     # only loaded in demonstration mode

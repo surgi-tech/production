@@ -204,6 +204,21 @@ class EvaluationEvaluation(models.Model):
 
     evaluation_method = fields.Selection(string="Evaluation Method", selection=[('dm', 'Direct Manager'), ('average', 'Average'),('pm','Parent Manager') ], required=False, )
 
+
+    employee_full_name = fields.Char(string="Employee Full Name",related='employee_id.full_employee_name')
+    registration_number = fields.Char(string="Registration Number of the Employee",related='employee_id.registration_number')
+    emp_image = fields.Binary(related='employee_id.image_1920')
+
+    employee_parent_manager= fields.Many2one(comodel_name="hr.employee", string="Employee Parent",
+                                             compute='get_parent_employee',store=True
+                                             )
+    @api.depends('employee_id')
+    def get_parent_employee(self):
+        self.employee_parent_manager=False
+        for rec in self:
+            if rec.employee_id.parent_id:
+                rec.employee_parent_manager=rec.employee_id.parent_id.parent_id.id
+
     @api.onchange('employee_id')
     def _compute_evaluation_method(self):
         self.evaluation_method=self.employee_id.evaluation_method

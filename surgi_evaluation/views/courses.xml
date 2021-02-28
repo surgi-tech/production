@@ -1,0 +1,57 @@
+<odoo>
+
+
+    <record id="tree_view_courses_name" model="ir.ui.view">
+        <field name="name">name.tree.courses.name</field>
+        <field name="model">courses.name</field>
+        <field name="arch" type="xml">
+            <tree string="Courses">
+                <field name="name"/>
+                <field name="type"/>
+                <field name="cost"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="form_view_courses_name_form" model="ir.ui.view">
+        <field name="name">name.courses.form</field>
+        <field name="model">courses.name</field>
+        <field name="arch" type="xml">
+            <form string="Courses">
+                <sheet>
+                     <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Course Name......"/>
+                        </h1>
+                    </div>
+                    <group col="4">
+                        <field name="type"/>
+                        <field name="cost"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_view_courses_name" model="ir.actions.act_window">
+            <field name="name">Courses</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">courses.name</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_courses_name" name="Courses"
+                  parent="surgi_evaluation_menuitem" action="action_view_courses_name" sequence="10"
+                groups="all_permission_group_redundancy"
+        />
+
+</odoo>
