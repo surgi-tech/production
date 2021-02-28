@@ -2,16 +2,40 @@
 <odoo>
     <data>
 
-        <act_window
-                    id="action_mass_invoice"
-                    name="Send Payslip By Email"
-                    binding_model="hr.payslip"
-                    res_model="send.multiple.mail"
-                    view_mode="form"
-                    target="new"
-                    />
+<!--        <act_window-->
+<!--                    id="action_mass_invoice"-->
+<!--                    name="Send Payslip By Email"-->
+<!--                    binding_model="hr_payroll.hr_payslip"-->
+<!--                    res_model="send.multiple.mail"-->
+<!--                    view_mode="form"-->
+<!--                    target="new"-->
+<!--                    />-->
+
+
+<!--        <record id="button_click_action_payslip" model="ir.actions.server">-->
+<!--            <field name="name">Send Payslip By Email</field>-->
+<!--            <field name="model_id" ref="bi_mass_payslip_by_email.model_send_multiple_mail"/>-->
+<!--            <field name="type">ir.actions.server</field>-->
+<!--            <field name="binding_model_id" ref="hr_payroll.model_hr_payslip"/>-->
+<!--            <field name="state">code</field>-->
+<!--            <field name="code">action = records.action_payslip_send()</field>-->
+<!--        </record>-->
+
+
+        <record id="action_send_payslip_emails" model="ir.actions.act_window">
+            <field name="name">Send Payslip By Email</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">send.multiple.mail</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="hr_payroll.model_hr_payslip"/>
+            <field name="binding_view_types">list</field>
+        </record>
+
+
+
             
-            <record id="view_wizard_employee_payslip_send_mail" model="ir.ui.view">
+        <record id="view_wizard_employee_payslip_send_mail" model="ir.ui.view">
                 <field name="name">wizard.employee.payslip.form</field>
                 <field name="model">send.multiple.mail</field>
                 <field name="type">form</field>

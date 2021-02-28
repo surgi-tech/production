@@ -27,9 +27,13 @@ class MailComposeMessage(models.TransientModel):
                                                                       'bi_mass_payslip_by_email', 
                                                                       'email_template_edi_hr_payroll')[1]
                     email_template_obj = self.env['mail.template'].browse(template_id)
+
+                    print(email_template_obj,'EEEEEEEEE',template_id,'TTT',a_id,'AAAAAAAAAAAAAA')
                     if template_id:
-                        values = email_template_obj.generate_email(a_id, fields=None)
-                        # values['email_from'] = super_user.partner_id.email
+                        # values = email_template_obj.generate_email(a_id,fields=None)
+                        values = email_template_obj.generate_email(a_id,['subject', 'body_html', 'email_from', 'email_to', 'partner_to', 'email_cc', 'reply_to', 'scheduled_date'])
+                        print(values,'VVVVVVVVVVVVVVVVVVVVVVV')
+                        values['email_from'] = super_user.partner_id.email
                         values['author_id'] = super_user.partner_id.id
                         values['email_to'] = employee_email
                         ir_attachment_obj = self.env['ir.attachment']
