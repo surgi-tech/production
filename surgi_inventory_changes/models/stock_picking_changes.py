@@ -50,13 +50,35 @@ class StockPickingInherit(models.Model):
 
     check_exchange = fields.Boolean(string="Exchange Status",compute='check_is_exchange')
 
+
+    state_delivery = fields.Boolean(string="",compute='change_state_delivery'  )
+    @api.depends('sale_id')
+    def change_state_delivery(self):
+        self.state_delivery=False
+        for rec in self:
+            if rec.sale_id:
+                for sale in rec.sale_id.order_line:
+                    if sale.product_uom_qty !=sale.qty_delivered:
+                        rec.state_delivery=True
+                        rec.sale_id.state_delivery='not_delivered'
+                        break
+                    else:
+                        rec.state_delivery=True
+                        rec.sale_id.state_delivery = 'delivered'
+
+
+
+
+
+
+
     @api.depends('so_delivery_type','sale_id','receipt_exchange_order_id')
     def check_is_exchange(self):
         self.check_exchange = False
         for rec in self:
             if rec.so_delivery_type == 'exchange' and rec.receipt_exchange_order_id:
                 rec.check_exchange = True
-                rec.sale_id.check_exchange_so = True
+                rec.sale_id.check_exchange_so =True
             else:
                 rec.check_exchange = False
                 rec.sale_id.check_exchange_so = False

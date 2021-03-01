@@ -24,6 +24,7 @@ class SaleOrder(models.Model):
 
     check_exchange_so = fields.Boolean(string="Exchange Status",readonly=1)
 
+    state_delivery = fields.Selection(string="Delivered", selection=[('delivered', 'Delivered'), ('not_delivered','Not Delivered'), ], readonly=True,default='not_delivered' )
 
 
     # @api.depends('name')
