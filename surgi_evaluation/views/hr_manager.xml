@@ -35,15 +35,23 @@
                         </h1>
                     </div>
                         <group col="4">
+                            <field name="date_start"/>
+                            <field name="date_end"/>
                             <field name="job_title"/>
                             <field name="department_id"/>
                             <field name="section_id"/>
                             <field name="registration_number"/>
+                            <field name="grade_id"/>
+                            <field name="rank_id"/>
+                            <field name="rang_id"/>
+
                             <field name="performance"/>
+
                             <field name="pip_type" attrs="{'invisible':[('performance','!=','PIP')]}"/>
                             <field name="course_id" attrs="{'invisible':['|',('pip_type','not in',['pip_soft','pip_technical']),('performance','!=','PIP')]}" widget="many2many_tags"/>
                             <field name="replacement" attrs="{'invisible':[('performance','!=','PAP')]}" />
                             <field name="termination_date" attrs="{'invisible':[('performance','!=','PAP')]}" />
+
                         </group>
                     </sheet>
                 </form>

@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','hr','hr_payroll','surgi_hr_employee'],
+    'depends': ['base','hr','hr_payroll','surgi_hr_employee','surgi_hr_payroll'],
 
     # always loaded
     'data': [

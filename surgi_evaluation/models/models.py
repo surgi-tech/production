@@ -212,6 +212,7 @@ class EvaluationEvaluation(models.Model):
     employee_parent_manager= fields.Many2one(comodel_name="hr.employee", string="Employee Parent",
                                              compute='get_parent_employee',store=True
                                              )
+
     @api.depends('employee_id')
     def get_parent_employee(self):
         self.employee_parent_manager=False

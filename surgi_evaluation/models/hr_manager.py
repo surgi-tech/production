@@ -33,6 +33,14 @@ class HRManagerEvaluation(models.Model):
 
     is_department_man = fields.Boolean(string="", compute='check_if_department_manager')
 
+    grade_id = fields.Many2one(comodel_name="grade.grade", string="Grade",related='employee_id.grade_id')
+    rank_id = fields.Many2one(comodel_name="rank.rank", string="Rank",related='employee_id.rank_id' )
+    rang_id = fields.Many2one(comodel_name="rang.rang", string="Range",related='employee_id.rang_id' )
+
+    date_start = fields.Date(string="Start Date", required=False, )
+    date_end = fields.Date(string="End Date", required=False, )
+
+
     @api.depends('is_department_man', 'employee_id')
     def check_if_department_manager(self):
         self.is_department_man = False
