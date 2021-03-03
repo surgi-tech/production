@@ -33,12 +33,20 @@ class HRManagerEvaluation(models.Model):
 
     is_department_man = fields.Boolean(string="", compute='check_if_department_manager')
 
-    grade_id = fields.Many2one(comodel_name="grade.grade", string="Grade",related='employee_id.grade_id')
-    rank_id = fields.Many2one(comodel_name="rank.rank", string="Rank",related='employee_id.rank_id' )
-    rang_id = fields.Many2one(comodel_name="rang.rang", string="Range",related='employee_id.rang_id' )
+    grade_id = fields.Many2one(comodel_name="grade.grade", string="Grade",)
+    rank_id = fields.Many2one(comodel_name="rank.rank", string="Rank",)
+    rang_id = fields.Many2one(comodel_name="rang.rang", string="Range",)
 
     date_start = fields.Date(string="Start Date", required=False, )
     date_end = fields.Date(string="End Date", required=False, )
+
+
+    @api.onchange('employee_id')
+    def get_employee_grad(self):
+        self.grade_id=self.employee_id.grade_id.id
+        self.rank_id=self.employee_id.rank_id.id
+        self.rang_id=self.employee_id.rang_id.id
+
 
 
     @api.depends('is_department_man', 'employee_id')
@@ -56,9 +64,11 @@ class HRManagerEvaluation(models.Model):
         categ_ids = []
         employee_rec = self.env['hr.employee'].search([])
         for emp in employee_rec:
-            if emp.parent_id.user_id == self.env.user:
-
+            if emp.parent_id.user_id == self.env.user and not self.env.user.has_group('surgi_evaluation.all_permission_group_redundancy') :
                 categ_ids.append(emp.id)
+            elif self.env.user.has_group('surgi_evaluation.all_permission_group_redundancy') :
+                categ_ids.append(emp.id)
+
         return {
             'domain': {'employee_id': [('id', 'in', categ_ids)]}
         }
