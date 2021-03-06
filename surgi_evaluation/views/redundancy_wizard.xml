@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+
+        <record id="form_view_redundancy_wizard" model="ir.ui.view">
+            <field name="name">name.redundancy.wizard.form</field>
+            <field name="model">redundancy.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Redundancy Wizard">
+                    <sheet>
+                        <group col="4">
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="employee_ids" widget="many2many_tags"/>
+                        </group>
+                        <footer>
+                            <button name="redundancy_create" string="Create Redundancy" class="oe_right oe_highlight"
+                                    type="object"/>
+                            <button string="Cancel" class="oe_right" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_redundancy_wizard" model="ir.actions.act_window">
+            <field name="name">Redundancy Wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">redundancy.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="form_view_redundancy_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="redundancy_menu_wizard_categ" name="Redundancy Wizard"
+                  parent="surgi_evaluation_menuitem" action="action_view_redundancy_wizard" sequence="10"/>
+    </data>
+</odoo>
