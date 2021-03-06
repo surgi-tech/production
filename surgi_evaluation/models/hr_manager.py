@@ -3,6 +3,9 @@ class HRManagerEvaluation(models.Model):
     _name = 'hr.manager.evaluation'
     _rec_name = 'employee_id'
     _description = 'New Description'
+
+
+    state = fields.Selection(selection=[('draft', 'Draft'), ('confirm', 'Confirm'), ],default='draft')
     employee_relation_id = fields.Many2one(comodel_name="evaluation.evaluation", string="Employee", required=False, )
 
     employee_id = fields.Many2one(comodel_name="hr.employee", string="Employee", required=False, )
@@ -73,3 +76,8 @@ class HRManagerEvaluation(models.Model):
             'domain': {'employee_id': [('id', 'in', categ_ids)]}
         }
 
+    def button_confirm(self):
+        self.state = 'confirm'
+
+    def button_cancel(self):
+        self.state='draft'
