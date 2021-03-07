@@ -68,6 +68,8 @@ Create new Operation with name include hospital and add all it's data
         'views/view_biologic_operations.xml',
         'views/view_spine_operations_coordinator.xml',
         'views/view_biologic_operations_coordinator.xml',
+        'views/view_extremets_operations.xml',
+        'views/view_vagner_operations.xml',
         #'views/stock_picking_changes2.xml',
         ## 'report/report_deliveryslip.xml',
     ],
