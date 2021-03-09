@@ -26,7 +26,7 @@ class AccountMove(models.Model):
         ('draft', 'Draft'),
         ('posted', 'Posted'),
         ('cancel', 'Cancelled'),('printed', 'Printed'),
-    ], string='Status', required=True, readonly=True, copy=False, tracking=True,
+    ], string='Status', required=False, readonly=False, tracking=True,
         default='draft')
 
     printed_num = fields.Integer(string="Report Number", required=False, )
@@ -34,44 +34,53 @@ class AccountMove(models.Model):
     # @api.onchange('is_check')
     def compute_analytic_account(self):
 
-        analytic_account_obj=self.env['account.analytic.account'].search([])
+        analytic_account_obj = self.env['account.analytic.account'].search([])
         for line in self.invoice_line_ids:
-            part=False
+            part = False
             for rec in analytic_account_obj:
-                if line.product_id.product_id==rec.product_id:
-                    part=True
+                if line.product_id.product_id == rec.product_id:
+                    # part=True
                     if rec.user_id == self.invoice_user_id:
-                        line.analytic_account_id=rec.id
+                        line.analytic_account_id = rec.id
+                        break
+
+                    elif rec.salesteam_id == self.team_id:
+                        line.analytic_account_id = rec.id
+                        break
 
                     elif self.invoice_user_id in rec.user_add_ids:
                         line.analytic_account_id = rec.id
+                        break
 
-                    elif rec.undefined_sales_person==True:
+                    elif rec.undefined_sales_person == True:
                         line.analytic_account_id = rec.id
-                    else:
-                        line.analytic_account_id=False
-                if part==False:
+                        break
+                #   else:
+                #       line.analytic_account_id = False
+                #       break
+                else:
                     line.analytic_account_id = False
+                    # break
 
 
 
 
-class ReportAccountHashIntegrity(models.AbstractModel):
-    _name = 'report.account.report_invoice_with_payments'
-    _description = 'Get hash integrity result as PDF.'
-
-    @api.model
-    def _get_report_values(self, docids, data=None):
-
-        docs = self.env['account.move'].browse(docids)
-        print(docs,'JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ',docs.state)
-        docs.state='printed'
-        docs.printed_num+=1
-        return {
-            'doc_ids': docids,
-            'doc_model': 'account.move',
-            'docs': docs,
-        }
+# class ReportAccountHashIntegrity(models.AbstractModel):
+#     _name = 'report.account.report_invoice_with_payments'
+#     _description = 'Get hash integrity result as PDF.'
+#
+#     @api.model
+#     def _get_report_values(self, docids, data=None):
+#
+#         docs = self.env['account.move'].browse(docids)
+#         print(docs,'JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ',docs.state)
+#         docs.state='printed'
+#         docs.printed_num+=1
+#         return {
+#             'doc_ids': docids,
+#             'doc_model': 'account.move',
+#             'docs': docs,
+#         }
 
 
 class StockPicking(models.Model):
@@ -102,9 +111,9 @@ class StockPicking(models.Model):
                     elif rec.undefined_sales_person == True:
                         line.analytic_account_id = rec.id
                         break
-                    else:
-                        line.analytic_account_id = False
-                        break
+                #   else:
+                #       line.analytic_account_id = False
+                #       break
                 else:
                     line.analytic_account_id = False
                     # break

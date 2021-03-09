@@ -8,14 +8,14 @@
             <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
 
-                <xpath expr="//field[@name='invoice_date']" position="after">
-                    <field name="printed_num" readonly="1"/>
-                </xpath>
+<!--                <xpath expr="//field[@name='invoice_date']" position="after">-->
+<!--                    <field name="printed_num" readonly="1"/>-->
+<!--                </xpath>-->
 
-                <xpath expr="//field[@name='state']" position="replace">
-                    <field name="state" widget="statusbar" statusbar_visible="draft,posted,printed"/>
+<!--                <xpath expr="//field[@name='state']" position="replace">-->
+<!--                    <field name="state" widget="statusbar" statusbar_visible="draft,posted,printed"/>-->
 
-                </xpath>
+<!--                </xpath>-->
 
                 <xpath expr="//button[@name='button_draft']" position="after">
                     <field name="is_check" invisible="1"/>
