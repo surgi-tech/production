@@ -1,0 +1,51 @@
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="form_view_sale_order_inherit" model="ir.ui.view">
+            <field name="name">name.sale.order.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+
+
+                <xpath expr="//button[@name='action_cancel']" position="after">
+                    <button name="button_sccs" type="object" string="SCCS" class="oe_highlight" attrs="{'invisible': [('is_scss', '=', True)]}"/>
+                    <button name="button_scce" type="object" string="SCCE" class="oe_highlight" attrs="{'invisible': [('is_scse', '=', True)]}"/>
+                </xpath>
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="Tracking">
+                        <group col="4">
+                            <field name="sale_create_date" force_save="1" readonly="1"/>
+                            <field name="stock_control_cycle_start" force_save="1" readonly="1"/>
+                            <field name="stock_control_cycle_end" force_save="1" readonly="1"/>
+                            <field name="confirmation_date" force_save="1" readonly="1"/>
+                            <field name="delivery_done_date" force_save="1" readonly="1"/>
+                            <field name="invoiced_date" force_save="1" readonly="1"/>
+                            <field name="is_scss" invisible="1"/>
+                            <field name="is_scse" invisible="1"/>
+                        </group>
+                    </page>
+
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="form_view_stock_picking_inherit" model="ir.ui.view">
+            <field name="name">name.stock.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="is_delivery_date"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>
