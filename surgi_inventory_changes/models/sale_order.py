@@ -23,6 +23,7 @@ class SaleOrder(models.Model):
     # is_sum_cocs = fields.Boolean(string="",)
 
     check_exchange_so = fields.Boolean(string="Exchange Status",readonly=1)
+    deliver_to = fields.Many2one(string="Dilver To ",comodel_name="stock.picking.type")
 
     state_delivery = fields.Selection(string="Delivered", selection=[('delivered', 'Delivered'), ('not_delivered','Not Delivered'), ], readonly=True,default='not_delivered' )
 
