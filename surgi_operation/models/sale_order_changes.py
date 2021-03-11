@@ -77,7 +77,7 @@ class sale_order(models.Model):
         self.env.cr.execute(sql)
         #porder.update({'picking_type_id':sourcedocument})
         print("d")
-        pass
+        
     def action_confirm(self):
         res = super(sale_order, self).action_confirm()
         self.pruchase_interchange()
