@@ -15,7 +15,10 @@
                     <field name="loading_sale_invoice" attrs="{'invisible': [('delivery_type', '!=', 'loading')]}"/>
                     <field name="gov_form"  attrs="{'invisible': [('delivery_type', '!=', 'gov')]}"/>
                 </field>
+                 <xpath expr="//field[@name='analytic_account_id']" position="after">
 
+                    <field name="deliver_to" domain="[('code','=','incoming'), '|', ('warehouse_id', '=', False), ('warehouse_id.company_id', '=', company_id)]" options="{'no_create': True}" /><!-- groups="stock.group_stock_multi_locations" -->
+                </xpath>
                 <xpath expr="//page[@name='customer_signature']" position="after">
                     <!-- Add your fields or attributes here -->
                     <page string="COCS">
