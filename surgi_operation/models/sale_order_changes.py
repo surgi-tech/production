@@ -67,10 +67,20 @@ class sale_order(models.Model):
                 'domain': [('id', 'in', list)],
                 # 'context': {"search_default_type_group":1,},
             }
-
-
+        pass
+    
+        
+    def pruchase_interchange(self):
+        sourcedocument=self.id
+        porder=self.env['purchase.order'].search([['auto_sale_order_id','=',sourcedocument]])
+        sql='update purchase_order set picking_type_id=%d'%self.deliver_to
+        self.env.cr.execute(sql)
+        #porder.update({'picking_type_id':sourcedocument})
+        print("d")
+        pass
     def action_confirm(self):
         res = super(sale_order, self).action_confirm()
+        self.pruchase_interchange()
         pickings = self.mapped('picking_ids')
         if self.location_id and self.location_id.id:
             for picking in pickings:
