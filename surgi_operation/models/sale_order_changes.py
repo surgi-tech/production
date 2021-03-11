@@ -67,10 +67,10 @@ class sale_order(models.Model):
                 'domain': [('id', 'in', list)],
                 # 'context': {"search_default_type_group":1,},
             }
-        pass
+        
     
         
-   def pruchase_interchange(self):
+    def pruchase_interchange(self):
         sourcedocument=self.id
         porder=self.env['purchase.order'].search([['auto_sale_order_id','=',sourcedocument]])
         sql='update purchase_order set picking_type_id=%d'%self.deliver_to
