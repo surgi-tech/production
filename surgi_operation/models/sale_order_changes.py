@@ -53,7 +53,7 @@ class sale_order(models.Model):
 
     def action_view_operations(self):
         for rec in self:
-            compose_tree = self.env.ref('operation.operation', False)
+            #compose_tree = self.env.ref('operation.operation', False)
             operations = self.env['operation.operation'].search(
                 ['|', ('tender_so', '=', rec.id), ('supply_so', '=', rec.id), ('state', '=', 'confirm')])
             list = []
