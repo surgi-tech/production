@@ -5,12 +5,12 @@ class SaleOrderInherit(models.Model):
     _inherit = 'sale.order'
 
 
-    sale_create_date = fields.Date(string="Create Date",)
-    stock_control_cycle_start = fields.Date(string="Stock Control Cycle Start",)
-    stock_control_cycle_end = fields.Date(string="Stock Control Cycle End",)
-    confirmation_date = fields.Date(string="Confirmation Date",)
-    delivery_done_date = fields.Date(string="Delivery Done Date",)
-    invoiced_date = fields.Date(string="Invoiced Date",)
+    sale_create_date = fields.Date(string="Create Date",tracking=True,)
+    stock_control_cycle_start = fields.Date(string="Stock Control Cycle Start",tracking=True,)
+    stock_control_cycle_end = fields.Date(string="Stock Control Cycle End",tracking=True,)
+    confirmation_date = fields.Date(string="Confirmation Date",tracking=True)
+    delivery_done_date = fields.Date(string="Delivery Done Date",tracking=True)
+    invoiced_date = fields.Date(string="Invoiced Date",tracking=True)
 
     is_scss = fields.Boolean(string="",  )
     is_scse = fields.Boolean(string="",  )
