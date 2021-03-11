@@ -2,6 +2,7 @@ from odoo import api
 from odoo import fields
 from odoo import models
 
+
 class sale_order(models.Model):
     _inherit = "sale.order"
 
@@ -14,9 +15,10 @@ class sale_order(models.Model):
     surgeon_id = fields.Many2one('res.partner', string="Surgeon", track_visibility='onchange')
     patient_name = fields.Char(string="Patient Name")
     customer_printed_name = fields.Char(string="Customer Printed Name")
-    sales_area_manager = fields.Many2one(comodel_name='res.users', string="Area Manager", related='team_id.user_id',readonly=True)
+    sales_area_manager = fields.Many2one(comodel_name='res.users', string="Area Manager", related='team_id.user_id',
+                                         readonly=True)
     collection_rep = fields.Many2one('res.users', 'Collection Rep', track_visibility='onchange')
-    #collection_team = fields.Many2one('crm.team', 'Collection Team', readonly=True, default=lambda self: self.env['crm.team'].search(['|', ('user_id', '=', self.collection_rep.id), ('member_ids', '=', self.collection_rep.id)],limit=1) ,track_visibility='onchange')
+    # collection_team = fields.Many2one('crm.team', 'Collection Team', readonly=True, default=lambda self: self.env['crm.team'].search(['|', ('user_id', '=', self.collection_rep.id), ('member_ids', '=', self.collection_rep.id)],limit=1) ,track_visibility='onchange')
 
     # ============= NewFields ================
     # for the new cycle (Operation type) By Zienab Moesy
@@ -39,20 +41,21 @@ class sale_order(models.Model):
     def get_operation_count(self):
         for rec in self:
             if rec.so_type == 'tender' or rec.so_type == 'supply_order':
-                operations = self.env['operation.operation'].search(['|','|',('tender_so', '=', rec.id),('supply_so', '=', rec.id),('state','=','confirm')])
+                operations = self.env['operation.operation'].search(
+                    ['|', '|', ('tender_so', '=', rec.id), ('supply_so', '=', rec.id), ('state', '=', 'confirm')])
                 if operations:
-                    print ('operation',operations)
+                    print('operation', operations)
                     rec.oper_count = len(operations)
                 else:
-                    rec.oper_count ='0'
+                    rec.oper_count = '0'
             else:
-                rec.oper_count='0'
-
+                rec.oper_count = '0'
 
     def action_view_operations(self):
         for rec in self:
             compose_tree = self.env.ref('operation.operation', False)
-            operations = self.env['operation.operation'].search(['|',('tender_so', '=', rec.id),('supply_so', '=', rec.id),('state','=','confirm')])
+            operations = self.env['operation.operation'].search(
+                ['|', ('tender_so', '=', rec.id), ('supply_so', '=', rec.id), ('state', '=', 'confirm')])
             list = []
             for op in operations:
                 list.append(op.id)
@@ -67,20 +70,18 @@ class sale_order(models.Model):
                 'domain': [('id', 'in', list)],
                 # 'context': {"search_default_type_group":1,},
             }
-        
-    
-        
-    def pruchase_interchange(self):
-        sourcedocument=self.id
-        porder=self.env['purchase.order'].search([['auto_sale_order_id','=',sourcedocument]])
-        sql='update purchase_order set picking_type_id=%d'%self.deliver_to
-        self.env.cr.execute(sql)
-        #porder.update({'picking_type_id':sourcedocument})
-        print("d")
-        
+
+    #def pruchase_interchange(self):
+     #   sourcedocument = self.id
+      #  porder = self.env['purchase.order'].search([['auto_sale_order_id', '=', sourcedocument]])
+       # sql = 'update purchase_order set picking_type_id=%d' % self.deliver_to
+        #self.env.cr.execute(sql)
+        # porder.update({'picking_type_id':sourcedocument})
+        #print("d")
+
     def action_confirm(self):
         res = super(sale_order, self).action_confirm()
-        self.pruchase_interchange()
+        #self.pruchase_interchange()
         pickings = self.mapped('picking_ids')
         if self.location_id and self.location_id.id:
             for picking in pickings:
@@ -102,7 +103,6 @@ class sale_order(models.Model):
             for invoice_id in res:
                 self.operation_id.invoice_id = invoice_id
         return res
-
 
     # @api.onchange('partner_id')
     # def _onchange_partner_id(self):
