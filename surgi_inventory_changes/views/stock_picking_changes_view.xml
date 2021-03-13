@@ -34,7 +34,7 @@
                     <attribute name="create">false</attribute>
                     <attribute name="edit">false</attribute>
                     <attribute name="attrs">{'invisible': [('picking_type_code', '=', False)]}</attribute>
-                    <attribute name="domain">[('usage', '!=', 'view')]</attribute>
+                    <attribute name="domain">[('usage', '!=', 'view'),('operation_location_freeze','!=',True)]</attribute>
                     <attribute name="options">{"no_open": True}</attribute>
                     <!--<attribute name="groups">stock.group_stock_multi_locations</attribute>-->
                 </xpath>
@@ -43,7 +43,7 @@
                     <attribute name="create">false</attribute>
                     <attribute name="edit">false</attribute>
                     <attribute name="attrs">{'invisible': [('picking_type_code', '=', False)]}</attribute>
-                    <attribute name="domain">[('usage', '!=', 'view')]</attribute>
+                    <attribute name="domain">[('usage', '!=', 'view'),('operation_location_freeze','!=',True)]</attribute>
                     <attribute name="options">{"no_open": True}</attribute>
                     <!--<attribute name="groups">stock.group_stock_multi_locations</attribute>-->
                 </xpath>
@@ -52,9 +52,9 @@
                     <field name="check_exchange" invisible="1"/>
                     <field name="state_delivery"/>
                     <field name="sale_id" string="Operation Sales Order" readonly="0" options="{'no_create': True, 'no_open': True}"
-                           attrs="{'invisible':[('picking_type_code', '!=', 'outgoing')]}"/><!-- 'required':[('picking_type_code', '=', 'outgoing')],-->
+                           attrs="{'invisible':[('picking_type_code', '=', 'internal')]}"/><!-- 'required':[('picking_type_code', '=', 'outgoing')],-->
                     <field name="user_sales_id" string="Salesperson"
-                           attrs="{'invisible':[('picking_type_code', '!=', 'outgoing')]}" options="{'no_open': True}"/>
+                           attrs="{'invisible':[('picking_type_code', '=', 'internal')]}" options="{'no_open': True}"/>
                     <field name="sales_order_id" string="Original Sale Order"
                            attrs="{'invisible':[('picking_type_code','=','internal')]}"/><!--'required':[('is_exchange','=',True)],-->
                     <field name="is_exchange" invisible="1"/>
@@ -101,7 +101,8 @@
                     <field name="gov_form_url" placeholder="https://" widget="url"
                            attrs="{'invisible':[('so_delivery_type','!=','gov')]}"/>
                     <field name="delivery_exchange_order_id" attrs="{'invisible':[('receipt_exchange','!=',True)]}"/>
-                    <field name="receipt_exchange_order_id" readonly="1" attrs="{'invisible':[('so_delivery_type','!=','exchange')]}"/>
+                    <field name="receipt_exchange_order_id" readonly="0"
+                           attrs="{'invisible':['|',('picking_type_code', '=', 'incoming'),('so_delivery_type','!=','exchange')]}"/>
                 </xpath>
 
                 <xpath expr="//notebook" position="inside">
@@ -118,7 +119,6 @@
 
                     </page>
                 </xpath>
-
             </field>
         </record>
 
