@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+
+
+        <record id="tree_view_sales_tracking" model="ir.ui.view">
+            <field name="name">name.tracking.tree.view</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Tracking">
+                    <field name="name"/>
+                    <field name="sale_create_date"/>
+                    <field name="stock_control_cycle_start"/>
+                    <field name="stock_control_cycle_end"/>
+                    <field name="confirmation_date"/>
+                    <field name="delivery_done_date"/>
+                    <field name="invoiced_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_view_sales_tracking" model="ir.actions.act_window">
+            <field name="name">Sale Order Tracking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+         <record model="ir.actions.act_window.view" id="surgi_tree_new_tracking_sales">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="tree_view_sales_tracking"/>
+            <field name="act_window_id" ref="action_view_sales_tracking"/>
+        </record>
+
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="menu_sales_tracking" name="Sales Tracking"
+                  parent="sale.sale_menu_root" action="action_view_sales_tracking" sequence="3"/>
+    </data>
+</odoo>
