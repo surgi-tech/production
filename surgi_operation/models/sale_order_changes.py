@@ -16,6 +16,7 @@ class sale_order(models.Model):
     customer_printed_name = fields.Char(string="Customer Printed Name")
     sales_area_manager = fields.Many2one(comodel_name='res.users', string="Area Manager", related='team_id.user_id',readonly=True)
     collection_rep = fields.Many2one('res.users', 'Collection Rep', track_visibility='onchange')
+    deliver_to = fields.Many2one(string="Dilver To ", comodel_name="stock.picking.type")
     #collection_team = fields.Many2one('crm.team', 'Collection Team', readonly=True, default=lambda self: self.env['crm.team'].search(['|', ('user_id', '=', self.collection_rep.id), ('member_ids', '=', self.collection_rep.id)],limit=1) ,track_visibility='onchange')
 
     # ============= NewFields ================
@@ -67,7 +68,14 @@ class sale_order(models.Model):
                 'domain': [('id', 'in', list)],
                 # 'context': {"search_default_type_group":1,},
             }
-
+    def pruchase_interchange(self):
+        sourcedocument = self.id
+        porder = self.env['purchase.order'].search([['auto_sale_order_id', '=', sourcedocument]])
+        sql = 'update purchase_order set picking_type_id=%d' % self.deliver_to.id
+        self.env.cr.execute(sql)
+        #porder.update({'picking_type_id':sourcedocument})
+        porder.update({'name': str(porder.display_name)})
+        porder.button_confirm()
 
     def action_confirm(self):
         res = super(sale_order, self).action_confirm()
@@ -84,6 +92,7 @@ class sale_order(models.Model):
                     'location_dest_id': self.location_dest_id.id,
                     'operation_id': self.operation_id.id if self.operation_id else False,
                 })
+        self.pruchase_interchange()        
         return res
 
     def action_invoice_create(self, grouped=False, final=False):
