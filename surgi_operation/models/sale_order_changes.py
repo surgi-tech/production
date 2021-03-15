@@ -74,7 +74,7 @@ class sale_order(models.Model):
         sql = 'update purchase_order set picking_type_id=%d' % self.deliver_to.id
         self.env.cr.execute(sql)
         #porder.update({'picking_type_id':sourcedocument})
-        porder.update({'name': str(porder.display_name)})
+        porder.update({'name': self.display_name+" - "+str(porder.display_name)})
         porder.button_confirm()
 
     def action_confirm(self):
@@ -92,7 +92,8 @@ class sale_order(models.Model):
                     'location_dest_id': self.location_dest_id.id,
                     'operation_id': self.operation_id.id if self.operation_id else False,
                 })
-        self.pruchase_interchange()        
+        if self.deliver_to.id:        
+            self.pruchase_interchange()        
         return res
 
     def action_invoice_create(self, grouped=False, final=False):
