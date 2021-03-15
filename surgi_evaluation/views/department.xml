@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+
+        <record id="form_view_evaluation_department" model="ir.ui.view">
+            <field name="name">name.evaluation.department.form</field>
+            <field name="model">evaluation.department</field>
+            <field name="arch" type="xml">
+                <form string="Department">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_view_department" model="ir.actions.act_window">
+            <field name="name">Department</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">evaluation.department</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="menu_evaluation_department" name="Department" parent="surgi_evaluation.ratio_config_menu"
+                  action="action_view_department" sequence="3"/>
+    </data>
+</odoo>

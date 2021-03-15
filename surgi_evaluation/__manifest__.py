@@ -39,6 +39,9 @@
         'views/hr_manager.xml',
         'views/courses.xml',
         'views/redundancy_wizard.xml',
+        'views/department.xml',
+        'views/custody.xml',
+        'views/request.xml',
         'security/ir.model.access.csv',
 
     ],

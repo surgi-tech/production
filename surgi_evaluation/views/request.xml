@@ -1,0 +1,223 @@
+<odoo>
+    <data>
+
+        <record id="group_direct_manager_ids" model="res.groups">
+            <field name="name">Evaluation Direct Manager</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_human_resources_ids" model="res.groups">
+            <field name="name">Evaluation Human Resources</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="group_finance_ids" model="res.groups">
+            <field name="name">Evaluation Finance</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="group_administration_ids" model="res.groups">
+            <field name="name">Evaluation Administration</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="group_warehouse_ids" model="res.groups">
+            <field name="name">Evaluation Warehouse</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="group_purchasing_logistic_ids" model="res.groups">
+            <field name="name">Evaluation Purchasing Logistic</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="group_information_system_ids" model="res.groups">
+            <field name="name">Evaluation Information System</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="group_scientific_office_ids" model="res.groups">
+            <field name="name">Evaluation Scientific Office</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="group_tenders_ids" model="res.groups">
+            <field name="name">Evaluation Tenders</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_collection_ids" model="res.groups">
+            <field name="name">Evaluation Collection</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="group_sales_ids" model="res.groups">
+            <field name="name">Evaluation Sales</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="group_maintenance_ids" model="res.groups">
+            <field name="name">Evaluation Maintenance and after Sales</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="group_legal_affair_ids" model="res.groups">
+            <field name="name">Evaluation Legal Affair</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="group_marketing_ids" model="res.groups">
+            <field name="name">Evaluation Marketing</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_medical_devices_ids" model="res.groups">
+            <field name="name">Evaluation Medical Devices</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+
+        <record id="tree_view_request_relegation" model="ir.ui.view">
+            <field name="name">name.request.relegation.tree</field>
+            <field name="model">request.relegation</field>
+            <field name="arch" type="xml">
+                <tree string="Request">
+                    <field name="employee_id"/>
+                    <field name="full_name"/>
+                    <field name="department_id"/>
+                    <field name="section_id"/>
+                    <field name="registration_number"/>
+                    <field name="grade_id"/>
+                    <field name="rank_id"/>
+                    <field name="rang_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="form_view_request_relegation" model="ir.ui.view">
+            <field name="name">name.request.relegation.form</field>
+            <field name="model">request.relegation</field>
+            <field name="arch" type="xml">
+                <form string="Request">
+                    <sheet>
+                        <field name="emp_image" widget="image"
+                               class="oe_avatar" force_save="1"/>
+                        <div class="oe_title">
+                            <h1 class="d-flex">
+                                <field name="employee_id" required="True"/>
+                            </h1>
+                        </div>
+
+
+                        <group col="4">
+                            <field name="full_name"/>
+                            <field name="department_id"/>
+                            <field name="section_id"/>
+                            <field name="registration_number"/>
+                            <field name="grade_id"/>
+                            <field name="rank_id"/>
+                            <field name="rang_id"/>
+                        </group>
+
+                        <notebook>
+                            <page string="Department">
+                                <group>
+                                    <group>
+
+                                        <field name="direct_manager_ids" widget="many2many_checkboxes"
+                                               groups="surgi_evaluation.group_direct_manager_ids"
+                                                domain="[('type','=','direct_manager')]"
+                                        />
+
+                                        <field name="human_resources_ids" widget="many2many_checkboxes"
+                                               groups="surgi_evaluation.group_human_resources_ids"
+                                                domain="[('type','=','hr')]"
+                                        />
+
+                                        <field name="finance_ids" widget="many2many_checkboxes"
+                                        groups="surgi_evaluation.group_finance_ids"
+                                        domain="[('type','=','finance')]"
+                                        />
+
+                                        <field name="administration_ids" widget="many2many_checkboxes"
+                                        groups="surgi_evaluation.group_administration_ids"
+                                        domain="[('type','=','administration')]"
+                                        />
+
+                                        <field name="warehouse_ids" widget="many2many_checkboxes"
+                                        groups="surgi_evaluation.group_warehouse_ids"
+                                        domain="[('type','=','warehouse')]"
+                                        />
+
+                                        <field name="purchasing_logistic_ids" widget="many2many_checkboxes"
+                                        groups="surgi_evaluation.group_purchasing_logistic_ids"
+                                        domain="[('type','=','purchasing_logistic')]"
+                                        />
+
+                                        <field name="information_system_ids" widget="many2many_checkboxes"
+                                        groups="surgi_evaluation.group_information_system_ids"
+                                        domain="[('type','=','information_system')]"
+                                        />
+
+                                        <field name="scientific_office_ids" widget="many2many_checkboxes"
+                                        groups="surgi_evaluation.group_scientific_office_ids"
+                                        domain="[('type','=','scientific_office')]"
+                                        />
+
+                                        <field name="tenders_ids" widget="many2many_checkboxes"
+                                        groups="surgi_evaluation.group_tenders_ids"
+                                        domain="[('type','=','Tenders')]"
+                                        />
+
+                                        <field name="collection_ids" widget="many2many_checkboxes"
+                                        groups="surgi_evaluation.group_collection_ids"
+                                        domain="[('type','=','collection')]"
+                                        />
+
+                                        <field name="sales_ids" widget="many2many_checkboxes"
+                                        groups="surgi_evaluation.group_sales_ids"
+                                        domain="[('type','=','sales')]"
+                                        />
+
+                                        <field name="maintenance_ids" widget="many2many_checkboxes"
+                                        groups="surgi_evaluation.group_maintenance_ids"
+                                        domain="[('type','=','maintenance_sales')]"
+                                        />
+
+                                        <field name="legal_affair_ids" widget="many2many_checkboxes"
+                                        groups="surgi_evaluation.group_legal_affair_ids"
+                                        domain="[('type','=','legal')]"
+                                        />
+
+                                        <field name="marketing_ids" widget="many2many_checkboxes"
+                                        groups="surgi_evaluation.group_marketing_ids"
+                                        domain="[('type','=','marketing')]"
+                                        />
+
+                                        <field name="medical_devices_ids" widget="many2many_checkboxes"
+                                        groups="surgi_evaluation.group_medical_devices_ids"
+                                        domain="[('type','=','medical')]"
+                                        />
+
+
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_request_relegation" model="ir.actions.act_window">
+            <field name="name">Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">request.relegation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="menu_request_relegation" name="Request"
+                  parent="surgi_evaluation.surgi_evaluation_menuitem" action="action_view_request_relegation"
+                  sequence="8"/>
+    </data>
+</odoo>
