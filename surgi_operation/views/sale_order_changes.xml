@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <record id="form_view_sale_order_inherit_3" model="ir.ui.view">
+            <field name="name">name.sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+           <field name="arch" type="xml">
+
+               <xpath expr="//field[@name='analytic_account_id']" position="after">
+
+                    <field name="deliver_to" domain="[('code','=','incoming'), '|', ('warehouse_id', '=', False), ('warehouse_id.company_id', '=', company_id)]" options="{'no_create': True}" /><!-- groups="stock.group_stock_multi_locations" -->
+                </xpath>
+           </field></record>
         <record id="sales_order_form_inherit_1" model="ir.ui.view">
             <field name="name">sale_order.form.inherit_1</field>
             <field name="model">sale.order</field>
